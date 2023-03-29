@@ -31,8 +31,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="kategorie.php?kat=HTML">HTML</a></li>
               <li><a class="dropdown-item" href="kategorie.php?kat=CSS">CSS</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+              <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>            </ul>
           </li>
           <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2">O nas</a></li>
           <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2">Pomoc</a></li>

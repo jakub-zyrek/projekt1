@@ -24,8 +24,7 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">HTML</a></li>
                 <li><a class="dropdown-item" href="#">CSS</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul></li>
+                <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>              </ul></li>
               <li><a href="#" class="btn btn-outline-info me-2">O nas</a></li>
             <li><a href="#" class="btn btn-outline-danger me-2">Pomoc</a></li>
 
