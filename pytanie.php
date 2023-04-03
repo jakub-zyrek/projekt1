@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -57,8 +60,30 @@
            
   
             <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <button type="button" class="btn btn-outline-light me-2" onclick='location.href = "logowanie.php"'>Zaloguj się</button>
-              <button type="button" class="btn btn-info" onclick="location.href = 'rejestracja.php'">Zarejestruj się</button>
+              <?php
+              
+              if (isset($_SESSION['zalogowany'])) {
+                echo '
+                <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
+                  </ul>
+                </div>';
+              } else {
+                echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
+                echo "location.href = 'logowanie.php'";
+                echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
+                echo "location.href = 'rejestracja.php'";
+                echo '">Zarejestruj się</button>';
+              }
+              
+              ?>
             </div>
           </div>
           </div>
@@ -72,7 +97,10 @@
                 <p class="text-start">sdg sdg | Angielski</p>
                 <h4 class="my-0 fw-normal text-start">Ssgddgs</h4>
                 <br><br>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+                <?php
+                
+                if(isset($_SESSION['zalogowany'])) {
+                  echo '<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
                   <button type="button" class="col-4 btn btn-lg btn-outline-info" style="display: flex; justify-content: center; align-items: center; font-size: 1rem;">
                     ODPOWIEDZ&nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -81,13 +109,16 @@
                       </svg>
                   </button>
                   &nbsp;&nbsp;
-                  <button type="button" class="btn btn-lg btn-outline-danger col-2" style="display: flex;justify-content: center; align-items: normal; font-size: 1rem; margin-bottom: 2%; margin-top: 2%;" onclick="document.getElementById('essa').innerHTML = bycz; var a = document.getElementById('carde'); document.getElementById('essa').style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + 'px';">
+                  <button type="button" class="btn btn-lg btn-outline-danger col-2" style="display: flex;justify-content: center; align-items: normal; font-size: 1rem; margin-bottom: 2%; margin-top: 2%;" onclick="document.getElementById('."'essa'".').innerHTML = bycz; var a = document.getElementById('."'carde'".'); document.getElementById('."'essa'".').style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + '."'px'".';">
                     <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
                       <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
                     </svg>
                     &nbsp;
                   </button>
-                </div>
+                </div>';
+                }
+                
+                ?>
               </div>
               <div class="card-body col-12 col-md-10 col-lg-8" style="margin-left: auto;">
                 <div class="col">

@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['zalogowany'])) {
+  header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -46,8 +52,30 @@
            
   
             <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <button type="button" class="btn btn-outline-light me-2" onclick='location.href = "logowanie.php"'>Zaloguj się</button>
-              <button type="button" class="btn btn-info" onclick="location.href = 'rejestracja.php'">Zarejestruj się</button>
+              <?php
+              
+              if (isset($_SESSION['zalogowany'])) {
+                echo '
+                <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
+                  </ul>
+                </div>';
+              } else {
+                echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
+                echo "location.href = 'logowanie.php'";
+                echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
+                echo "location.href = 'rejestracja.php'";
+                echo '">Zarejestruj się</button>';
+              }
+              
+              ?>
             </div>
           </div>
           </div>
@@ -56,40 +84,55 @@
 
   <div class="container  align-items-center form-switch justify-content-center " style="text-align: center; margin-left: auto; margin-right: auto;" >
     <h1 style="text-align: center;">Zarejestruj się</h1>
-   
-    <form class="needs-validation align-items-center  col-12 "  style="text-align: center; margin-left: auto; margin-right: auto;" novalidate method="post">
+    <br>
+        <?php
+        if (isset($_SESSION['powtorka'])) {
+          echo '<div class="alert alert-danger">';
+          $pow = $_SESSION['powtorka'];
+          if ($pow == true) {
+            echo "Login i nick się powtarzają. Zmień je.";
+          } else if ($pow == 'n') {
+            echo "Nick się powtarza. Zmień go.";
+          } else if ($pow == 'l') {
+            echo "Login się powtarza. Zmień go.";
+          }
+          unset($_SESSION['powtorka']);
+          echo "</div>";
+        }
+        ?>
+    <form class="needs-validation align-items-center  col-12 "  style="text-align: center; margin-left: auto; margin-right: auto;" novalidate method="post" action="script_PHP/rejestracja.php">
         <div class="row-cols-2 align-items-center">
             <br>
             <label for="firstName" class="form-label">Imię</label>
             
-            <input type="text" class="form-control w-50 align-items-center" id="firstName" placeholder="Imię" required style="text-align: center; margin-left: auto; margin-right: auto;">
+            <input type="text" class="form-control w-50 align-items-center" id="firstName" placeholder="Imię" required style="text-align: center; margin-left: auto; margin-right: auto;" name="imie">
             
         </div>
         <div class="row-cols-2 align-items-center">
             <br>
             <label for="firstName" class="form-label">Nick</label>
             
-            <input type="text" class="form-control w-50 align-items-center" id="firstName" placeholder="Nick" required style="text-align: center; margin-left: auto; margin-right: auto;">
+            <input type="text" class="form-control w-50 align-items-center" id="firstName" placeholder="Nick" required style="text-align: center; margin-left: auto; margin-right: auto;" name="nick">
             
         </div>
         <div class="row-cols-2 align-items-center">
             <br>
             <label for="firstName" class="form-label">Data urodzenia</label>
             
-            <input type="date" class="form-control w-50 align-items-center" id="firstName" required style="text-align: center; margin-left: auto; margin-right: auto;">
+            <input type="date" class="form-control w-50 align-items-center" id="firstName" required style="text-align: center; margin-left: auto; margin-right: auto;" name="data" max="<?php $rok = date('Y') - 7; echo date("$rok-m-d");?>">
             
         </div>
         <div class="row-cols-2">
           <br>
           <label for="firstName" class="form-label">Login</label>
           <br>
-          <input type="text" class="form-control w-50 " id="firstName" placeholder="Login" required style="text-align: center; margin-left: auto; margin-right: auto;">
+          <input type="text" class="form-control w-50 " id="firstName" placeholder="Login" required style="text-align: center; margin-left: auto; margin-right: auto;" name="login">
         </div>
         <div class="row-cols-2 align-items-center">
             <br>
             <label for="firstName" class="form-label">Hasło</label>
             
-            <input type="password" class="form-control w-50 align-items-center" id="firstName" placeholder="Hasło" required style="text-align: center; margin-left: auto; margin-right: auto;">
+            <input type="password" class="form-control w-50 align-items-center" id="firstName" placeholder="Hasło" required style="text-align: center; margin-left: auto; margin-right: auto;" name="haslo">
             
             <br>
         </div>
