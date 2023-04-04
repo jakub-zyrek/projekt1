@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 31 Mar 2023, 14:04
+-- Czas generowania: 04 Kwi 2023, 09:33
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.0.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `forum`
+-- Baza danych: `kpqmmvzc_forum`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `administratorzy` (
   `id` int(11) NOT NULL,
-  `uzytkownik_id` int(11) NOT NULL,
+  `uzytkownik_id` int(11) DEFAULT NULL,
   `typ_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -65,7 +65,8 @@ CREATE TABLE `kategorie` (
 CREATE TABLE `komentarze` (
   `id` int(11) NOT NULL,
   `odpowiedz_id` int(11) NOT NULL,
-  `komentarz` varchar(300) NOT NULL
+  `komentarz` varchar(300) NOT NULL,
+  `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -91,7 +92,8 @@ CREATE TABLE `obiekt` (
 CREATE TABLE `ocena` (
   `id` int(11) NOT NULL,
   `odpowiedz_id` int(11) NOT NULL,
-  `ocena` float(2,1) NOT NULL
+  `ocena` float(2,1) NOT NULL,
+  `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -102,7 +104,7 @@ CREATE TABLE `ocena` (
 
 CREATE TABLE `odpowiedz` (
   `id` int(11) NOT NULL,
-  `uzytkownik_id` int(11) NOT NULL,
+  `uzytkownik_id` int(11) DEFAULT NULL,
   `odpowiedz` varchar(2000) NOT NULL,
   `pytanie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
@@ -155,7 +157,7 @@ CREATE TABLE `przerwa` (
   `id` int(11) NOT NULL,
   `od` datetime NOT NULL,
   `do` datetime NOT NULL,
-  `administrator_id` int(11) NOT NULL
+  `administrator_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -167,9 +169,9 @@ CREATE TABLE `przerwa` (
 CREATE TABLE `pytanie` (
   `id` int(11) NOT NULL,
   `tytul` varchar(100) NOT NULL,
-  `kategoria_id` int(11) NOT NULL,
+  `kategoria_id` int(11) DEFAULT NULL,
   `opis` varchar(500) DEFAULT NULL,
-  `uzytkownik_id` int(11) NOT NULL
+  `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -180,7 +182,8 @@ CREATE TABLE `pytanie` (
 
 CREATE TABLE `serca` (
   `id` int(11) NOT NULL,
-  `odpowiedz_id` int(11) NOT NULL
+  `odpowiedz_id` int(11) NOT NULL,
+  `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -236,8 +239,8 @@ CREATE TABLE `zakup` (
 
 CREATE TABLE `zgloszenie` (
   `id` int(11) NOT NULL,
-  `zglaszajacy` int(11) NOT NULL,
-  `zgloszony` int(11) NOT NULL,
+  `zglaszajacy` int(11) DEFAULT NULL,
+  `zgloszony` int(11) DEFAULT NULL,
   `opis` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -249,7 +252,9 @@ CREATE TABLE `zgloszenie` (
 -- Indeksy dla tabeli `administratorzy`
 --
 ALTER TABLE `administratorzy`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `administratorzy_ibfk_2` (`typ_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `kategorie`
@@ -261,31 +266,43 @@ ALTER TABLE `kategorie`
 -- Indeksy dla tabeli `komentarze`
 --
 ALTER TABLE `komentarze`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `odpowiedz_id` (`odpowiedz_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `obiekt`
 --
 ALTER TABLE `obiekt`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `komentarz` (`komentarz`),
+  ADD KEY `odpowiedz` (`odpowiedz`),
+  ADD KEY `pytanie` (`pytanie`),
+  ADD KEY `zgloszenie_id` (`zgloszenie_id`);
 
 --
 -- Indeksy dla tabeli `ocena`
 --
 ALTER TABLE `ocena`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `odpowiedz_id` (`odpowiedz_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `odpowiedz`
 --
 ALTER TABLE `odpowiedz`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`),
+  ADD KEY `pytanie_id` (`pytanie_id`);
 
 --
 -- Indeksy dla tabeli `odpowiedz_zgloszenie`
 --
 ALTER TABLE `odpowiedz_zgloszenie`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `administrator_id` (`administrator_id`),
+  ADD KEY `zgloszenie_id` (`zgloszenie_id`);
 
 --
 -- Indeksy dla tabeli `plan`
@@ -297,19 +314,24 @@ ALTER TABLE `plan`
 -- Indeksy dla tabeli `przerwa`
 --
 ALTER TABLE `przerwa`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `administrator_id` (`administrator_id`);
 
 --
 -- Indeksy dla tabeli `pytanie`
 --
 ALTER TABLE `pytanie`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kategoria_id` (`kategoria_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `serca`
 --
 ALTER TABLE `serca`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `odpowiedz_id` (`odpowiedz_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `typ`
@@ -327,13 +349,17 @@ ALTER TABLE `uzytkownik`
 -- Indeksy dla tabeli `zakup`
 --
 ALTER TABLE `zakup`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `plan_id` (`plan_id`),
+  ADD KEY `uzytkownik_id` (`uzytkownik_id`);
 
 --
 -- Indeksy dla tabeli `zgloszenie`
 --
 ALTER TABLE `zgloszenie`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `zglaszajacy` (`zglaszajacy`),
+  ADD KEY `zgloszony` (`zgloszony`);
 
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
@@ -428,6 +454,88 @@ ALTER TABLE `zakup`
 --
 ALTER TABLE `zgloszenie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ograniczenia dla zrzutów tabel
+--
+
+--
+-- Ograniczenia dla tabeli `administratorzy`
+--
+ALTER TABLE `administratorzy`
+  ADD CONSTRAINT `administratorzy_ibfk_2` FOREIGN KEY (`typ_id`) REFERENCES `typ` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `administratorzy_ibfk_3` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `komentarze`
+--
+ALTER TABLE `komentarze`
+  ADD CONSTRAINT `komentarze_ibfk_1` FOREIGN KEY (`odpowiedz_id`) REFERENCES `odpowiedz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `komentarze_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `obiekt`
+--
+ALTER TABLE `obiekt`
+  ADD CONSTRAINT `obiekt_ibfk_1` FOREIGN KEY (`komentarz`) REFERENCES `komentarze` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `obiekt_ibfk_2` FOREIGN KEY (`odpowiedz`) REFERENCES `odpowiedz` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `obiekt_ibfk_3` FOREIGN KEY (`pytanie`) REFERENCES `pytanie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `obiekt_ibfk_4` FOREIGN KEY (`zgloszenie_id`) REFERENCES `zgloszenie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `ocena`
+--
+ALTER TABLE `ocena`
+  ADD CONSTRAINT `ocena_ibfk_1` FOREIGN KEY (`odpowiedz_id`) REFERENCES `odpowiedz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ocena_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `odpowiedz`
+--
+ALTER TABLE `odpowiedz`
+  ADD CONSTRAINT `odpowiedz_ibfk_1` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `odpowiedz_ibfk_2` FOREIGN KEY (`pytanie_id`) REFERENCES `pytanie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `odpowiedz_zgloszenie`
+--
+ALTER TABLE `odpowiedz_zgloszenie`
+  ADD CONSTRAINT `odpowiedz_zgloszenie_ibfk_1` FOREIGN KEY (`administrator_id`) REFERENCES `administratorzy` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `odpowiedz_zgloszenie_ibfk_2` FOREIGN KEY (`zgloszenie_id`) REFERENCES `zgloszenie` (`id`) ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `przerwa`
+--
+ALTER TABLE `przerwa`
+  ADD CONSTRAINT `przerwa_ibfk_1` FOREIGN KEY (`administrator_id`) REFERENCES `administratorzy` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `pytanie`
+--
+ALTER TABLE `pytanie`
+  ADD CONSTRAINT `pytanie_ibfk_1` FOREIGN KEY (`kategoria_id`) REFERENCES `kategorie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `pytanie_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `serca`
+--
+ALTER TABLE `serca`
+  ADD CONSTRAINT `serca_ibfk_1` FOREIGN KEY (`odpowiedz_id`) REFERENCES `odpowiedz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `serca_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `zakup`
+--
+ALTER TABLE `zakup`
+  ADD CONSTRAINT `zakup_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `plan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `zakup_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `zgloszenie`
+--
+ALTER TABLE `zgloszenie`
+  ADD CONSTRAINT `zgloszenie_ibfk_1` FOREIGN KEY (`zglaszajacy`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `zgloszenie_ibfk_2` FOREIGN KEY (`zgloszony`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

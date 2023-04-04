@@ -25,7 +25,7 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
         $_SESSION['data'] = $wiersz['data_urodzenia'];
         header("Location: ./../index.php");
     } else {
-        // Dodanie użytkownika
+        // Błędny login lub hasło
         $_SESSION['blad'] = true;
         header("Location: ./../logowanie.php");
     }
