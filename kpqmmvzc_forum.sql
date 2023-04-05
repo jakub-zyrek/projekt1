@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 04 Kwi 2023, 09:33
--- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.0.25
+-- Czas generowania: 05 Kwi 2023, 08:38
+-- Wersja serwera: 10.4.22-MariaDB
+-- Wersja PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,8 +41,8 @@ CREATE TABLE `administratorzy` (
 
 CREATE TABLE `instrukcje` (
   `id` int(11) NOT NULL,
-  `pytanie` varchar(100) NOT NULL,
-  `plik` varchar(250) NOT NULL
+  `pytanie` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `plik` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -53,8 +53,16 @@ CREATE TABLE `instrukcje` (
 
 CREATE TABLE `kategorie` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(30) NOT NULL
+  `nazwa` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `kategorie`
+--
+
+INSERT INTO `kategorie` (`id`, `nazwa`) VALUES
+(1, 'HTML'),
+(2, 'CSS');
 
 -- --------------------------------------------------------
 
@@ -65,7 +73,7 @@ CREATE TABLE `kategorie` (
 CREATE TABLE `komentarze` (
   `id` int(11) NOT NULL,
   `odpowiedz_id` int(11) NOT NULL,
-  `komentarz` varchar(300) NOT NULL,
+  `komentarz` varchar(300) COLLATE utf8mb4_polish_ci NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -105,7 +113,7 @@ CREATE TABLE `ocena` (
 CREATE TABLE `odpowiedz` (
   `id` int(11) NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL,
-  `odpowiedz` varchar(2000) NOT NULL,
+  `odpowiedz` varchar(2000) COLLATE utf8mb4_polish_ci NOT NULL,
   `pytanie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -118,7 +126,7 @@ CREATE TABLE `odpowiedz` (
 CREATE TABLE `odpowiedz_zgloszenie` (
   `id` int(11) NOT NULL,
   `administrator_id` int(11) NOT NULL,
-  `odpowiedz` varchar(200) NOT NULL,
+  `odpowiedz` varchar(200) COLLATE utf8mb4_polish_ci NOT NULL,
   `zgloszenie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -130,7 +138,7 @@ CREATE TABLE `odpowiedz_zgloszenie` (
 
 CREATE TABLE `plan` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(100) NOT NULL,
+  `nazwa` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
   `limit_pytan` int(11) NOT NULL,
   `cena` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
@@ -143,9 +151,18 @@ CREATE TABLE `plan` (
 
 CREATE TABLE `pomoc` (
   `id` int(11) NOT NULL,
-  `pytanie` varchar(100) NOT NULL,
-  `odpowiedz` varchar(250) NOT NULL
+  `pytanie` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `odpowiedz` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `pomoc`
+--
+
+INSERT INTO `pomoc` (`id`, `pytanie`, `odpowiedz`) VALUES
+(1, 'Jak można się zalogować???', 'Można to zrobić tutaj <a href=\'logowanie.php\'>TAUA</a>'),
+(2, 'Jak można się zalogować???', 'Można to zrobić tutaj <a href=\'logowanie.php\'>TAUA</a>'),
+(3, 'adsfweasds', 'adasdasdas');
 
 -- --------------------------------------------------------
 
@@ -168,11 +185,34 @@ CREATE TABLE `przerwa` (
 
 CREATE TABLE `pytanie` (
   `id` int(11) NOT NULL,
-  `tytul` varchar(100) NOT NULL,
+  `tytul` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
   `kategoria_id` int(11) DEFAULT NULL,
-  `opis` varchar(500) DEFAULT NULL,
+  `opis` varchar(500) COLLATE utf8mb4_polish_ci DEFAULT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `pytanie`
+--
+
+INSERT INTO `pytanie` (`id`, `tytul`, `kategoria_id`, `opis`, `uzytkownik_id`) VALUES
+(1, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(2, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(3, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(4, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(5, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(6, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(7, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(8, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(9, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(10, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(11, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(12, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(13, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(14, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(15, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(16, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(17, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2);
 
 -- --------------------------------------------------------
 
@@ -209,13 +249,22 @@ CREATE TABLE `typ` (
 
 CREATE TABLE `uzytkownik` (
   `id` int(11) NOT NULL,
-  `login` varchar(30) NOT NULL,
-  `haslo` varchar(50) NOT NULL,
-  `imie` varchar(30) NOT NULL,
-  `nick` varchar(50) NOT NULL,
+  `login` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
+  `haslo` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
+  `imie` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
+  `nick` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
   `data_urodzenia` date NOT NULL,
-  `ranga` int(1) DEFAULT NULL
+  `ranga` int(1) DEFAULT NULL,
+  `obraz` varchar(200) COLLATE utf8mb4_polish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `uzytkownik`
+--
+
+INSERT INTO `uzytkownik` (`id`, `login`, `haslo`, `imie`, `nick`, `data_urodzenia`, `ranga`, `obraz`) VALUES
+(1, 'zyrekjakub', '51813c23509be8f74b1e3ede22fa96cb', 'Jakub', 'zyrekjakub', '2016-04-01', NULL, ''),
+(2, 'zyrekjakub1', '51813c23509be8f74b1e3ede22fa96cb', 'Jakub', 'zyrekjakub1', '2016-04-01', NULL, 'https://bi.im-g.pl/im/5e/7e/1b/z28830814Q,Amou-Hadzi-na-co-dzien-zyje-w-Dejgah-w-Iranie.jpg');
 
 -- --------------------------------------------------------
 
@@ -241,7 +290,7 @@ CREATE TABLE `zgloszenie` (
   `id` int(11) NOT NULL,
   `zglaszajacy` int(11) DEFAULT NULL,
   `zgloszony` int(11) DEFAULT NULL,
-  `opis` varchar(300) DEFAULT NULL
+  `opis` varchar(300) COLLATE utf8mb4_polish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -311,6 +360,12 @@ ALTER TABLE `plan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `pomoc`
+--
+ALTER TABLE `pomoc`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `przerwa`
 --
 ALTER TABLE `przerwa`
@@ -375,7 +430,7 @@ ALTER TABLE `administratorzy`
 -- AUTO_INCREMENT dla tabeli `kategorie`
 --
 ALTER TABLE `kategorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `komentarze`
@@ -414,6 +469,12 @@ ALTER TABLE `plan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `pomoc`
+--
+ALTER TABLE `pomoc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT dla tabeli `przerwa`
 --
 ALTER TABLE `przerwa`
@@ -423,7 +484,7 @@ ALTER TABLE `przerwa`
 -- AUTO_INCREMENT dla tabeli `pytanie`
 --
 ALTER TABLE `pytanie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT dla tabeli `serca`
@@ -441,7 +502,7 @@ ALTER TABLE `typ`
 -- AUTO_INCREMENT dla tabeli `uzytkownik`
 --
 ALTER TABLE `uzytkownik`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `zakup`
