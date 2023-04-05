@@ -1,19 +1,26 @@
 <?php
 session_start();
 
-if ($_GET['idpytania']) {
+if (isset($_GET['idpytania'])) {
   // Połączenie z bazą danych
   $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 
   if (!mysqli_connect_errno()) {
+    // Zdefiniowanie zmiennych
     $id_pytania = $_GET['idpytania'];
-    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id WHERE id = $id_pytania";
-    mysqli_query($polaczenie, $sql1);
+
+    // Wyszukanie pytania w bazie
+    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id WHERE pytanie.id = $id_pytania";
+    $zapytanie1 = mysqli_query($polaczenie, $sql1);
     $wynik = mysqli_fetch_array($zapytanie1);
+    
+    // Zmienne
     $tytul = $wynik['tytul'];
     $opis = $wynik['opis'];
     $kategoria = $wynik['nazwa'];
   }
+} else {
+  header("Location: index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -108,9 +115,23 @@ if ($_GET['idpytania']) {
     <div class="container ">
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3 bg-info-subtle text-center">
-                <p class="text-start">sdg sdg | Angielski</p>
-                <h4 class="my-0 fw-normal text-start">Ssgddgs</h4>
+              <div class="card-header py-3 bg-info-subtle">
+                <p class="text-start">
+                    <?php
+                      echo $_SESSION['nick']." | ".$kategoria; 
+                    ?>
+                </p>
+                <h4 class="my-0 fw-normal text-start">
+                  <?php
+                    echo $tytul; 
+                  ?>
+                </h4>
+                <br>
+                <p>
+                  <?php
+                    echo $opis; 
+                  ?>
+                </p>
                 <br><br>
                 <?php
                 
@@ -139,8 +160,11 @@ if ($_GET['idpytania']) {
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                       <div class="card-header py-3 bg-success-subtle text-center">
-                        <p class="text-start">sdg sdg | Projektowanie oprogramowania</p>
-
+                        <p class="text-start">
+                            <?php
+                              echo $_SESSION['nick']." | ".$kategoria; 
+                            ?>
+                        </p>
                       </div>
                       <div class="card-body" style="padding-left: 5%;">
                         gsd

@@ -1,10 +1,31 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="pl">
 
 <head>
+    <script>
+        var tab1 = [];
+    </script>
+    <?php
+    session_start();
+
+    // Połączenie z bazą danych
+    $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+    if(!mysqli_connect_errno()) {
+        $sql1 = "SELECT * FROM pomoc";
+        $zapytanie1 = mysqli_query($polaczenie, $sql1);
+        echo "<script>";
+        $tab2 = [];
+        while ($wynik = mysqli_fetch_array($zapytanie1)) {
+            $id = $wynik['id'];
+            $odp = $wynik['odpowiedz'];
+            $tab2[$id] = $wynik['pytanie'];
+            echo 'tab1['.$id.'] = "'.$odp.'";';
+        }
+        echo "</script>";
+    }
+    ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Forum internetowe| Logowanie</title>
@@ -12,7 +33,6 @@ session_start();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script>
         var tab = [];
-        var tab1 = [0, "Bot akk", "Essa", "Bycz"];
         function pytanie(a) {
             if (tab[a] == 0 || isNaN(tab[a])) {
                 document.getElementById("b" + a).style.marginTop = "10px";
@@ -25,7 +45,7 @@ session_start();
                     document.getElementById("b" + a).innerHTML = 'Deklaracja dostępności PDF <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>';
                 }
                 document.getElementById("p" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>';
-                tab[a] = 1;d
+                tab[a] = 1;
             } else {
                 document.getElementById("b" + a).innerText = "";
                 document.getElementById("b" + a).style.margin = "0px";
@@ -119,7 +139,28 @@ session_start();
                 <h3>Często zadawanie pytania</h3>
             </div>
             <div class="card-body">
-                <div class="card col-12 col-md-11">
+                <?php
+
+                for ($i = 0; $i < count($tab2)+1; $i++) {
+                    if (isset($tab2[$i])) {
+                        echo '<div class="card col-12 col-md-11">';
+                            echo '<div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">';
+                                echo "<h5>";
+                                    echo $tab2[$i];
+                                echo "</h5>";
+                                echo '<button id="p'.$i.'" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie('.$i.');">';
+                                    echo '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>';
+                                echo "</button>";
+                            echo '</div>';
+                            echo '<div class="card-body p-0" id="b'.$i.'"></div>';
+                        echo '</div>';
+                        echo '<br>';
+                    }
+                }
+                
+                ?>
+                <!-- <div class="card col-12 col-md-11">
                     <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
                         <h5>Dlaczego nie mogę dodać pytania?</h5>
                         <button id="p1" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(1);">
@@ -153,7 +194,7 @@ session_start();
                         </button>
                     </div>
                     <div class="card-body p-0" id="b3"></div>
-                </div>
+                </div> -->
             </div>
         </div>
         <br><br>
