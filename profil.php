@@ -48,7 +48,7 @@ if(!isset($_SESSION['zalogowany'])) {
             <div class="col-12 col-xl-4 col-xxl-3 mb-3 mb-xl-0 me-lg-5">
                 <form class="col-12 d-flex" role="search" action="wyszukiwanie.php">
                   <div class="col-6">
-                    <input type="search" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
+                    <input type="search" name="wysz" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
                   </div>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-outline-light me-2 col-6">Szukaj</button>
@@ -102,15 +102,35 @@ if(!isset($_SESSION['zalogowany'])) {
                     <table class="table table-hover">
                         <tr>
                             <td>Imię</td>
-                            <td class="text-center">Jakub</td>
+                            <td class="text-center">
+                              <?php
+                                echo $_SESSION['imie'];
+                              ?>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Nazwisko:</td>
-                            <td class="text-center">Żyrek</td>
+                            <td>Nick:</td>
+                            <td class="text-center">
+                              <?php
+                                echo $_SESSION['nick'];
+                              ?>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Email:</td>
-                            <td class="text-center">bla@gmail.com</td>
+                            <td>Data urodzenia:</td>
+                            <td class="text-center">
+                              <?php
+                                echo $_SESSION['data'];
+                              ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Login:</td>
+                            <td class="text-center">
+                              <?php
+                                echo $_SESSION['login'];
+                              ?>
+                            </td>
                         </tr>
                         <tr>
                             <td>Hasło</td>
@@ -155,7 +175,7 @@ if(!isset($_SESSION['zalogowany'])) {
                     <h2 class="p-3 text-center">Zdjęcie profilowe</h2>
                 </div>
                 <div class="card-body justify-content-center justify-content-lg-between">
-                    <img class="rounded-circle" style="margin-left: 12.5%; width: 75%;" src="images/user.png" alt="user">
+                    <img style="margin-left: 12.5%; width: 75%;" src="<?php echo $_SESSION['obraz'];?>" alt="user" class="rounded-circle">
                     <br><br>
                     <form action="" method="post" class="needs-validation" novalidate>
                         <input class="form-control col-12" type="file" name="zdjecie" accept="image/*" id="file">

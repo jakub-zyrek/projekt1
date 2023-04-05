@@ -42,7 +42,7 @@ if(!isset($_SESSION['zalogowany'])) {
             <div class="col-12 col-xl-4 col-xxl-3 mb-3 mb-xl-0 me-lg-5">
                 <form class="col-12 d-flex" role="search" action="wyszukiwanie.php">
                   <div class="col-6">
-                    <input type="search" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
+                    <input type="search" name="wysz" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
                   </div>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-outline-light me-2 col-6">Szukaj</button>

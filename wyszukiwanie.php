@@ -1,5 +1,28 @@
 <?php
 session_start();
+// Połączenie z bazą danych
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+if (!mysqli_connect_errno()) {
+  if (!isset($_GET['wysz'])) {
+    header("Location: index.php");
+  }
+  $tekst = $_GET['wysz'];
+  $tekst = mysqli_real_escape_string($polaczenie, $tekst);
+  $tekst = str_replace(" ", "%", $tekst); 
+
+  if (isset($_GET['l'])) {
+    $l = $_GET['l'];
+    $sql = "SELECT * FROM pytanie WHERE tytul LIKE '%$tekst%' ORDER BY pytanie.id DESC LIMIT 10 OFFSET $l";
+  } else {
+    $sql = "SELECT * FROM pytanie WHERE tytul LIKE '%$tekst%' ORDER BY pytanie.id DESC LIMIT 10 ";
+  }
+  
+  $wysz = mysqli_query($polaczenie, $sql);
+
+  $sql1 = "SELECT COUNT(id) AS 'idd' FROM pytanie WHERE tytul LIKE '%$tekst%'";
+  $zap4 = mysqli_query($polaczenie, $sql1);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -39,7 +62,7 @@ session_start();
             <div class="col-12 col-xl-4 col-xxl-3 mb-3 mb-xl-0 me-lg-5">
                 <form class="col-12 d-flex" role="search" action="wyszukiwanie.php">
                   <div class="col-6">
-                    <input type="search" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
+                    <input type="search" name="wysz" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
                   </div>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-outline-light me-2 col-6">Szukaj</button>
@@ -79,64 +102,72 @@ session_start();
   </header>
 
   <div class="container p-4 text-center">
-    <h2>Wyniki wyszukiwania dla zapytania: <b>PHP</b></h2>
+    <h2>Wyniki wyszukiwania dla zapytania: <b><?php if (isset($_GET['wysz'])) { echo $_GET['wysz'];}?></b></h2>
   </div>
 
 <br>
   <div class="container">
+    <?php
+    
+    while ($w = mysqli_fetch_array($wysz)) {
+      $t = $w['tytul'];
+      $id = $w['id'];
+      $sql1 = "SELECT * FROM liczba_odpowiedzi WHERE id = $id";
+      $zap2 = mysqli_query($polaczenie, $sql1);
+      $wysz2 = mysqli_fetch_array($zap2);
+      $odp = $wysz2['odp'];
+      echo '<div class="card">';
+              echo '<div class="card-header p-4 bg-success-subtle" style="display: flex; justify-content: space-between; flex-wrap: wrap;">';
+                echo '<h3 class="col-12 col-md-8">';
+                  echo $w['tytul'];
+                echo '</h3>';
+                echo '<div class="text-end m-md-0 col-4" style="width: max-content; margin: auto;">';
+                  echo '<a href="pytanie.php?idpytania='.$w['id'].'" class="btn btn-outline-info">PRZEJDŹ<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/><path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg></a>&nbsp;';
+
+                  echo '<a href="dodawanie.php?idpytania='.$w['id'].'" class="btn btn-info">ODPOWIEDZ<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg></a>';
+                echo '</div>';
+              echo '</div>';
+              echo '<div class="card-body">';
+                if ($odp == 1) {
+                  echo "1 odpowiedź";
+                } else {
+                  echo $odp." odpowiedzi";
+                }
+          echo '</div>';
+        echo '</div><br>';
+    }
+    
+    
+    
+    
+    ?>
     <div class="card">
-        <div class="card-header p-4" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-            <h3 class="col-12 col-md-8">PYTANIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</h3>
-            <div class="text-end m-md-0 col-4" style="width: max-content; margin: auto;">
-                <button class="btn btn-outline-info">
-                    PRZEJDŹ
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                    </svg>
-                </button>
-                <button class="btn btn-info">
-                    ODPOWIEDZ
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                </button>
+            <div class="card-header text-end">
+              Numer strony: &nbsp;
+              <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " data-bs-toggle="dropdown" aria-expanded="false">
+                <?php
+                  if (isset($_GET['a'])) {
+                    echo $_GET['a'];
+                  } else {
+                    echo 1;
+                  }
+                ?>
+              </a>
+                <ul class="dropdown-menu">
+                  <?php
+                    $w3 = mysqli_fetch_array($zap4);
+                    $liczba = $w3['idd'];
+                    $i = 0;
+                    $a = 1;
+                    do {
+                      echo "<li><a class='dropdown-item' href='wyszukiwanie.php?l=$i&a=$a&wysz=$tekst'>$a</a></li>";
+                      $i = $i + 10;
+                      $a++;
+                    } while ($i < $liczba)
+                  ?>             
+                </ul>
             </div>
-        </div>
-        <div class="card-body">
-            2 odpowiedzi · <span class="text-success">Sprawdzone przez eksperta</span> 
-            <br>
-            
-        </div>
-    </div>
-    <br><br>
-    <div class="card">
-        <div class="card-header p-4" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-            <h3 class="col-12 col-md-8">PYTANIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</h3>
-            <div class="text-end m-md-0 col-4" style="width: max-content; margin: auto;">
-                <button class="btn btn-outline-info">
-                    PRZEJDŹ
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                    </svg>
-                </button>
-                <button class="btn btn-info">
-                    ODPOWIEDZ
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            2 odpowiedzi · <span class="text-danger">Niesprawdzone przez eksperta</span> 
-            <br>
-            
-        </div>
-    </div>
+          </div>          
   </div>
 
 

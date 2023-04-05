@@ -20,6 +20,7 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
         $wiersz = mysqli_fetch_array($zapytanie1);
         $_SESSION['zalogowany'] = true;
         $_SESSION['id'] = $wiersz['id'];
+        $_SESSION['login'] = $wiersz['login'];
         $_SESSION['imie'] = $wiersz['imie'];
         $_SESSION['nick'] = $wiersz['nick'];
         $_SESSION['data'] = $wiersz['data_urodzenia'];
