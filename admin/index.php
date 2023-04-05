@@ -66,7 +66,7 @@
           <hr>
           <div class="dropdown" style="position: absolute;">
             <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+              <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
               <strong class="d-none d-lg-inline">zyrekjakub</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">

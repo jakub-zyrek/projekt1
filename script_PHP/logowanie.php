@@ -23,6 +23,11 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
         $_SESSION['imie'] = $wiersz['imie'];
         $_SESSION['nick'] = $wiersz['nick'];
         $_SESSION['data'] = $wiersz['data_urodzenia'];
+        if (is_null($wiersz['obraz'])) {
+            $_SESSION['obraz'] = 'https://github.com/mdo.png';
+        } else {
+            $_SESSION['obraz'] = $wiersz['obraz'];
+        }
         header("Location: ./../index.php");
     } else {
         // Błędny login lub hasło

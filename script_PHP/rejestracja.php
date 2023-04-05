@@ -27,13 +27,13 @@ if (isset($_POST['imie']) && isset($_POST['nick']) && isset($_POST['data']) && i
         } else if (mysqli_num_rows($zapytanie3) > 0) {
             $_SESSION['powtorka'] = 'l';
         }
-        
     } else if (mysqli_num_rows($zapytanie1) > 0 && mysqli_num_rows($zapytanie3) > 0) {
-        $_SESSION['powtorka'] = true;
+        $_SESSION['powtorka'] = 'w';
     } else {
         // Dodanie użytkownika
         $sql2 = "INSERT INTO uzytkownik (login, haslo, imie, nick, data_urodzenia) VALUES ('$login', '$haslo', '$imie', '$nick', '$data')";
         mysqli_query($polaczenie, $sql2);
+        $_SESSION['dodane'] = true;
     }
     header("Location: ./../rejestracja.php");
 }

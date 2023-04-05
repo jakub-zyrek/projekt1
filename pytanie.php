@@ -1,5 +1,20 @@
 <?php
 session_start();
+
+if ($_GET['idpytania']) {
+  // Połączenie z bazą danych
+  $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+  if (!mysqli_connect_errno()) {
+    $id_pytania = $_GET['idpytania'];
+    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id WHERE id = $id_pytania";
+    mysqli_query($polaczenie, $sql1);
+    $wynik = mysqli_fetch_array($zapytanie1);
+    $tytul = $wynik['tytul'];
+    $opis = $wynik['opis'];
+    $kategoria = $wynik['nazwa'];
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -66,7 +81,7 @@ session_start();
                 echo '
                 <div class="dropdown">
                   <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">

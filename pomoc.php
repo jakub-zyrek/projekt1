@@ -86,7 +86,7 @@ session_start();
                 echo '
                 <div class="dropdown">
                   <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">

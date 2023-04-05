@@ -58,7 +58,7 @@ if (isset($_SESSION['zalogowany'])) {
                 echo '
                 <div class="dropdown">
                   <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
@@ -89,7 +89,7 @@ if (isset($_SESSION['zalogowany'])) {
         if (isset($_SESSION['powtorka'])) {
           echo '<div class="alert alert-danger">';
           $pow = $_SESSION['powtorka'];
-          if ($pow == true) {
+          if ($pow == 'w') {
             echo "Login i nick się powtarzają. Zmień je.";
           } else if ($pow == 'n') {
             echo "Nick się powtarza. Zmień go.";
@@ -98,6 +98,11 @@ if (isset($_SESSION['zalogowany'])) {
           }
           unset($_SESSION['powtorka']);
           echo "</div>";
+        }
+
+        if (isset($_SESSION['dodane'])) {
+          echo '<div class="alert alert-success">Dodano konto</div>';
+          unset($_SESSION['dodane']);
         }
         ?>
     <form class="needs-validation align-items-center  col-12 "  style="text-align: center; margin-left: auto; margin-right: auto;" novalidate method="post" action="script_PHP/rejestracja.php">
