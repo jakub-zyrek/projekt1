@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -69,8 +72,30 @@
            
   
             <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <button type="button" class="btn btn-outline-light me-2" onclick='location.href = "logowanie.php"'>Zaloguj się</button>
-              <button type="button" class="btn btn-info" onclick="location.href = 'rejestracja.php'">Zarejestruj się</button>
+              <?php
+              
+              if (isset($_SESSION['zalogowany'])) {
+                echo '
+                <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
+                  </ul>
+                </div>';
+              } else {
+                echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
+                echo "location.href = 'logowanie.php'";
+                echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
+                echo "location.href = 'rejestracja.php'";
+                echo '">Zarejestruj się</button>';
+              }
+              
+              ?>
             </div>
           </div>
           </div>
@@ -83,20 +108,21 @@
                 <h1 class="p-4 text-center">Kategorie</h1>
             </div>
             <div class="card-body" id="kat">
-                <span>HTML</span>
-                <span>CSS</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
+                <?php
+                  // Połączenie z bazą danych
+                  $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+                  // Zapytanie 
+                  $sql = "SELECT * FROM kategorie";
+                  $wysz = mysqli_query($polaczenie, $sql);
+                  
+                  // Wyświetlenie
+                  while ($w = mysqli_fetch_array($wysz)) {
+                    $nazwa = $w['nazwa'];
+                    $id = $w['id'];
+                    echo "<span><a>$nazwa</a></span>";
+                  }
+                ?>
             </div>
         </div>
     </div>

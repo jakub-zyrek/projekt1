@@ -13218,10 +13218,10 @@ textarea.form-control-lg {
 }
 
 .pobierz {
-    transition: 0.5s ease;
+    transition: 0.5s ease !important;
 }
 
 .pobierz:hover {
-    color: #bb2d3b;
-    cursor: pointer;
+    color: #bb2d3b !important;
+    cursor: pointer !important;
 }

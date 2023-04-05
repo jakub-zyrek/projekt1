@@ -1,3 +1,28 @@
+<?php
+session_start();
+if(!isset($_SESSION['zalogowany'])) {
+  header("Location: index.php");
+}
+
+// Połączenie z bazą danych
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+// Kategorie
+$kategorie = [];
+$sql1 = "SELECT * FROM kategorie";
+$zapytanie1 = mysqli_query($polaczenie, $sql1);
+$i = 0;
+while ($w = mysqli_fetch_array($zapytanie1)) {
+  $kategorie[$i] = $w['nazwa'];
+  $katid[$i] = $w['id'];
+  $i++;
+}
+
+$sql2 = "SELECT MAX(id) AS idd FROM kategorie";
+$zapytanie2 = mysqli_query($polaczenie, $sql2);
+$zap2 = mysqli_fetch_array($zapytanie2);
+$maks = $zap2['idd'];
+?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>abc
@@ -46,8 +71,30 @@
            
   
             <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <button type="button" class="btn btn-outline-light me-2" onclick='location.href = "logowanie.php"'>Zaloguj się</button>
-              <button type="button" class="btn btn-info" onclick="location.href = 'rejestracja.php'">Zarejestruj się</button>
+              <?php
+              
+              if (isset($_SESSION['zalogowany'])) {
+                echo '
+                <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>'.$_SESSION['imie'].'</strong>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
+                  </ul>
+                </div>';
+              } else {
+                echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
+                echo "location.href = 'logowanie.php'";
+                echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
+                echo "location.href = 'rejestracja.php'";
+                echo '">Zarejestruj się</button>';
+              }
+              
+              ?>
             </div>
           </div>
           </div>
@@ -59,7 +106,7 @@
                 <h1 class="text-center p-3">Dodawanie pytania</h1>
             </div>
             <div class="card-body">
-                <form action="" method="post" class="needs-validation" style="display: flex; flex-wrap: wrap; justify-content: space-between;" novalidate>
+                <form action="script_PHP/dodawanie_p.php" method="post" class="needs-validation" style="display: flex; flex-wrap: wrap; justify-content: space-between;" novalidate>
                     <div style="display: flex; flex-wrap: nowrap; align-items: center;" class="col-12 col-lg-6">
                         Tytuł:&nbsp;&nbsp;
                         <input type="text" name="tyt" id="tyt" class="form-control" required>
@@ -67,14 +114,20 @@
                     <div style="display: flex; flex-wrap: nowrap; align-items: center;" class="col-12 col-lg-5 mt-3 mt-lg-0">
                         Kategoria:&nbsp;&nbsp;
                         <select name="kat" id="kat" class="form-control dropdown-toggle" required>
-                            <option value="html">HTML</option>
-                            <option value="css">CSS</option>
-                            <option value="js">JS</option>
+                            <?php
+                            
+                            for ($ii = 0; $ii < $maks; $ii++) {
+                              if (isset($katid[$ii])) {
+                                echo "<option value='".$katid[$ii]."'>".$kategorie[$ii]."</option>";
+                              }
+                            }
+                            
+                            ?>
                         </select>
                     </div>
                     <div style="display: flex; flex-wrap: nowrap; align-items: start;" class="col-12 mt-3">
                         Opis:&nbsp;&nbsp;&nbsp;
-                        <textarea name="odpowiedz" id="odpowiedz" style="width:100%; border-radius: 1vw; padding: 2%;" rows="15"></textarea>
+                        <textarea name="opis" id="odpowiedz" style="width:100%; border-radius: 1vw; padding: 2%;" rows="15"></textarea>
                     </div>
                     <button type="submit" class="btn btn-outline-info mt-3 col-12" style="display: flex; flex-wrap: nowrap; align-items: center; justify-content: center;">Dodaj pytanie&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>

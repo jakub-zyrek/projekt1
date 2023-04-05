@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['zalogowany'])) {
+  header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -46,8 +52,30 @@
            
   
             <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <button type="button" class="btn btn-outline-light me-2" onclick='location.href = "logowanie.php"'>Zaloguj się</button>
-              <button type="button" class="btn btn-info" onclick="location.href = 'rejestracja.php'">Zarejestruj się</button>
+              <?php
+              
+              if (isset($_SESSION['zalogowany'])) {
+                echo '
+                <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
+                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
+                  </ul>
+                </div>';
+              } else {
+                echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
+                echo "location.href = 'logowanie.php'";
+                echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
+                echo "location.href = 'rejestracja.php'";
+                echo '">Zarejestruj się</button>';
+              }
+              
+              ?>
             </div>
           </div>
           </div>
@@ -56,13 +84,22 @@
 
   <div class="container  align-items-center form-switch justify-content-center " style="text-align: center; margin-left: auto; margin-right: auto;">
     <h1 style="text-align: center;">Zaloguj się</h1>
-   
-    <form class="needs-validation align-items-center col-12 col-md-10 col-lg-6"  style="text-align: center; margin-left: auto; margin-right: auto;" method="post" novalidate>
+    <br>
+    <?php
+        if (isset($_SESSION['blad'])) {
+          echo '<div class="alert alert-danger">';
+          $pow = $_SESSION['powtorka'];
+          echo "Niepoprawny login lub hasło";
+          unset($_SESSION['powtorka']);
+          echo "</div>";
+        }
+    ?>
+    <form class="needs-validation align-items-center col-12 col-md-10 col-lg-6"  style="text-align: center; margin-left: auto; margin-right: auto;" method="post" novalidate action="script_PHP/logowanie.php">
         <div class="row-cols-2">
           <br>
           <label for="firstName" class="form-label">Login</label>
           <br>
-          <input type="text" class="form-control" id="firstName" placeholder="Login" style="text-align: center; margin-left: auto; margin-right: auto;" required>
+          <input type="text" class="form-control" id="firstName" placeholder="Login" style="text-align: center; margin-left: auto; margin-right: auto;" required name="login">
           
         </div>
         <div class="row-cols-2 align-items-center">
@@ -70,7 +107,7 @@
             <label for="firstName" class="form-label">Hasło</label>
             <br>
             
-            <input type="text" class="form-control align-items-center" id="firstName" placeholder="Hasło" required style="text-align: center; margin-left: auto; margin-right: auto;">
+            <input type="password" class="form-control align-items-center" id="firstName" placeholder="Hasło" required style="text-align: center; margin-left: auto; margin-right: auto;" name="haslo">
          
             <br>
             <div class="align-items-center col-12">
