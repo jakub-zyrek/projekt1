@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 05 Kwi 2023, 08:38
--- Wersja serwera: 10.4.22-MariaDB
--- Wersja PHP: 8.1.2
+-- Czas generowania: 05 Kwi 2023, 10:23
+-- Wersja serwera: 10.4.27-MariaDB
+-- Wersja PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,9 +41,17 @@ CREATE TABLE `administratorzy` (
 
 CREATE TABLE `instrukcje` (
   `id` int(11) NOT NULL,
-  `pytanie` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
-  `plik` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
+  `tytul` varchar(100) NOT NULL,
+  `plik` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `instrukcje`
+--
+
+INSERT INTO `instrukcje` (`id`, `tytul`, `plik`) VALUES
+(1, 'terte', 'rerter'),
+(2, 'Deklaracja dostepności', 'essa.png');
 
 -- --------------------------------------------------------
 
@@ -53,7 +61,7 @@ CREATE TABLE `instrukcje` (
 
 CREATE TABLE `kategorie` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL
+  `nazwa` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -73,7 +81,7 @@ INSERT INTO `kategorie` (`id`, `nazwa`) VALUES
 CREATE TABLE `komentarze` (
   `id` int(11) NOT NULL,
   `odpowiedz_id` int(11) NOT NULL,
-  `komentarz` varchar(300) COLLATE utf8mb4_polish_ci NOT NULL,
+  `komentarz` varchar(300) NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -113,7 +121,7 @@ CREATE TABLE `ocena` (
 CREATE TABLE `odpowiedz` (
   `id` int(11) NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL,
-  `odpowiedz` varchar(2000) COLLATE utf8mb4_polish_ci NOT NULL,
+  `odpowiedz` varchar(2000) NOT NULL,
   `pytanie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -126,7 +134,7 @@ CREATE TABLE `odpowiedz` (
 CREATE TABLE `odpowiedz_zgloszenie` (
   `id` int(11) NOT NULL,
   `administrator_id` int(11) NOT NULL,
-  `odpowiedz` varchar(200) COLLATE utf8mb4_polish_ci NOT NULL,
+  `odpowiedz` varchar(200) NOT NULL,
   `zgloszenie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -138,7 +146,7 @@ CREATE TABLE `odpowiedz_zgloszenie` (
 
 CREATE TABLE `plan` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `nazwa` varchar(100) NOT NULL,
   `limit_pytan` int(11) NOT NULL,
   `cena` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
@@ -151,8 +159,8 @@ CREATE TABLE `plan` (
 
 CREATE TABLE `pomoc` (
   `id` int(11) NOT NULL,
-  `pytanie` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
-  `odpowiedz` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
+  `pytanie` varchar(100) NOT NULL,
+  `odpowiedz` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -185,9 +193,9 @@ CREATE TABLE `przerwa` (
 
 CREATE TABLE `pytanie` (
   `id` int(11) NOT NULL,
-  `tytul` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `tytul` varchar(100) NOT NULL,
   `kategoria_id` int(11) DEFAULT NULL,
-  `opis` varchar(500) COLLATE utf8mb4_polish_ci DEFAULT NULL,
+  `opis` varchar(500) DEFAULT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -249,13 +257,13 @@ CREATE TABLE `typ` (
 
 CREATE TABLE `uzytkownik` (
   `id` int(11) NOT NULL,
-  `login` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
-  `haslo` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
-  `imie` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
-  `nick` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
+  `login` varchar(30) NOT NULL,
+  `haslo` varchar(50) NOT NULL,
+  `imie` varchar(30) NOT NULL,
+  `nick` varchar(50) NOT NULL,
   `data_urodzenia` date NOT NULL,
   `ranga` int(1) DEFAULT NULL,
-  `obraz` varchar(200) COLLATE utf8mb4_polish_ci DEFAULT NULL
+  `obraz` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -290,8 +298,15 @@ CREATE TABLE `zgloszenie` (
   `id` int(11) NOT NULL,
   `zglaszajacy` int(11) DEFAULT NULL,
   `zgloszony` int(11) DEFAULT NULL,
-  `opis` varchar(300) COLLATE utf8mb4_polish_ci DEFAULT NULL
+  `opis` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `zgloszenie`
+--
+
+INSERT INTO `zgloszenie` (`id`, `zglaszajacy`, `zgloszony`, `opis`) VALUES
+(1, 2, NULL, 'fwwefwef');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -304,6 +319,12 @@ ALTER TABLE `administratorzy`
   ADD PRIMARY KEY (`id`),
   ADD KEY `administratorzy_ibfk_2` (`typ_id`),
   ADD KEY `uzytkownik_id` (`uzytkownik_id`);
+
+--
+-- Indeksy dla tabeli `instrukcje`
+--
+ALTER TABLE `instrukcje`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksy dla tabeli `kategorie`
@@ -427,6 +448,12 @@ ALTER TABLE `administratorzy`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `instrukcje`
+--
+ALTER TABLE `instrukcje`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT dla tabeli `kategorie`
 --
 ALTER TABLE `kategorie`
@@ -514,7 +541,7 @@ ALTER TABLE `zakup`
 -- AUTO_INCREMENT dla tabeli `zgloszenie`
 --
 ALTER TABLE `zgloszenie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ograniczenia dla zrzutów tabel

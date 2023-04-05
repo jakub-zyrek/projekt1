@@ -108,20 +108,21 @@ session_start();
                 <h1 class="p-4 text-center">Kategorie</h1>
             </div>
             <div class="card-body" id="kat">
-                <span>HTML</span>
-                <span>CSS</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
-                <span>JS</span>
-                <span>PHP</span>
-                <span>C++</span>
-                <span>C</span>
+                <?php
+                  // Połączenie z bazą danych
+                  $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+                  // Zapytanie 
+                  $sql = "SELECT * FROM kategorie";
+                  $wysz = mysqli_query($polaczenie, $sql);
+                  
+                  // Wyświetlenie
+                  while ($w = mysqli_fetch_array($wysz)) {
+                    $nazwa = $w['nazwa'];
+                    $id = $w['id'];
+                    echo "<span><a>$nazwa</a></span>";
+                  }
+                ?>
             </div>
         </div>
     </div>

@@ -27,14 +27,11 @@
         $sql2 = "SELECT * FROM instrukcje";
         $zapytanie2 = mysqli_query($polaczenie, $sql2);
         $tab4 = [];
-        $tab5 = [];
-        $tab6 = [];
         while ($wynik1 = mysqli_fetch_array($zapytanie2)) {
             $idd = $wynik1['id'];
             $tab4[$idd] = $wynik1['tytul'];
-            $tab5[$idd] = $wynik1['plik'];
-            $tab6[$idd] = $wynik1['tekst'];
-            echo 'tab4['.$idd.'] = "<a href=";';
+            $plik = $wynik1['plik'];
+            echo 'tab4['.$idd.'] = "<a class='."'pobierz'".' href='."'files/$plik'".'>'.$plik.'</a>";';
         }
         echo "</script>";
     }
@@ -52,11 +49,6 @@
                 document.getElementById("b" + a).style.marginLeft = "10px";
                 document.getElementById("b" + a).style.marginBottom = "10px";
                 document.getElementById("b" + a).innerText = tab1[a];
-                if (a == 22) {
-                    document.getElementById("b" + a).innerHTML = 'Instrukcja użytkownika PDF <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>';
-                } else if (a == 23) {
-                    document.getElementById("b" + a).innerHTML = 'Deklaracja dostępności PDF <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>';
-                }
                 document.getElementById("p" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>';
                 tab[a] = 1;
             } else {
@@ -73,11 +65,11 @@
                 document.getElementById("c" + a).style.marginTop = "10px";
                 document.getElementById("c" + a).style.marginLeft = "10px";
                 document.getElementById("c" + a).style.marginBottom = "10px";
-                document.getElementById("c" + a).innerText = tab4[a];
+                document.getElementById("c" + a).innerHTML = tab4[a];
                 document.getElementById("d" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>';
                 tab3[a] = 1;
             } else {
-                document.getElementById("c" + a).innerText = "";
+                document.getElementById("c" + a).innerHTML = "";
                 document.getElementById("c" + a).style.margin = "0px";
                 document.getElementById("d" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>';
                 tab3[a] = 0;
@@ -215,72 +207,77 @@
                             echo '<div class="card-body p-0 pobierz" id="c'.$i.'">';
                                 
                             echo '</div>';
-                        echo '</div>';
+                        echo '</div><br>';
                     }
-                }
-                
+                }  
                 ?>
-                <br>
-                <div class="card col-12 col-md-11">
-                    <?php
-                        
-                    ?>
-                    <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
-                        <h5>Deklaracja dostępności</h5>
-                        <button id="p23" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(23);">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="card-body p-0 pobierz">
-
-                    </div>
+            </div>
+        </div>
+        <br><br>
+        <?php
+        
+        if (isset($_SESSION['zalogowany'])) {
+            echo '<h1 class="text-center text-danger">Jeżeli to Ci nie pomogło, napisz do nas!</h1>
+            <br><br>
+            <div id="formularz" class="card mb-4 col-12 col-md-10 col-xl-8 rounded-3 shadow-sm" style="margin: auto;">
+                <div class="card-header text-center p-4 bg-danger-subtle">
+                    <h3>Formularz kontaktowy</h3>
                 </div>
-            </div>
-        </div>
-        <br><br>
-        <h1 class="text-center text-danger">Jeżeli to Ci nie pomogło, napisz do nas!</h1>
-        <br><br>
-        <div id="formularz" class="card mb-4 col-12 col-md-10 col-xl-8 rounded-3 shadow-sm" style="margin: auto;">
-            <div class="card-header text-center p-4 bg-danger-subtle">
-                <h3>Formularz kontaktowy</h3>
-            </div>
-            <div class="card-body col-10" style="margin: auto;">
-                <form class="needs-validation align-items-center" style="text-align: center; margin-left: auto; margin-right: auto;" method="post" novalidate>
-                    <div>
+                <div class="card-body col-10" style="margin: auto;">
+                    <form class="needs-validation align-items-center" style="text-align: center; margin-left: auto; margin-right: auto;" method="post" action="script_PHP/pomoc.php" novalidate>
+                        
                         <br>
-                        <label for="firstName" class="form-label">Imię</label>
-                        <br>
-                        <input type="text" class="form-control" id="firstName" placeholder="Login"
-                            style="text-align: center; margin-left: auto; margin-right: auto;" required>
-
-                    </div>
-                    <div>
-                        <br>
-                        <label for="firstName" class="form-label">Email</label>
-                        <br>
-                        <input type="email" class="form-control align-items-center" id="email" placeholder="Email" required style="text-align: center; margin-left: auto; margin-right: auto;">
-                        <br>
-                    </div>
-                    <div>
-                        <label for="firstName" class="form-label">Opisz swój problem</label>
-                        <br>
-                        <textarea  class="form-control align-items-center w-100" id="email" placeholder="Email" required style="text-align: center; margin-left: auto; margin-right: auto;" rows="10"></textarea>
-                        <br>
-                    </div>
-                    <div class="align-items-center col-12">
-                        <button type="submit" class="btn btn-outline-danger" style="display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; margin: auto;">
-                            Wyślij zgłoszenie&nbsp;&nbsp;
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
-                              </svg>
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
+                        <div>
+                            <label for="firstName" class="form-label">Opisz swój problem</label>
+                            <br>
+                            <textarea name="opis" class="form-control align-items-center w-100" id="opis" required style="text-align: center; margin-left: auto; margin-right: auto;" rows="10"></textarea>
+                            <br>
+                        </div>
+                        <div class="align-items-center col-12">
+                            <button type="submit" class="btn btn-outline-danger" style="display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; margin: auto;">
+                                Wyślij zgłoszenie&nbsp;&nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                  </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+    
+            </div>';
+        } else {
+            echo '<h1 class="text-center text-danger">Jeżeli to Ci nie pomogło, napisz do nas!</h1>
+            <br>
+            <div class="alert alert-danger">Aby wysłać zgłoszenie musisz być zalogowany</div>
+            <br>
+            <div id="formularz" class="card mb-4 col-12 col-md-10 col-xl-8 rounded-3 shadow-sm" style="margin: auto;">
+                <div class="card-header text-center p-4 bg-danger-subtle">
+                    <h3>Formularz kontaktowy</h3>
+                </div>
+                <div class="card-body col-10" style="margin: auto;">
+                    <form class="needs-validation align-items-center" style="text-align: center; margin-left: auto; margin-right: auto;" method="post" action="script_PHP/pomoc.php" novalidate>
+                        
+                        <div>
+                            <label for="firstName" class="form-label">Opisz swój problem</label>
+                            <br>
+                            <textarea name="opis" disabled class="form-control align-items-center w-100" id="opis" required style="text-align: center; margin-left: auto; margin-right: auto;" rows="10"></textarea>
+                            <br>
+                        </div>
+                        <div class="align-items-center col-12">
+                            <button type="submit" disabled class="btn btn-outline-danger" style="display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; margin: auto;">
+                                Wyślij zgłoszenie&nbsp;&nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                  </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+    
+            </div>';
+        }
+        
+        ?>
         <br>
     </div>
 
