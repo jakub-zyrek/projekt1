@@ -5,6 +5,7 @@
 <head>
     <script>
         var tab1 = [];
+        var tab4 = [];
     </script>
     <?php
     session_start();
@@ -22,6 +23,18 @@
             $odp = $wynik['odpowiedz'];
             $tab2[$id] = $wynik['pytanie'];
             echo 'tab1['.$id.'] = "'.$odp.'";';
+        }
+        $sql2 = "SELECT * FROM instrukcje";
+        $zapytanie2 = mysqli_query($polaczenie, $sql2);
+        $tab4 = [];
+        $tab5 = [];
+        $tab6 = [];
+        while ($wynik1 = mysqli_fetch_array($zapytanie2)) {
+            $idd = $wynik1['id'];
+            $tab4[$idd] = $wynik1['tytul'];
+            $tab5[$idd] = $wynik1['plik'];
+            $tab6[$idd] = $wynik1['tekst'];
+            echo 'tab4['.$idd.'] = "<a href=";';
         }
         echo "</script>";
     }
@@ -51,6 +64,23 @@
                 document.getElementById("b" + a).style.margin = "0px";
                 document.getElementById("p" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>';
                 tab[a] = 0;
+            }
+        }
+
+        var tab3 = [];
+        function instrukcje(a) {
+            if (tab3[a] == 0 || isNaN(tab3[a])) {
+                document.getElementById("c" + a).style.marginTop = "10px";
+                document.getElementById("c" + a).style.marginLeft = "10px";
+                document.getElementById("c" + a).style.marginBottom = "10px";
+                document.getElementById("c" + a).innerText = tab4[a];
+                document.getElementById("d" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>';
+                tab3[a] = 1;
+            } else {
+                document.getElementById("c" + a).innerText = "";
+                document.getElementById("c" + a).style.margin = "0px";
+                document.getElementById("d" + a).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>';
+                tab3[a] = 0;
             }
         }
     </script>
@@ -160,41 +190,6 @@
                 }
                 
                 ?>
-                <!-- <div class="card col-12 col-md-11">
-                    <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
-                        <h5>Dlaczego nie mogę dodać pytania?</h5>
-                        <button id="p1" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(1);">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="card-body p-0" id="b1"></div>
-                </div>
-                <br>
-                <div class="card col-12 col-md-11">
-                    <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
-                        <h5>Dlaczego nie mogę dodać pytania?</h5>
-                        <button id="p2" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(2);">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="card-body p-0" id="b2"></div>
-                </div>
-                <br>
-                <div class="card col-12 col-md-11">
-                    <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
-                        <h5>Dlaczego nie mogę dodać pytania?</h5>
-                        <button id="p3" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(3);">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="card-body p-0" id="b3"></div>
-                </div> -->
             </div>
         </div>
         <br><br>
@@ -203,21 +198,33 @@
                 <h3>Dokumenty</h3>
             </div>
             <div class="card-body">
-                <div class="card col-12 col-md-11">
-                    <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
-                        <h5>Instrukcja użytkownika</h5>
-                        <button id="p22" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(22);">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="card-body p-0 pobierz" id="b22">
-                        
-                    </div>
-                </div>
+                <?php
+                
+                for ($i = 0; $i < count($tab4)+1; $i++) {
+                    if (isset($tab4[$i])) {
+                        echo '<div class="card col-12 col-md-11">';
+                            echo '<div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">';
+                                echo '<h5>';
+                                    echo $tab4[$i];
+                                echo '</h5>';
+                                echo '<button id="d'.$i.'" class="btn btn-outline-danger" style="margin-left: auto;" onclick="instrukcje('.$i.');">';
+                                    echo '<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>';
+                                echo "</button>";
+                            echo '</div>';
+                            echo '<div class="card-body p-0 pobierz" id="c'.$i.'">';
+                                
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                
+                ?>
                 <br>
                 <div class="card col-12 col-md-11">
+                    <?php
+                        
+                    ?>
                     <div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">
                         <h5>Deklaracja dostępności</h5>
                         <button id="p23" class="btn btn-outline-danger" style="margin-left: auto;" onclick="pytanie(23);">
@@ -226,7 +233,9 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="card-body p-0 pobierz" id="b23"></div>
+                    <div class="card-body p-0 pobierz">
+
+                    </div>
                 </div>
             </div>
         </div>
