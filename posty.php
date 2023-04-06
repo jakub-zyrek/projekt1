@@ -6,9 +6,9 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
 if (!mysqli_connect_errno()) {
   if (isset($_GET['l'])) {
     $l = $_GET['l'];
-    $sql = "SELECT * FROM liczba_odpowiedzi ORDER BY id DESC LIMIT 10 OFFSET $l ";
+    $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 10 OFFSET $l ";
   } else {
-    $sql = "SELECT * FROM liczba_odpowiedzi ORDER BY id DESC LIMIT 10 ";
+    $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 10 ";
   }
   
   $zap1 = mysqli_query($polaczenie, $sql);
@@ -43,8 +43,14 @@ if (!mysqli_connect_errno()) {
               <li>
                 <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="kategorie.php?kat=HTML">HTML</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php?kat=CSS">CSS</a></li>
+                    <?php
+                        $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
+                        $wysz1 = mysqli_query($polaczenie, $sql1);
+                        while ($w1 = mysqli_fetch_array($wysz1)) {
+                            $nazwa = $w1['nazwa'];
+                            echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
+                        }
+                    ?>
                   <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
                 </ul>
               </li>
@@ -112,16 +118,17 @@ if (!mysqli_connect_errno()) {
                   echo $w['tytul'];
                 echo '</h3>';
                 echo '<div class="text-end m-md-0 col-4" style="width: max-content; margin: auto;">';
-                  echo '<a href="pytanie.php?idpytania='.$w['id'].'" class="btn btn-outline-info">PRZEJDŹ<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/><path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg></a>&nbsp;';
+                  echo '<a href="pytanie.php?idpytania='.$w['id'].'" class="btn btn-outline-info"><div style="display: flex; align-content: center; justify-content: space-between;">PRZEJDŹ&nbsp;<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/><path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg></div></a>&nbsp;';
 
-                  echo '<a href="dodawanie.php?idpytania='.$w['id'].'" class="btn btn-info">ODPOWIEDZ<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg></a>';
+                  echo '<a href="dodawanie.php?idpytania='.$w['id'].'" class="btn btn-info"><div style="display: flex; align-content: center; justify-content: space-between;">ODPOWIEDZ&nbsp;<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg></div></a>';
                 echo '</div>';
               echo '</div>';
               echo '<div class="card-body">';
+                echo "<img src='".$w['obraz']."' alt='' width='32' height='32' class='rounded-circle me-2'>".$w['nick']." · ".$w['nazwa']." · ";
                 if ($w['odp'] == 1) {
-                  echo "1 odpowiedź";
+                  echo "<b>1 odpowiedź</b>";
                 } else {
-                  echo $w['odp']." odpowiedzi";
+                  echo "<b>".$w['odp']." odpowiedzi</b>";
                 }
               echo '</div>';
             echo '</div><br>';
@@ -172,11 +179,11 @@ if (!mysqli_connect_errno()) {
         </a>
     
         <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Strona główna</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Posty</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">O nas</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pomoc</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">PREMIUM</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Strona główna</a></li>
+          <li class="nav-item"><a href="posty.php" class="nav-link px-2 text-muted">Posty</a></li>
+          <li class="nav-item"><a href="onas.php" class="nav-link px-2 text-muted">O nas</a></li>
+          <li class="nav-item"><a href="pomoc.php" class="nav-link px-2 text-muted">Pomoc</a></li>
+          <li class="nav-item"><a href="cennik.php" class="nav-link px-2 text-muted">PREMIUM</a></li>
         </ul>
       </footer>
     </div>

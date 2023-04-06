@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['zalogowany'])) {
   header("Location: index.php");
 }
+
+// Połączenie z bazą danych
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -30,9 +33,17 @@ if(!isset($_SESSION['zalogowany'])) {
               <li>
                 <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="kategorie.php?kat=HTML">HTML</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php?kat=CSS">CSS</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                </ul></li>
+                    <?php
+                        $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
+                        $wysz1 = mysqli_query($polaczenie, $sql1);
+                        while ($w1 = mysqli_fetch_array($wysz1)) {
+                            $nazwa = $w1['nazwa'];
+                            echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
+                        }
+                    ?>
+                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
+                </ul>
+              </li>
                 <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2"  >O nas</a></li>
               <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2"  >Pomoc</a></li>
                 
@@ -129,11 +140,11 @@ if(!isset($_SESSION['zalogowany'])) {
         </a>
     
         <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Strona główna</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Posty</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">O nas</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pomoc</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">PREMIUM</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Strona główna</a></li>
+          <li class="nav-item"><a href="posty.php" class="nav-link px-2 text-muted">Posty</a></li>
+          <li class="nav-item"><a href="onas.php" class="nav-link px-2 text-muted">O nas</a></li>
+          <li class="nav-item"><a href="pomoc.php" class="nav-link px-2 text-muted">Pomoc</a></li>
+          <li class="nav-item"><a href="cennik.php" class="nav-link px-2 text-muted">PREMIUM</a></li>
         </ul>
       </footer>
     </div>

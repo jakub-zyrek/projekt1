@@ -1,5 +1,7 @@
 <?php
 session_start();
+// Połączenie z bazą danych
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -38,9 +40,17 @@ session_start();
               <li>
                 <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="kategorie.php?kat=HTML">HTML</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php?kat=CSS">CSS</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                </ul></li>
+                    <?php
+                        $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
+                        $wysz1 = mysqli_query($polaczenie, $sql1);
+                        while ($w1 = mysqli_fetch_array($wysz1)) {
+                            $nazwa = $w1['nazwa'];
+                            echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
+                        }
+                    ?>
+                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
+                </ul>
+              </li>
                 <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2"  >O nas</a></li>
               <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2"  >Pomoc</a></li>
                 
@@ -98,7 +108,7 @@ session_start();
   <br><br>
   <div class="container w-100 text-white">
     <div class="bg-info p-2 float-start w-100 rounded-5">
-      <h3 style="padding: 2%;">Najnowsze pytania bez odpowiedzi</h3>
+      <h3 style="padding: 2%;">Najnowsze pytania</h3>
       <br>
       <div class="w-100">
         <table class="table  col-7 tabelka " style="color: rgb(255, 255, 255); font-size: 1.5rem;">
@@ -112,27 +122,33 @@ session_start();
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            <tr>
-              <td>1</td>
-              <td>Jak coś tam</td>
-              <td>jakubzyrek</td>
-              <td>4</td>
-              <td><button class="btn btn-outline-warning text-white">Przejdź</button></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jak coś tam</td>
-              <td>jakubzyrek</td>
-              <td>4</td>
-              <td><button class="btn btn-outline-warning text-white">Przejdź</button></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Jak coś tam</td>
-              <td>jakubzyrek</td>
-              <td>4</td>
-              <td><button class="btn btn-outline-warning text-white">Przejdź</button></td>
-            </tr>
+            <?php
+            
+            // Połączenie z bazą danych
+            $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+            if (!mysqli_connect_errno()) {
+              $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 4";
+              $wysz = mysqli_query($polaczenie, $sql);
+
+              $i = 1;
+              while ($w = mysqli_fetch_array($wysz)) {
+                $pytanie = $w['tytul'];
+                $ile = $w['odp'];
+                $uzy = $w['nick'];
+                $id = $w['id'];
+                echo "<tr>";
+                  echo "<td>$i</td>";
+                  echo "<td>$pytanie</td>";
+                  echo "<td>$uzy</td>";
+                  echo "<td>$ile</td>";
+                  echo "<td><a class='btn btn-outline-warning text-white' href='pytanie.php?idpytania=$id'>Przejdź</a></td>";
+                echo "</tr>";
+                $i++;
+              }
+            }
+
+            ?>
           </tbody>
         </table>
       </div>
@@ -165,11 +181,11 @@ session_start();
         </a>
     
         <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Strona główna</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Posty</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">O nas</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pomoc</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">PREMIUM</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Strona główna</a></li>
+          <li class="nav-item"><a href="posty.php" class="nav-link px-2 text-muted">Posty</a></li>
+          <li class="nav-item"><a href="onas.php" class="nav-link px-2 text-muted">O nas</a></li>
+          <li class="nav-item"><a href="pomoc.php" class="nav-link px-2 text-muted">Pomoc</a></li>
+          <li class="nav-item"><a href="cennik.php" class="nav-link px-2 text-muted">PREMIUM</a></li>
         </ul>
       </footer>
     </div>

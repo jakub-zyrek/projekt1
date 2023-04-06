@@ -10,7 +10,7 @@ if (isset($_GET['idpytania'])) {
     $id_pytania = $_GET['idpytania'];
 
     // Wyszukanie pytania w bazie
-    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id WHERE pytanie.id = $id_pytania";
+    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id JOIN uzytkownik ON uzytkownik.id = pytanie.uzytkownik_id WHERE pytanie.id = $id_pytania";
     $zapytanie1 = mysqli_query($polaczenie, $sql1);
     $wynik = mysqli_fetch_array($zapytanie1);
     
@@ -18,6 +18,7 @@ if (isset($_GET['idpytania'])) {
     $tytul = $wynik['tytul'];
     $opis = $wynik['opis'];
     $kategoria = $wynik['nazwa'];
+    $uzytkownik = $wynik['nick'];
   }
 } else {
   header("Location: index.php");
@@ -60,9 +61,16 @@ if (isset($_GET['idpytania'])) {
               <li>
                 <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="kategorie.php?kat=HTML">HTML</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php?kat=CSS">CSS</a></li>
-                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                </ul></li>
+                    <?php
+                        $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
+                        $wysz1 = mysqli_query($polaczenie, $sql1);
+                        while ($w1 = mysqli_fetch_array($wysz1)) {
+                            $nazwa = $w1['nazwa'];
+                            echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
+                        }
+                    ?>
+                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
+                </ul></li>
                 <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2"  >O nas</a></li>
               <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2"  >Pomoc</a></li>
                 
@@ -118,7 +126,7 @@ if (isset($_GET['idpytania'])) {
               <div class="card-header py-3 bg-info-subtle">
                 <p class="text-start">
                     <?php
-                      echo $_SESSION['nick']." | ".$kategoria; 
+                      echo $uzytkownik." | ".$kategoria; 
                     ?>
                 </p>
                 <h4 class="my-0 fw-normal text-start">
@@ -244,11 +252,11 @@ if (isset($_GET['idpytania'])) {
         </a>
     
         <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Strona główna</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Posty</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">O nas</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pomoc</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">PREMIUM</a></li>
+          <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Strona główna</a></li>
+          <li class="nav-item"><a href="posty.php" class="nav-link px-2 text-muted">Posty</a></li>
+          <li class="nav-item"><a href="onas.php" class="nav-link px-2 text-muted">O nas</a></li>
+          <li class="nav-item"><a href="pomoc.php" class="nav-link px-2 text-muted">Pomoc</a></li>
+          <li class="nav-item"><a href="cennik.php" class="nav-link px-2 text-muted">PREMIUM</a></li>
         </ul>
       </footer>
     </div>
