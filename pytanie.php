@@ -165,12 +165,54 @@ if (isset($_GET['idpytania'])) {
                 ?>
               </div>
               <div class="card-body col-12 col-md-10 col-lg-8" style="margin-left: auto;">
+                <?php
+                
+                $sql2 = "SELECT * FROM odpowiedzi";
+                $wysz2 = mysqli_query($polaczenie, $sql2);
+
+                while ($w2 = mysqli_fetch_array($wysz2)) {
+                  echo '<div class="col">';
+                    echo '<div class="card mb-4 rounded-3 shadow-sm" id="o'.$w2['id'].'">';
+                      echo '<div class="card-header py-3 ';
+                        if ($w2['ranga'] == 1) {
+                          echo 'bg-warning-subtle';
+                        } else if ($w2['ranga'] == 2) {
+                          echo 'bg-success-subtle';
+                        }
+                      echo '">';
+                          echo '<img src="'.$w2['obraz'].'" width="32" height="32" class="rounded-circle me-2">';
+                          echo '&nbsp;<b>'.$w2['nick'].'</b>';
+                          if ($w2['ranga'] == 1) {
+                            echo ' (PREMIUM)';
+                          } else if ($w2['ranga'] == 2) {
+                            echo ' (EKSPERT)';
+                          }
+                      echo '</div>';
+                      echo '<div class="card-body" style="padding-left: 5%;">';
+                        if (isset($_SESSION['zalogowany'])) {
+                          if (isset($_SESSION['ranga'])) {
+                            $ranga = $_SESSION['ranga'];
+                            if ($ranga == 0) {
+                              echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (możesz je kupić <a href='cennik.php'>tutaj</a>) lub być EKSPERTEM (możesz zobaczyć jak to zrobić <a href='pomoc.php'>tutaj</a>)</div>";
+                            } else if ($ranga == 1 || $ranga == 2) {
+                                echo $w2['odpowiedz'];
+                            }
+                          }
+                        } else {
+                          echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (jeżeli takie posiadasz <a href='logowanie.php'>zaloguj się</a>)</div>";
+                        }
+                      echo '</div>';
+                    echo '</div>';
+                  echo '</div>';
+                }
+                
+                ?>
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                       <div class="card-header py-3 bg-success-subtle text-center">
                         <p class="text-start">
                             <?php
-                              echo $_SESSION['nick']." | ".$kategoria; 
+                              echo $_SESSION['nick']; 
                             ?>
                         </p>
                       </div>
@@ -206,12 +248,6 @@ if (isset($_GET['idpytania'])) {
                             </svg>
                             &nbsp;<span id="po"></span>
                           </button>
-                          <button type="button" id="oc" onclick="ocen();" onmouseover="oc()" onmouseout="ocee();" class="btn btn-lg btn-outline-warning" style="display: flex; margin: auto; justify-content: center; align-items: normal; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
-                              <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
-                            </svg>
-                            &nbsp;
-                          </button>
                           <button onclick="coment();" type="button" class="btn btn-lg btn-outline-dark"  style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
                               <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
@@ -225,11 +261,48 @@ if (isset($_GET['idpytania'])) {
                             &nbsp;
                           </button>
                         </div>
-                        <div class="card-body col-12" id="ocena" style="margin: auto; text-align: center; transition: 2s ease;">
-                          
-                        </div>
                         <div class="card-body col-12 col-md-10" id="kome" style="margin-left: auto; transition: 2s ease;">
-                          
+                          <div class='card-body' style='padding-left: 5%; background-color: white; border-radius: 1vw;'><div style='margin-left: 3%;'>
+                            <div  style='display: flex; justify-content: space-between; align-items: center;'>
+                              <span style="flex-grow: 5;">
+                                <b>Jakub Żyrek:</b>
+                                &nbsp;&nbsp; Byczes dlaczego
+                              </span>
+                              <button id="kom" type='button' class='btn btn-lg btn-outline-danger' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById("kom"); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'>
+                                <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'>
+                                  <path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/>
+                                </svg>
+                              </button>
+                            </div>
+                            <br>
+                            <div  style='display: flex; justify-content: space-between; align-items: center;'>
+                              <span style="flex-grow: 5;">
+                                <b>Jakub Żyrek:</b>
+                                &nbsp;&nbsp; Byczes dlaczego
+                              </span>
+                              <button id="kom" type='button' class='btn btn-lg btn-outline-danger' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById("kom"); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'>
+                                <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'>
+                                  <path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/>
+                                </svg>
+                              </button>
+                            </div>
+                            <br>
+                            <form action='' method='post' class='needs-validation col-12 d-flex flex-wrap' novalidate>
+                                <span style="display: flex; align-items: baseline;" class="col-12 col-xl-10">
+                                  <b class="">Jakub Żyrek:&nbsp;&nbsp;</b>
+                                  <input type='text' class='form-control' id='komm' placeholder='Wprowadź komentarz' required style='border: none; border-bottom: black 1px solid; border-radius: 0px; outline: none; width: max-content;'>
+                                </span>
+                                <button type='submit' class='btn btn-outline-dark text-center col-12 col-xl-2 mt-3 mt-xl-0' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem; padding: 10px;'>
+                                  <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-send-fill' viewBox='0 0 16 16'>
+                                    <path d='M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z'/>
+                                  </svg>
+                                </button>
+                              <div class='invalid-feedback'>Nic nie wpisano
+
+                              </div>
+                            </form>
+                          </div>
+                        </div>
                         </div>
                   
                       </div>
@@ -242,7 +315,7 @@ if (isset($_GET['idpytania'])) {
 
     <div id="essa" style="position: absolute; margin: auto; width: 80%; left: 10%;">
 
-                          </div>
+    </div>
   <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <p class="col-md-4 mb-0 text-muted">&copy; 2022 Company, Inc</p>
@@ -263,6 +336,52 @@ if (isset($_GET['idpytania'])) {
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="pytanie.js"></script>
+    <script>
+      var i = 0;
+      var essa = 'essa';
+      var px = 'px';
+      var carde = 'carde';
+
+      function coment() {
+          if (i == 0) {
+              document.getElementById('kome').innerHTML = "<div class='card-body' style='padding-left: 5%; background-color: white; border-radius: 1vw;'><div style='margin-left: 3%;'><div><p><b>Jakub Żyrek:</b>&nbsp;&nbsp; Byczes dlaczego</p></div><div style='display: flex;  width: 100%;'><button type='button' class='btn btn-lg btn-outline-danger' style='display: flex; margin: auto; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById(carde); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'><svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'><path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/></svg></button><p><b>Maria Dazdd`ur:</b>&nbsp;&nbsp; Elo mordo</p></div><form action='' method='post' class='needs-validation col-12' novalidate><br><label for='kom' class='form-label col-12' style='width: 100%; margin: 0%;display: flex; align-items: center; justify-content: center;'><b style='width: 24%;'>Jakub Żyrek:</b><input type='text' class='form-control' id='kom' placeholder='Wprowadź komentarz' required style='border: none; border-bottom: black 1px solid; border-radius: 0px; outline: none; width: 60%;'><button type='submit' class='btn btn-outline-dark text-center' style='width: 10%; margin-left: 2%; padding: 1%;'><svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-send-fill' viewBox='0 0 16 16'><path d='M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z'/></svg></button></label><div class='invalid-feedback'>Nic nie wpisano</div></form></div></div>";
+
+              document.getElementById('komet').innerText = " Ukryj komentarze";
+              i = 1;
+          } else {
+              document.getElementById('kome').innerHTML = "";
+              document.getElementById('komet').innerText = " Pokaż komentarze";
+              i = 0;
+          }
+      }
+
+      var a = 0;
+
+      function dzieki() {
+          if (a == 0) {
+              // document.getElementById('po').innerText = "Podziękowałeś";
+              document.getElementById("dzieki").style.backgroundColor = "#dc3545";
+              document.getElementById("dzieki").style.color = "white";
+              a = 1;
+          } else {
+              // document.getElementById('po').innerText = "Podziękuj";       
+              document.getElementById("dzieki").style.backgroundColor = "white";
+              document.getElementById("dzieki").style.color = "#dc3545"; 
+              a = 0;
+          }
+      }
+
+      function dzie() {
+          document.getElementById("dzieki").style.backgroundColor = "#dc3545";
+          document.getElementById("dzieki").style.color = "white";
+      }
+
+      function dziek() {
+          if (a == 0) {
+              document.getElementById("dzieki").style.backgroundColor = "white";
+              document.getElementById("dzieki").style.color = "#dc3545";
+          }
+      }
+    </script>
   </body>
 </html>
