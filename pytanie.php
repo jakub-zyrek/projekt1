@@ -27,6 +27,7 @@ if (isset($_GET['idpytania'])) {
 <!DOCTYPE html>
 <html lang="pl">
   <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Forum internetowe| Logowanie</title>
@@ -38,9 +39,13 @@ if (isset($_GET['idpytania'])) {
     box-shadow: none !important;
   }
 </style>
+<script type="text/javascript">
+      
+  </script>
 <script>
   var essa = "essa";
   var nic = "";
+  var zaznaczone = 1;
 
   var bycz = '<div class="card col-12"><div class="card-header bg-danger-subtle text-end" style="border: 0px !important;"><svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById(essa).innerHTML = nic;"style="width: 2rem; cursor: pointer;" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg></div><div class="card-header bg-danger-subtle"><h2 class="p-3 text-center">Dodawanie zgłoszenia</h2></div><div class="card-body"><form>Dlaczego chcesz zgłosić tę treść?<br><br><textarea rows="3" class="form-control"></textarea><br><button type="submit" class="form-control btn btn-outline-danger">Wyślij zgłoszenie</button></form></div></div>'
 </script>
@@ -189,7 +194,8 @@ if (isset($_GET['idpytania'])) {
                           }
                       echo '</div>';
                       echo '<div class="card-body" style="padding-left: 5%;">';
-                        if (isset($_SESSION['zalogowany'])) {
+                        if ($w2['ranga'] == 2) {
+                          if (isset($_SESSION['zalogowany'])) {
                           if (isset($_SESSION['ranga'])) {
                             $ranga = $_SESSION['ranga'];
                             if ($ranga == 0) {
@@ -200,6 +206,7 @@ if (isset($_GET['idpytania'])) {
                           }
                         } else {
                           echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (jeżeli takie posiadasz <a href='logowanie.php'>zaloguj się</a>)</div>";
+                        }
                         }
                       echo '</div>';
                     echo '</div>';
@@ -242,13 +249,13 @@ if (isset($_GET['idpytania'])) {
                       <div id="carde"  class="card-body" style="padding-left: 5%;">              </div>
                       <div class="card-footer py-2 text-start">
                         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3%;">
-                          <button type="button" onclick="dzieki();" onmouseover="dzie();" onmouseout="dziek()" id="dzieki" class="btn btn-lg btn-outline-danger" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
+                          <button type="button" onclick="dzieki('o1', 'serce1');" onmouseover="dzie('serce1');" onmouseout="dziek('serce1')" id="serce1" class="btn btn-lg btn-outline-danger" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
                               <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                             </svg>
                             &nbsp;<span id="po"></span>
                           </button>
-                          <button onclick="coment();" type="button" class="btn btn-lg btn-outline-dark"  style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
+                          <button onclick="coment(1);" type="button" class="btn btn-lg btn-outline-dark"  style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
                               <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
                             </svg>
@@ -261,48 +268,9 @@ if (isset($_GET['idpytania'])) {
                             &nbsp;
                           </button>
                         </div>
-                        <div class="card-body col-12 col-md-10" id="kome" style="margin-left: auto; transition: 2s ease;">
-                          <div class='card-body' style='padding-left: 5%; background-color: white; border-radius: 1vw;'><div style='margin-left: 3%;'>
-                            <div  style='display: flex; justify-content: space-between; align-items: center;'>
-                              <span style="flex-grow: 5;">
-                                <b>Jakub Żyrek:</b>
-                                &nbsp;&nbsp; Byczes dlaczego
-                              </span>
-                              <button id="kom" type='button' class='btn btn-lg btn-outline-danger' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById("kom"); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'>
-                                <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'>
-                                  <path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/>
-                                </svg>
-                              </button>
-                            </div>
-                            <br>
-                            <div  style='display: flex; justify-content: space-between; align-items: center;'>
-                              <span style="flex-grow: 5;">
-                                <b>Jakub Żyrek:</b>
-                                &nbsp;&nbsp; Byczes dlaczego
-                              </span>
-                              <button id="kom" type='button' class='btn btn-lg btn-outline-danger' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById("kom"); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'>
-                                <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'>
-                                  <path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/>
-                                </svg>
-                              </button>
-                            </div>
-                            <br>
-                            <form action='' method='post' class='needs-validation col-12 d-flex flex-wrap' novalidate>
-                                <span style="display: flex; align-items: baseline;" class="col-12 col-xl-10">
-                                  <b class="">Jakub Żyrek:&nbsp;&nbsp;</b>
-                                  <input type='text' class='form-control' id='komm' placeholder='Wprowadź komentarz' required style='border: none; border-bottom: black 1px solid; border-radius: 0px; outline: none; width: max-content;'>
-                                </span>
-                                <button type='submit' class='btn btn-outline-dark text-center col-12 col-xl-2 mt-3 mt-xl-0' style='flex-grow: 2; display: flex; justify-content: center; align-items: normal; font-size: 0.5rem; padding: 10px;'>
-                                  <svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-send-fill' viewBox='0 0 16 16'>
-                                    <path d='M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z'/>
-                                  </svg>
-                                </button>
-                              <div class='invalid-feedback'>Nic nie wpisano
-
-                              </div>
-                            </form>
-                          </div>
-                        </div>
+                        <div class="card-body col-12 col-md-10" id="com1" style="margin-left: auto; transition: 2s ease;">
+                          
+                    
                         </div>
                   
                       </div>
@@ -342,9 +310,33 @@ if (isset($_GET['idpytania'])) {
       var px = 'px';
       var carde = 'carde';
 
-      function coment() {
+      function coment(odp) {
           if (i == 0) {
-              document.getElementById('kome').innerHTML = "<div class='card-body' style='padding-left: 5%; background-color: white; border-radius: 1vw;'><div style='margin-left: 3%;'><div><p><b>Jakub Żyrek:</b>&nbsp;&nbsp; Byczes dlaczego</p></div><div style='display: flex;  width: 100%;'><button type='button' class='btn btn-lg btn-outline-danger' style='display: flex; margin: auto; justify-content: center; align-items: normal; font-size: 0.5rem;' onclick='document.getElementById(essa).innerHTML = bycz; var a = document.getElementById(carde); document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + px;'><svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-flag-fill' viewBox='0 0 16 16'><path d='M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001'/></svg></button><p><b>Maria Dazdd`ur:</b>&nbsp;&nbsp; Elo mordo</p></div><form action='' method='post' class='needs-validation col-12' novalidate><br><label for='kom' class='form-label col-12' style='width: 100%; margin: 0%;display: flex; align-items: center; justify-content: center;'><b style='width: 24%;'>Jakub Żyrek:</b><input type='text' class='form-control' id='kom' placeholder='Wprowadź komentarz' required style='border: none; border-bottom: black 1px solid; border-radius: 0px; outline: none; width: 60%;'><button type='submit' class='btn btn-outline-dark text-center' style='width: 10%; margin-left: 2%; padding: 1%;'><svg xmlns='http://www.w3.org/2000/svg' style='width: 1rem;' fill='currentColor' class='bi bi-send-fill' viewBox='0 0 16 16'><path d='M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z'/></svg></button></label><div class='invalid-feedback'>Nic nie wpisano</div></form></div></div>";
+
+              plik = 'script_PHP/wyswietlanie_k.php?odp=' + odp;
+                element = document.getElementById("com" + odp);
+                
+                xml = null;
+                element.innerHTML="";
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch(e) {
+                    try {
+                    xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch(e) {
+                    xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.onreadystatechange = function() {
+                    if (xml.readyState==4) {
+                        element.innerHTML=xml.responseText;
+                    }
+                    }
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
 
               document.getElementById('komet').innerText = " Ukryj komentarze";
               i = 1;
@@ -357,31 +349,102 @@ if (isset($_GET['idpytania'])) {
 
       var a = 0;
 
-      function dzieki() {
+      function dzieki(odp, serce) {
           if (a == 0) {
-              // document.getElementById('po').innerText = "Podziękowałeś";
-              document.getElementById("dzieki").style.backgroundColor = "#dc3545";
-              document.getElementById("dzieki").style.color = "white";
+              document.getElementById(serce).style.backgroundColor = "#dc3545";
+              document.getElementById(serce).style.color = "white";
+              if (zaznaczone != 1) {
+                odp = odp.replaceAll("o", '');
+              plik = 'script_PHP/serduszko.php?dod=1&odp=' + odp;
+                
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch(e) {
+                    try {
+                    xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch(e) {
+                    xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+              }
               a = 1;
+              zaznaczone = 0;
           } else {
-              // document.getElementById('po').innerText = "Podziękuj";       
-              document.getElementById("dzieki").style.backgroundColor = "white";
-              document.getElementById("dzieki").style.color = "#dc3545"; 
+              document.getElementById(serce).style.backgroundColor = "white";
+              document.getElementById(serce).style.color = "#dc3545"; 
+              odp = odp.replaceAll("o", '');
+              plik = 'script_PHP/serduszko.php?dod=2&odp=' + odp;
+                
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch(e) {
+                    try {
+                    xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch(e) {
+                    xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
               a = 0;
           }
       }
 
-      function dzie() {
-          document.getElementById("dzieki").style.backgroundColor = "#dc3545";
-          document.getElementById("dzieki").style.color = "white";
+      function dzie(serce) {
+          document.getElementById(serce).style.backgroundColor = "#dc3545";
+          document.getElementById(serce).style.color = "white";
       }
 
-      function dziek() {
+      function dziek(serce) {
           if (a == 0) {
-              document.getElementById("dzieki").style.backgroundColor = "white";
-              document.getElementById("dzieki").style.color = "#dc3545";
+              document.getElementById(serce).style.backgroundColor = "white";
+              document.getElementById(serce).style.color = "#dc3545";
           }
       }
+
+      function komentarz(formularz, odp) {
+        // Zamienianie znaków specjalnych
+                
+        formularz.q.value = formularz.q.value.replaceAll("+", '%2B');
+        formularz.q.value = formularz.q.value.replaceAll("!", '%21');
+        formularz.q.value = formularz.q.value.replaceAll("#", '%23');
+        formularz.q.value = formularz.q.value.replaceAll("$", '%24');
+        formularz.q.value = formularz.q.value.replaceAll("&", '%26');
+        formularz.q.value = formularz.q.value.replaceAll("(", '%28');
+        formularz.q.value = formularz.q.value.replaceAll(")", '%29');
+        formularz.q.value = formularz.q.value.replaceAll("*", '%2A');
+        formularz.q.value = formularz.q.value.replaceAll(",", '%2B');
+                
+        plik = 'script_PHP/dodawanie_k.php?odp='+odp+'&tresc=' + formularz.q.value;
+                
+        xml = null;
+        try {
+          xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch(e) {
+          try {
+            xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch(e) {
+            xml = null;
+          }
+        }
+        if (xml != null) {
+          xml.open("POST", plik, true);
+          xml.send(null);
+        }
+                
+        formularz.q.value = "";
+        return false;
+        }
+
+
     </script>
   </body>
 </html>
