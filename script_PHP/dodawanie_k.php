@@ -10,6 +10,7 @@ if (isset($_SESSION['zalogowany'])) {
 
     $sql = "INSERT INTO komentarze (odpowiedz_id, uzytkownik_id, komentarz) VALUES ($odp, $uzytkownik, '$tresc')";
     mysqli_query($polaczenie, $sql);
+
 } else {
     header("Location: index.php");
 }

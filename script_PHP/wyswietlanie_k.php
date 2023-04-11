@@ -6,7 +6,7 @@ $polaczenie = mysqli_connect('localhost', 'root', 'Strumien1', 'kpqmmvzc_forum')
 $odp = $_GET['odp'];
 $sql = "SELECT * FROM komentarze2 WHERE odpowiedz_id = $odp";
 $zap = mysqli_query($polaczenie, $sql);
-$uzytkownik = $_SESSION['nick'];
+
 
 echo "<div class='card-body' style='padding-left: 5%; background-color: white; border-radius: 1vw;'><div style='margin-left: 3%;'>";
 
@@ -14,7 +14,7 @@ while ($w = mysqli_fetch_array($zap)) {
     $id = $w['id'];
     $komentarz = $w['komentarz'];
     $nick = $w['nick'];
-    echo "<div id='$id' style='display: flex; justify-content: space-between; align-items: center;'>
+    echo "<div id='k$id' style='display: flex; justify-content: space-between; align-items: center;'>
     <span style='flex-grow: 5;'>
       <b>$nick:</b>
       &nbsp;&nbsp; $komentarz
@@ -27,7 +27,9 @@ while ($w = mysqli_fetch_array($zap)) {
   </div><br>";
 }
 
-echo "<form method='get' onsubmit='return komentarz(this, $odp)' class='needs-validation col-12 d-flex flex-wrap' novalidate>
+if (isset($_SESSION['zalogowany'])) {
+  $uzytkownik = $_SESSION['nick'];
+  echo "<form method='get' onsubmit='return komentarz(this, $odp)' class='needs-validation col-12 d-flex flex-wrap' novalidate>
 <span style='display: flex; align-items: baseline;' class='col-12 col-xl-10'>
     <b>$uzytkownik:&nbsp;&nbsp;</b>
     <input class='form-control' name='q' type='text' placeholder='Wprowadź komentarz' required style='border: none; border-bottom: black 1px solid; border-radius: 0px; outline: none; width: max-content;'>
@@ -39,6 +41,10 @@ echo "<form method='get' onsubmit='return komentarz(this, $odp)' class='needs-va
     </svg>
 </button>
 </form>";
+} else {
+  echo "<div class='alert alert-danger'>Aby dodać komentarz musisz być zalogowany (<a href='logowanie.php'>zaloguj się</a>)</div>";
+}
+
 
 echo "</div></div>";
 
