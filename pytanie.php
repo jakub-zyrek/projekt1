@@ -412,23 +412,14 @@ if (isset($_GET['idpytania'])) {
                       </script>";
                     }
                   }
-
                   
                 }
                 
-                ?>
-                  <div class="col">
-                    <div class="card mb-4 rounded-3 shadow-sm">
-                      <div class="card-header py-3  text-center">
-                        <p class="text-start">Mjjj | Polski</p>
+                if(mysqli_num_rows($wysz2) == 0) {
+                  echo '<div class="alert alert-primary">Nie ma jeszcze żadnej odpowiedzi</div>';
+                }
 
-                      </div>
-                      <div id="carde"  class="card-body" style="padding-left: 5%;">              
-                      </div>
-                      
-                    </div>
-                  </div>
-              </div>
+                ?>
             </div>
           </div>
     </div>

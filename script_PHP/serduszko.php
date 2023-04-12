@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['zalogowany'])) {
-    $polaczenie = mysqli_connect('localhost', 'root', 'Strumien1', 'kpqmmvzc_forum');
+    $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 
     $odp = $_GET['odp'];
     $uzytkownik = $_SESSION['id'];

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['zalogowany'])) {
-  header("Location: index.php");
+  header("Location: profil.php");
 }
 
 // Połączenie z bazą danych

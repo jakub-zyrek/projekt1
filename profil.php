@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['zalogowany'])) {
   header("Location: index.php");
 }
+
+// Połączenie z bazą danych
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 ?>
 <!DOCTYPE html>
 <html lang="pl">

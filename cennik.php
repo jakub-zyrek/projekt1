@@ -109,7 +109,7 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
                 <li>Pomoc email</li>
                 <li>Centrum pomocy</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-outline-warning">Zarejestruj się za darmo</button>
+              <a href="rejestracja.php" class="w-100 btn btn-lg btn-outline-warning">Zarejestruj się za darmo</a>
             </div>
           </div>
         </div>
@@ -197,17 +197,6 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 </svg></td>
             </tr>
-            <tr>
-              <th scope="row" class="text-start">Możliwość dodawania oceny</th>
-              <td></td>
-              <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-</svg></td>
-              <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-</svg></td>
-            </tr>
-
             <tr>
               <th scope="row" class="text-start">Nieograniczona możliwość dodawania pytań</th>
               <td></td>

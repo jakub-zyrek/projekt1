@@ -123,9 +123,6 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
           </thead>
           <tbody class="table-group-divider">
             <?php
-            
-            // Połączenie z bazą danych
-            $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 
             if (!mysqli_connect_errno()) {
               $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 4";

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$polaczenie = mysqli_connect('localhost', 'root', 'Strumien1', 'kpqmmvzc_forum');
+$polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 
 $odp = $_GET['odp'];
 $sql = "SELECT * FROM komentarze2 WHERE odpowiedz_id = $odp";

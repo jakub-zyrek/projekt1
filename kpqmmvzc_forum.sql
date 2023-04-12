@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 05 Kwi 2023, 10:23
--- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.0.25
+-- Czas generowania: 12 Kwi 2023, 08:36
+-- Wersja serwera: 10.4.22-MariaDB
+-- Wersja PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,8 +41,8 @@ CREATE TABLE `administratorzy` (
 
 CREATE TABLE `instrukcje` (
   `id` int(11) NOT NULL,
-  `tytul` varchar(100) NOT NULL,
-  `plik` varchar(250) NOT NULL
+  `tytul` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `plik` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -61,7 +61,7 @@ INSERT INTO `instrukcje` (`id`, `tytul`, `plik`) VALUES
 
 CREATE TABLE `kategorie` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(30) NOT NULL
+  `nazwa` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -81,9 +81,58 @@ INSERT INTO `kategorie` (`id`, `nazwa`) VALUES
 CREATE TABLE `komentarze` (
   `id` int(11) NOT NULL,
   `odpowiedz_id` int(11) NOT NULL,
-  `komentarz` varchar(300) NOT NULL,
+  `komentarz` varchar(300) COLLATE utf8mb4_polish_ci NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `komentarze`
+--
+
+INSERT INTO `komentarze` (`id`, `odpowiedz_id`, `komentarz`, `uzytkownik_id`) VALUES
+(1, 1, 'dadasdada', 2),
+(2, 1, 'das', 1),
+(3, 1, 'fhsdhfgsduyf', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `komentarze2`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `komentarze2` (
+`nick` varchar(50)
+,`ranga` int(1)
+,`komentarz` varchar(300)
+,`id` int(11)
+,`odpowiedz_id` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `liczba_kategorii`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `liczba_kategorii` (
+`nazwa` varchar(30)
+,`COUNT(nazwa)` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `liczba_odpowiedzi`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `liczba_odpowiedzi` (
+`obraz` varchar(200)
+,`nazwa` varchar(30)
+,`id` int(11)
+,`nick` varchar(50)
+,`tytul` varchar(100)
+,`odp` bigint(21)
+);
 
 -- --------------------------------------------------------
 
@@ -121,9 +170,31 @@ CREATE TABLE `ocena` (
 CREATE TABLE `odpowiedz` (
   `id` int(11) NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL,
-  `odpowiedz` varchar(2000) NOT NULL,
+  `odpowiedz` varchar(2000) COLLATE utf8mb4_polish_ci NOT NULL,
   `pytanie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `odpowiedz`
+--
+
+INSERT INTO `odpowiedz` (`id`, `uzytkownik_id`, `odpowiedz`, `pytanie_id`) VALUES
+(1, 1, '576758', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `odpowiedzi`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `odpowiedzi` (
+`id` int(11)
+,`idd` int(11)
+,`odpowiedz` varchar(2000)
+,`nick` varchar(50)
+,`ranga` int(1)
+,`obraz` varchar(200)
+);
 
 -- --------------------------------------------------------
 
@@ -134,7 +205,7 @@ CREATE TABLE `odpowiedz` (
 CREATE TABLE `odpowiedz_zgloszenie` (
   `id` int(11) NOT NULL,
   `administrator_id` int(11) NOT NULL,
-  `odpowiedz` varchar(200) NOT NULL,
+  `odpowiedz` varchar(200) COLLATE utf8mb4_polish_ci NOT NULL,
   `zgloszenie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -146,10 +217,18 @@ CREATE TABLE `odpowiedz_zgloszenie` (
 
 CREATE TABLE `plan` (
   `id` int(11) NOT NULL,
-  `nazwa` varchar(100) NOT NULL,
-  `limit_pytan` int(11) NOT NULL,
+  `nazwa` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `limit_pytan` int(11) DEFAULT NULL,
   `cena` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `plan`
+--
+
+INSERT INTO `plan` (`id`, `nazwa`, `limit_pytan`, `cena`) VALUES
+(1, 'Wersja pro', 15, 15),
+(2, 'Wersja ultimate', NULL, 30);
 
 -- --------------------------------------------------------
 
@@ -159,8 +238,8 @@ CREATE TABLE `plan` (
 
 CREATE TABLE `pomoc` (
   `id` int(11) NOT NULL,
-  `pytanie` varchar(100) NOT NULL,
-  `odpowiedz` varchar(250) NOT NULL
+  `pytanie` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
+  `odpowiedz` varchar(250) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -193,9 +272,9 @@ CREATE TABLE `przerwa` (
 
 CREATE TABLE `pytanie` (
   `id` int(11) NOT NULL,
-  `tytul` varchar(100) NOT NULL,
+  `tytul` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL,
   `kategoria_id` int(11) DEFAULT NULL,
-  `opis` varchar(500) DEFAULT NULL,
+  `opis` varchar(500) COLLATE utf8mb4_polish_ci DEFAULT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -220,7 +299,8 @@ INSERT INTO `pytanie` (`id`, `tytul`, `kategoria_id`, `opis`, `uzytkownik_id`) V
 (14, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
 (15, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
 (16, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
-(17, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2);
+(17, 'Czy można przechodzić przez rondo', 2, '<p>Mam pytanie.</p>\r\n<p>&nbsp;</p>\r\n<ol>\r\n<li><strong>Czy można przechodzić przez rondo?????</strong><br><br></li>\r\n<li><strong>Dlaczego nie??</strong></li>\r\n</ol>\r\n<p><s><span style=\"text-decoration: underline;\"><em>Pozdrawiam Anna</em></span></s></p>', 2),
+(18, 'Jak to ', 2, '<p>Bycz</p>\r\n<p>&nbsp;</p>\r\n<p><strong>afasdfaffaf</strong></p>\r\n<p>&nbsp;</p>\r\n<p><em><s><span style=\"text-decoration: underline;\"><strong>ESSA</strong></span></s></em></p>', 1);
 
 -- --------------------------------------------------------
 
@@ -233,6 +313,13 @@ CREATE TABLE `serca` (
   `odpowiedz_id` int(11) NOT NULL,
   `uzytkownik_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `serca`
+--
+
+INSERT INTO `serca` (`id`, `odpowiedz_id`, `uzytkownik_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -257,13 +344,13 @@ CREATE TABLE `typ` (
 
 CREATE TABLE `uzytkownik` (
   `id` int(11) NOT NULL,
-  `login` varchar(30) NOT NULL,
-  `haslo` varchar(50) NOT NULL,
-  `imie` varchar(30) NOT NULL,
-  `nick` varchar(50) NOT NULL,
+  `login` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
+  `haslo` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
+  `imie` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
+  `nick` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
   `data_urodzenia` date NOT NULL,
   `ranga` int(1) DEFAULT NULL,
-  `obraz` varchar(200) DEFAULT NULL
+  `obraz` varchar(200) COLLATE utf8mb4_polish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -271,7 +358,7 @@ CREATE TABLE `uzytkownik` (
 --
 
 INSERT INTO `uzytkownik` (`id`, `login`, `haslo`, `imie`, `nick`, `data_urodzenia`, `ranga`, `obraz`) VALUES
-(1, 'zyrekjakub', '51813c23509be8f74b1e3ede22fa96cb', 'Jakub', 'zyrekjakub', '2016-04-01', NULL, ''),
+(1, 'zyrekjakub', '51813c23509be8f74b1e3ede22fa96cb', 'Jakub', 'zyrekjakub', '2016-04-01', NULL, 'https://icdn.2cda.pl/obr/thumbs/3924feb6d9eeb57154af1b036b2d383b.jpg_oooooooooo_186x.jpg'),
 (2, 'zyrekjakub1', '51813c23509be8f74b1e3ede22fa96cb', 'Jakub', 'zyrekjakub1', '2016-04-01', NULL, 'https://bi.im-g.pl/im/5e/7e/1b/z28830814Q,Amou-Hadzi-na-co-dzien-zyje-w-Dejgah-w-Iranie.jpg');
 
 -- --------------------------------------------------------
@@ -285,7 +372,19 @@ CREATE TABLE `zakup` (
   `uzytkownik_id` int(11) NOT NULL,
   `plan_id` int(11) NOT NULL,
   `zakup` int(11) NOT NULL,
-  `data` datetime NOT NULL
+  `data` datetime NOT NULL,
+  `imie` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL,
+  `nazwisko` varchar(60) COLLATE utf8mb4_polish_ci NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_polish_ci NOT NULL,
+  `ulica` varchar(40) COLLATE utf8mb4_polish_ci NOT NULL,
+  `numer_1` varchar(10) COLLATE utf8mb4_polish_ci NOT NULL,
+  `numer_2` varchar(10) COLLATE utf8mb4_polish_ci NOT NULL,
+  `miasto_id` int(11) NOT NULL,
+  `numer_karty` mediumint(9) DEFAULT NULL,
+  `data_waznosci_1` tinyint(4) DEFAULT NULL,
+  `data_waznosci_2` tinyint(4) DEFAULT NULL,
+  `csv` tinyint(4) DEFAULT NULL,
+  `blik` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -298,7 +397,7 @@ CREATE TABLE `zgloszenie` (
   `id` int(11) NOT NULL,
   `zglaszajacy` int(11) DEFAULT NULL,
   `zgloszony` int(11) DEFAULT NULL,
-  `opis` varchar(300) DEFAULT NULL
+  `opis` varchar(300) COLLATE utf8mb4_polish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -307,6 +406,42 @@ CREATE TABLE `zgloszenie` (
 
 INSERT INTO `zgloszenie` (`id`, `zglaszajacy`, `zgloszony`, `opis`) VALUES
 (1, 2, NULL, 'fwwefwef');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `komentarze2`
+--
+DROP TABLE IF EXISTS `komentarze2`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `komentarze2`  AS SELECT `uzytkownik`.`nick` AS `nick`, `uzytkownik`.`ranga` AS `ranga`, `komentarze`.`komentarz` AS `komentarz`, `komentarze`.`id` AS `id`, `komentarze`.`odpowiedz_id` AS `odpowiedz_id` FROM (`komentarze` join `uzytkownik` on(`uzytkownik`.`id` = `komentarze`.`uzytkownik_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `liczba_kategorii`
+--
+DROP TABLE IF EXISTS `liczba_kategorii`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_kategorii`  AS SELECT `kategorie`.`nazwa` AS `nazwa`, count(`kategorie`.`nazwa`) AS `COUNT(nazwa)` FROM (`kategorie` join `pytanie` on(`pytanie`.`kategoria_id` = `kategorie`.`id`)) GROUP BY `kategorie`.`nazwa` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `liczba_odpowiedzi`
+--
+DROP TABLE IF EXISTS `liczba_odpowiedzi`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_odpowiedzi`  AS SELECT `uzytkownik`.`obraz` AS `obraz`, `kategorie`.`nazwa` AS `nazwa`, `pytanie`.`id` AS `id`, `uzytkownik`.`nick` AS `nick`, `pytanie`.`tytul` AS `tytul`, count(`odpowiedz`.`id`) AS `odp` FROM (((`pytanie` join `uzytkownik` on(`uzytkownik`.`id` = `pytanie`.`uzytkownik_id`)) left join `odpowiedz` on(`odpowiedz`.`pytanie_id` = `pytanie`.`id`)) join `kategorie` on(`kategorie`.`id` = `pytanie`.`kategoria_id`)) GROUP BY `pytanie`.`id` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `odpowiedzi`
+--
+DROP TABLE IF EXISTS `odpowiedzi`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `odpowiedzi`  AS SELECT `odpowiedz`.`id` AS `id`, `odpowiedz`.`pytanie_id` AS `idd`, `odpowiedz`.`odpowiedz` AS `odpowiedz`, `uzytkownik`.`nick` AS `nick`, `uzytkownik`.`ranga` AS `ranga`, `uzytkownik`.`obraz` AS `obraz` FROM (`odpowiedz` join `uzytkownik` on(`uzytkownik`.`id` = `odpowiedz`.`uzytkownik_id`)) ;
 
 --
 -- Indeksy dla zrzutów tabel
@@ -419,7 +554,8 @@ ALTER TABLE `typ`
 -- Indeksy dla tabeli `uzytkownik`
 --
 ALTER TABLE `uzytkownik`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ranga` (`ranga`);
 
 --
 -- Indeksy dla tabeli `zakup`
@@ -463,7 +599,7 @@ ALTER TABLE `kategorie`
 -- AUTO_INCREMENT dla tabeli `komentarze`
 --
 ALTER TABLE `komentarze`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT dla tabeli `obiekt`
@@ -481,7 +617,7 @@ ALTER TABLE `ocena`
 -- AUTO_INCREMENT dla tabeli `odpowiedz`
 --
 ALTER TABLE `odpowiedz`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `odpowiedz_zgloszenie`
@@ -493,7 +629,7 @@ ALTER TABLE `odpowiedz_zgloszenie`
 -- AUTO_INCREMENT dla tabeli `plan`
 --
 ALTER TABLE `plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `pomoc`
@@ -511,13 +647,13 @@ ALTER TABLE `przerwa`
 -- AUTO_INCREMENT dla tabeli `pytanie`
 --
 ALTER TABLE `pytanie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT dla tabeli `serca`
 --
 ALTER TABLE `serca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `typ`
@@ -610,6 +746,12 @@ ALTER TABLE `pytanie`
 ALTER TABLE `serca`
   ADD CONSTRAINT `serca_ibfk_1` FOREIGN KEY (`odpowiedz_id`) REFERENCES `odpowiedz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `serca_ibfk_2` FOREIGN KEY (`uzytkownik_id`) REFERENCES `uzytkownik` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `uzytkownik`
+--
+ALTER TABLE `uzytkownik`
+  ADD CONSTRAINT `uzytkownik_ibfk_1` FOREIGN KEY (`ranga`) REFERENCES `plan` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Ograniczenia dla tabeli `zakup`

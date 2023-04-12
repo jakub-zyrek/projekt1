@@ -122,6 +122,20 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
               <br>
             </div>
           </div>
+          <h4>PLAN PREMIUM</h4>
+          <br>
+          <div class="ms-3">
+            <div class="col-12">
+              <label for="firstName" class="form-label text-start">Plan</label>
+              <br>
+              <select class="form-select" aria-label="Default select example">
+                <option value="ultimate">PLAN PREMIUM ULTIMATE</option>
+                <option value="pro">PLAN PREMIUM PRO</option>
+              </select>
+              <br>
+              <br>
+            </div>
+          </div>
           <h4>Adres</h4>
           <br>
           <div style="display: flex; justify-content: space-between; flex-wrap: wrap;" class="ms-3">
@@ -262,6 +276,9 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
+    <script>
+      kupno(1);
+    </script>
 </body>
 
 </html>

@@ -25,7 +25,7 @@ $maks = $zap2['idd'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
-  <head>abc
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Forum internetowe| Dodawanie pytania</title>
