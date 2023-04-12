@@ -6,6 +6,18 @@ if(!isset($_SESSION['zalogowany'])) {
 
 // Połączenie z bazą danych
 $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+$id_pytania = $_GET['id'];
+
+$sql1 = "SELECT *, pytanie.id AS 'idd' FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id JOIN uzytkownik ON uzytkownik.id = pytanie.uzytkownik_id WHERE pytanie.id = $id_pytania";
+$zapytanie1 = mysqli_query($polaczenie, $sql1);
+$wynik = mysqli_fetch_array($zapytanie1);
+
+$kategoria = $wynik['nazwa'];
+$uzytkownik = $wynik['nick'];
+$tytul = $wynik['tytul'];
+$opis = $wynik['opis'];
+$obraz = $wynik['obraz'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -96,30 +108,35 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
     <div class="container ">
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3 bg-info-subtle text-center">
-                <p class="text-start">Jakub Żyrek | PHP</p>
-                <h4 class="my-0 fw-normal text-start">Siemano wszystkim. Jak zrobić komentarz wieloliniowy w PHP?????</h4>
+              <div class="card-header py-3 bg-info-subtle ">
+                <p class="text-start"><?php echo "<img src='$obraz' alt='' width='32' height='32' class='rounded-circle me-2'>$uzytkownik | $kategoria"?></p>
+                <h4 class="my-0 fw-normal text-start"><?php echo $tytul; ?></h4>
                 <br><br>
-                
+                <p>
+                  <?php echo $opis;?>
+                </p>
               </div>
               <div class="card-body w-75" style="margin-left: auto;">
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                       <div class="card-header py-3 bg-success-subtle text-center">
-                        <p class="text-start">Jakub Żyrek | PHP</p>
+                        <p class="text-start"><?php echo "<img src='".$_SESSION['obraz']."' alt='' width='32' height='32' class='rounded-circle me-2'>".$_SESSION['nick'] ?></p>
 
                       </div>
                       <div class="card-body" style="padding-left: 5%;">
-                        <textarea name="odpowiedz" id="odpowiedz" style="width: 100%; border-radius: 1vw; padding: 2%;" rows="20"> 
-                        </textarea>
+                        <form action="script_PHP/dodawanie_o.php" method="post">
+                          <textarea name="odpowiedz" id="odpowiedz" style="width: 100%; border-radius: 1vw; padding: 2%;" rows="20"> 
+                          </textarea>
+                          <input type="hidden" name="pytanie" value="<?php echo $id_pytania;?>">
                         <br>
-                        <button type="button" class="btn btn-lg btn-outline-info" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem;">
+                        <button type="submit" class="btn btn-lg btn-outline-info" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem;">
                           ODPOWIEDZ&nbsp;
                           <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                             </svg>
-                      </button>
+                        </button>
+                      </form>
                         
                       </div>
                     </div>

@@ -97,9 +97,9 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
     <?php
         if (isset($_SESSION['blad'])) {
           echo '<div class="alert alert-danger">';
-          $pow = $_SESSION['powtorka'];
+          $pow = $_SESSION['blad'];
           echo "Niepoprawny login lub hasło";
-          unset($_SESSION['powtorka']);
+          unset($_SESSION['blad']);
           echo "</div>";
         }
     ?>

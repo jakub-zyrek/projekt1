@@ -10,7 +10,7 @@ if (isset($_GET['idpytania'])) {
     $id_pytania = $_GET['idpytania'];
 
     // Wyszukanie pytania w bazie
-    $sql1 = "SELECT * FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id JOIN uzytkownik ON uzytkownik.id = pytanie.uzytkownik_id WHERE pytanie.id = $id_pytania";
+    $sql1 = "SELECT *, pytanie.id AS 'idd' FROM pytanie JOIN kategorie ON kategorie.id = pytanie.kategoria_id JOIN uzytkownik ON uzytkownik.id = pytanie.uzytkownik_id WHERE pytanie.id = $id_pytania";
     $zapytanie1 = mysqli_query($polaczenie, $sql1);
     $wynik = mysqli_fetch_array($zapytanie1);
     
@@ -19,6 +19,7 @@ if (isset($_GET['idpytania'])) {
     $opis = $wynik['opis'];
     $kategoria = $wynik['nazwa'];
     $uzytkownik = $wynik['nick'];
+    $idd = $wynik['idd'];
   }
 } else {
   header("Location: index.php");
@@ -300,20 +301,20 @@ if (isset($_GET['idpytania'])) {
                 
                 if(isset($_SESSION['zalogowany'])) {
                   echo '<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-                  <button type="button" class="col-4 btn btn-lg btn-outline-info" style="display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                  <a href="dodawanie.php?id='.$idd.'" class="col-4 btn btn-lg btn-outline-info" style="display: flex; justify-content: center; align-items: center; font-size: 1rem;">
                     ODPOWIEDZ&nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                       </svg>
-                  </button>
+                  </a>
                   &nbsp;&nbsp;
-                  <button type="button" class="btn btn-lg btn-outline-danger col-2" style="display: flex;justify-content: center; align-items: normal; font-size: 1rem; margin-bottom: 2%; margin-top: 2%;" onclick="document.getElementById('."'essa'".').innerHTML = bycz; var a = document.getElementById('."'carde'".'); document.getElementById('."'essa'".').style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + '."'px'".';">
+                  <a  class="btn btn-lg btn-outline-danger col-2" style="display: flex;justify-content: center; align-items: normal; font-size: 1rem; margin-bottom: 2%; margin-top: 2%;" onclick="document.getElementById('."'essa'".').innerHTML = bycz; var a = document.getElementById('."'carde'".'); document.getElementById('."'essa'".').style.top = (a.offsetTop + a.offsetTop + a.offsetTop) + '."'px'".';">
                     <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
                       <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
                     </svg>
                     &nbsp;
-                  </button>
+                  </a>
                 </div>';
                 }
                 
@@ -348,15 +349,17 @@ if (isset($_GET['idpytania'])) {
                       echo '<div class="card-body" style="padding-left: 5%;">';
                         if ($w2['ranga'] == 2) {
                           if (isset($_SESSION['zalogowany'])) {
-                          if (isset($_SESSION['ranga'])) {
-                            $ranga = $_SESSION['ranga'];
-                            if ($ranga == 0) {
-                              echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (możesz je kupić <a href='cennik.php'>tutaj</a>) lub być EKSPERTEM (możesz zobaczyć jak to zrobić <a href='pomoc.php'>tutaj</a>)</div>";
-                            } else if ($ranga == 1 || $ranga == 2) {
-                                echo $w2['odpowiedz'];
+    
+                            if (isset($_SESSION['ranga'])) {
+                              $ranga = $_SESSION['ranga'];
+            
+                              if ($ranga == 0) {
+                                echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (możesz je kupić <a href='cennik.php'>tutaj</a>) lub być EKSPERTEM (możesz zobaczyć jak to zrobić <a href='pomoc.php'>tutaj</a>)</div>";
+                              } else if ($ranga == 1 || $ranga == 2) {
+                                  echo $w2['f'];
+                              }
                             }
-                          }
-                        } else {
+                          } else {
                           echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (jeżeli takie posiadasz <a href='logowanie.php'>zaloguj się</a>)</div>";
                         }
                         }
