@@ -125,7 +125,7 @@ $obraz = $wynik['obraz'];
                       </div>
                       <div class="card-body" style="padding-left: 5%;">
                         <form action="script_PHP/dodawanie_o.php" method="post">
-                          <textarea name="odpowiedz" id="odpowiedz" style="width: 100%; border-radius: 1vw; padding: 2%;" rows="20"> 
+                          <textarea required name="odpowiedz" id="odpowiedz" style="width: 100%; border-radius: 1vw; padding: 2%;" rows="20"> 
                           </textarea>
                           <input type="hidden" name="pytanie" value="<?php echo $id_pytania;?>">
                         <br>
@@ -171,7 +171,7 @@ $obraz = $wynik['obraz'];
   <script>
     tinymce.init({
       selector: 'textarea',
-      plugins: 'autolink codesample emoticons link lists casechange linkchecker a11ychecker mergetags inlinecss',
+      plugins: 'autolink codesample emoticons link lists',
       toolbar: 'blocks fontsize | bold italic underline strikethrough | align |  numlist bullist | indent outdent | emoticons | codesample | removeformat',
       menubar: '',
       mergetags_list: [

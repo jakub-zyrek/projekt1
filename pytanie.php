@@ -41,15 +41,15 @@ if (isset($_GET['idpytania'])) {
   }
 </style>
 <script>
-      var a = 0;
-      var i = 0;
+      var a = [];
+      var i = [];
       var essa = 'essa';
       var px = 'px';
       var carde = 'carde';
       var interval = [];
 
       function coment(odp) {
-          if (i == 0) {
+          if (i[odp] == 0) {
               plik = 'script_PHP/wyswietlanie_k.php?odp=' + odp;
                 element = document.getElementById("com" + odp);
                 
@@ -75,11 +75,11 @@ if (isset($_GET['idpytania'])) {
 
 
               document.getElementById('komet' + odp).innerText = " Ukryj komentarze";
-              i = 1;
+              i[odp] = 1;
           } else {
               document.getElementById('com' + odp).innerHTML = "";
               document.getElementById('komet' + odp).innerText = " Pokaż komentarze";
-              i = 0;
+              i[odp] = 0;
           }
         }
 
@@ -114,7 +114,7 @@ if (isset($_GET['idpytania'])) {
         }
                 
         formularz.q.value = "";
-        i = 0;
+        i[odp] = 0;
         coment(odp);
         return false;
         }
@@ -134,19 +134,18 @@ if (isset($_GET['idpytania'])) {
         document.getElementById(serce).style.color = "white";
     }
 
-    function dziek(serce) {
-        if (a == 0) {
+    function dziek(serce, odp) {
+        if (a[odp] == 0) {
             document.getElementById(serce).style.backgroundColor = "white";
             document.getElementById(serce).style.color = "#dc3545";
         }
     }
 
       function dzieki(odp, serce) {
-          if (a == 0) {
+          if (a[odp] == 0) {
               document.getElementById(serce).style.backgroundColor = "#dc3545";
               document.getElementById(serce).style.color = "white";
               if (zaznaczone[odp] != 1) {
-                odp = odp.replaceAll("o", "");
               plik = "script_PHP/serduszko.php?dod=1&odp=" + odp;
                 
                 xml = null;
@@ -164,12 +163,11 @@ if (isset($_GET['idpytania'])) {
                     xml.send(null);
                 }
               }
-              a = 1;
-              zaznaczone = 0;
+              a[odp] = 1;
+              zaznaczone[odp] = 0;
           } else {
               document.getElementById(serce).style.backgroundColor = "white";
               document.getElementById(serce).style.color = "#dc3545"; 
-              odp = odp.replaceAll("o", "");
               plik = "script_PHP/serduszko.php?dod=2&odp=" + odp;
                 
                 xml = null;
@@ -186,7 +184,7 @@ if (isset($_GET['idpytania'])) {
                     xml.open("POST", plik, true);
                     xml.send(null);
                 }
-              a = 0;
+              a[odp] = 0;
           }
       }</script>';
     }
@@ -328,7 +326,7 @@ if (isset($_GET['idpytania'])) {
 
                 while ($w2 = mysqli_fetch_array($wysz2)) {
                   $id = $w2['id'];
-
+                  echo "<script>a[$id] = 0; zaznaczone[$id] = 0; i[$id] = 0;</script>";
                   echo '<div class="col">';
                     echo '<div class="card mb-4 rounded-3 shadow-sm" id="o'.$w2['id'].'">';
                       echo '<div class="card-header py-3 ';
@@ -356,7 +354,7 @@ if (isset($_GET['idpytania'])) {
                               if ($ranga == 0) {
                                 echo "<div class='alert alert-warning'>Aby przeczytać tę odpowiedź musisz mieć konto PREMIUM (możesz je kupić <a href='cennik.php'>tutaj</a>) lub być EKSPERTEM (możesz zobaczyć jak to zrobić <a href='pomoc.php'>tutaj</a>)</div>";
                               } else if ($ranga == 1 || $ranga == 2) {
-                                  echo $w2['f'];
+                                  echo $w2['odpowiedz'];
                               }
                             }
                           } else {
@@ -371,7 +369,7 @@ if (isset($_GET['idpytania'])) {
                         echo ' disabled ';
                       }
                         
-                      echo ' type="button" onclick="dzieki('."'o".$id."'".', '."'serce".$id."'".');" onmouseover="dzie('."'serce".$id."'".');" onmouseout="dziek('."'serce".$id."'".')" id="serce'.$id.'" class="btn btn-lg btn-outline-danger" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
+                      echo ' type="button" onclick="dzieki('.$id.', '."'serce".$id."'".');" onmouseover="dzie('."'serce".$id."'".');" onmouseout="dziek('."'serce".$id."'".", $id".')" id="serce'.$id.'" class="btn btn-lg btn-outline-danger" style="display: flex; margin: auto; justify-content: center; align-items: center; font-size: 1rem; margin-bottom: 2%; margin-top: 2%; flex-grow: 1;">
                           <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                           </svg>

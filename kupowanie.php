@@ -97,7 +97,7 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
         <h2>Kupowanie planu PREMIUM</h2>
       </div>
       <div class="card-body">
-        <form class="needs-validation col-11" style="margin-left: auto; margin-right: auto;" method="post" novalidate>
+        <form action="zakup.php" class="needs-validation col-11" style="margin-left: auto; margin-right: auto;" method="post" novalidate>
           <h4>Dane osobowe</h4>
           <br>
           <div class="ms-3">
