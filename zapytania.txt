@@ -1,5 +1,0 @@
-WIDOKI:
-
-liczba_odpowiedzi = "SELECT obraz, `pytanie`.`id`, COUNT(`odpowiedz`.`id`) AS `odp`, `tytul`, kategorie.nazwa, nick FROM pytanie LEFT JOIN odpowiedz on `pytanie`.`id` = `odpowiedz`.`pytanie_id` JOIN `uzytkownik` ON `uzytkownik`.`id` = `pytanie`.`uzytkownik_id` JOIN kategorie on kategorie.id = pytanie.kategoria_id GROUP BY `pytanie`.`id` ORDER BY `pytanie`.`id` DESC;"
-
-odpowiedzi = "SELECT odpowiedz.id, odpowiedz.uzytkownik_id, obraz, nick, odpowiedz.odpowiedz FROM odpowiedz JOIN uzytkownik ON odpowiedz.uzytkownik_id = uzytkownik.id JOIN pytanie ON pytanie.id = odpowiedz.pytanie_id;"

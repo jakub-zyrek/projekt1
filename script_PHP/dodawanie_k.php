@@ -1,18 +1,26 @@
 <?php
+// Otwarcie sesji
 session_start();
 
-if (isset($_SESSION['zalogowany'])) {
+if (isset($_SESSION['zalogowany']) && !isset($_SESSION['ban'])) {
+    // Połączenie z bazą danych
     $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
 
-    $odp = $_GET['odp'];
-    $uzytkownik = $_SESSION['id'];
-    $tresc = $_GET['tresc'];
+    // Sprawdzenie czy nie ma problemów z połączeniem
+    if (!mysqli_connect_errno()) {
+        // Zdefiniowanie zmiennych
+        $odp = $_GET['odp'];
+        $uzytkownik = $_SESSION['id'];
+        $tresc = $_GET['tresc'];
 
-    $sql = "INSERT INTO komentarze (odpowiedz_id, uzytkownik_id, komentarz) VALUES ($odp, $uzytkownik, '$tresc')";
-    mysqli_query($polaczenie, $sql);
+        // Wysłanie zapytania
+        $sql = "INSERT INTO komentarze (odpowiedz_id, uzytkownik_id, komentarz) VALUES ($odp, $uzytkownik, '$tresc')";
+        mysqli_query($polaczenie, $sql);
+    }
 
 } else {
-    header("Location: index.php");
+    // Gdy niezalogowany lub zabnowany przenieś do strony głównej
+    header("Location: ../index.php");
 }
 
 ?>

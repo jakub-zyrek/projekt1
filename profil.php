@@ -1,18 +1,27 @@
 <?php
+// Otwarcie sesji
 session_start();
+
+// Sprawdzenie czy jest zalogowany
 if(!isset($_SESSION['zalogowany'])) {
   header("Location: index.php");
 }
 
 // Połączenie z bazą danych
 $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+
+// Sprawdzenie czy nie ma problemów z połączeniem
+if (mysqli_connect_errno()) {
+  // Zamknięcie połączenia, gdy jest problem
+  mysqli_close($polaczenie);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Forum internetowe| Twój profil</title>
+    <title>Forum internetowe| Profil</title>
     <link href="bootstrap.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script>
@@ -24,222 +33,226 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
  
   </head>
   <body>
-  <header class="p-3 text-bg-dark mb-3">
-        <div class="pe-5 ps-5">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-xl-start" >
-            <a href="index.php" class="d-flex align-items-center mb-2 mb-xl-0 text-white text-decoration-none me-lg-4" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
-                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-              </svg>
-            </a>
+    <header class="p-3 text-bg-dark mb-3">
+      <div class="pe-5 ps-5">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-xl-start">
+          <a href="index.php" class="d-flex align-items-center mb-2 mb-xl-0 text-white text-decoration-none me-lg-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
+              <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg>
+          </a>
+          <ul class="nav col-12 col-xl-auto me-lg-auto mb-2 justify-content-center mb-md-0 menu">
+            <li><a href="index.php" class="btn btn-outline-info me-2 mb-3 mb-lg-auto ">Strona główna</a></li>
+            <li><a href="posty.php"  class="btn btn-outline-info me-2 mb-3 mb-lg-auto ">Posty</a></li>
+            <li>
+              <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
+              <ul class="dropdown-menu">
+                  <?php
+                    // Wyświetlenie kategorii
+                    $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
+                    $wysz1 = mysqli_query($polaczenie, $sql1);
+                    while ($w1 = mysqli_fetch_array($wysz1)) {
+                      $nazwa = $w1['nazwa'];
+                      echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
+                    }
+                  ?>
+                <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
+              </ul>
+            </li>
+            <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2">O nas</a></li>
+            <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2">Pomoc</a></li>
+            <li><button onclick="location.href = 'cennik.php'" type="button" class="mb-3 mb-xl-auto btn btn-outline-warning me-auto" >PREMIUM</button></li>
+          </ul>
   
-            <ul class="nav col-12 col-xl-auto me-lg-auto mb-2 justify-content-center mb-md-0 menu">
-              <li><a href="index.php" class="btn btn-outline-info me-2 mb-3 mb-lg-auto "  >Strona główna</a></li>
-              <li><a href="posty.php"  class="btn btn-outline-info me-2 mb-3 mb-lg-auto " >Posty</a></li>
-              <li>
-                <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " href="kategorie.php" data-bs-toggle="dropdown" aria-expanded="false">Kategorie </a>
-                <ul class="dropdown-menu">
-                    <?php
-                        $sql1 = "SELECT nazwa FROM liczba_kategorii LIMIT 4";
-                        $wysz1 = mysqli_query($polaczenie, $sql1);
-                        while ($w1 = mysqli_fetch_array($wysz1)) {
-                            $nazwa = $w1['nazwa'];
-                            echo "<li><a class='dropdown-item' href='posty_k.php?kat=$nazwa'>$nazwa</a></li>";
-                        }
-                    ?>
-                  <li><a class="dropdown-item" href="kategorie.php">Więcej...</a></li>                
-                </ul></li>
-                <li><a href="onas.php" class="mb-3 mb-lg-auto btn btn-outline-info me-2"  >O nas</a></li>
-              <li><a href="pomoc.php" class="mb-3 mb-lg-auto btn btn-outline-danger me-2"  >Pomoc</a></li>
-                
-              <li><button onclick="location.href = 'cennik.php'" type="button" class="mb-3 mb-xl-auto btn btn-outline-warning me-auto" >PREMIUM</button></li>
-            </ul>
-  
-            <div class="col-12 col-xl-4 col-xxl-3 mb-3 mb-xl-0 me-lg-5">
-                <form class="col-12 d-flex" role="search" action="wyszukiwanie.php">
-                  <div class="col-6">
-                    <input type="search" name="wysz" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
-                  </div>
-                  &nbsp;&nbsp;
-                  <button type="submit" class="btn btn-outline-light me-2 col-6">Szukaj</button>
-                </form>
-                
-            </div>
+          <div class="col-12 col-xl-4 col-xxl-3 mb-3 mb-xl-0 me-lg-5">
+            <form class="col-12 d-flex" role="search" action="wyszukiwanie.php">
+              <div class="col-6">
+                <input type="search" name="wysz" class="form-control form-control-dark text-bg-dark col-12" placeholder="Wyszukaj..." aria-label="Search">
+              </div>
+              &nbsp;&nbsp;
+              <button type="submit" class="btn btn-outline-light me-2 col-6">Szukaj</button>
+            </form>
+          </div>
            
-  
-            <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
-              <?php
-              
+          <div class="text-center mb-2 mb-xl-0 col-12 col-xxl-auto text-xxl-end mt-3 mt-xxl-0">
+            <?php
               if (isset($_SESSION['zalogowany'])) {
-                echo '
-                <div class="dropdown">
-                  <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow ">
-                    <li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li>
-                  </ul>
-                </div>';
+                // Wyświetlenie okienka z menu użytkownika
+                echo '<div class="dropdown"><a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="'.$_SESSION['obraz'].'" alt="" width="32" height="32" class="rounded-circle me-2"><strong class="d-none d-lg-inline">'.$_SESSION['imie'].'</strong></a><ul class="dropdown-menu dropdown-menu-dark text-small shadow"><li><a class="dropdown-item" href="profil.php">Profil</a></li><li><a class="dropdown-item" href="dodawanie_p.php">Zadaj pytanie</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item text-danger" href="script_PHP/wyloguj.php">Wyloguj się</a></li></ul></div>';
               } else {
+                // Wyświetlenie przycisków logowania
                 echo '<button type="button" class="btn btn-outline-light me-2" onclick="';
                 echo "location.href = 'logowanie.php'";
                 echo '">Zaloguj się</button><button type="button" class="btn btn-info" onclick="';
                 echo "location.href = 'rejestracja.php'";
                 echo '">Zarejestruj się</button>';
-              }
-              
-              ?>
-            </div>
+              }              
+            ?>
           </div>
-          </div>
-  </header>
-    <br><br>
+        </div>
+      </div>
+    </header>
+    <br>
+    <br>
 
-  <div class="container">
-    <div class="card col-12" style="transition: 2s ease;">
+    <div class="container">
+      <div class="card col-12" style="transition: 2s ease;">
         <div class="card-header bg-info-subtle">
-            <h2 class="p-3 text-center ">Twój profil</h2>
+          <h2 class="p-3 text-center ">Twój profil</h2>
         </div>
         <div class="card-body col-12" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <div class="card col-12 col-lg-5" style="transition: 1s ease-out;">
-                <div class="card-header bg-success-subtle">
-                    <h2 class="p-3 text-center">Informacje o Tobie</h2>
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <tr>
-                            <td>Imię</td>
-                            <td class="text-center">
-                              <?php
-                                echo $_SESSION['imie'];
-                              ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Nick:</td>
-                            <td class="text-center">
-                              <?php
-                                echo $_SESSION['nick'];
-                              ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Data urodzenia:</td>
-                            <td class="text-center">
-                              <?php
-                                echo $_SESSION['data'];
-                              ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Login:</td>
-                            <td class="text-center">
-                              <?php
-                                echo $_SESSION['login'];
-                              ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Hasło</td>
-                            <td style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-                                <span style="font-size: 1.5rem;">··················&nbsp;&nbsp;</span>
-                                <button class="btn btn-outline-dark" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-                                    <span>Pokaż hasło&nbsp;&nbsp;</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                      </svg>
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+          <div class="card col-12 col-lg-5" style="transition: 1s ease-out;">
+            <div class="card-header bg-success-subtle">
+              <h2 class="p-3 text-center">Informacje o Tobie</h2>
             </div>
-            <div class="card col-12 col-lg-6 mt-2 mt-lg-0" style="transition: 1s ease-out;">
-                <div class="card-header bg-warning-subtle">
-                    <h2 class="p-3 text-center">Twoje zakupy</h2>
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <tr>
-                            <td>PLAN PREMIUM</td>
-                            <td class="text-center text-success">Aktywny do 1.04.2022</td>
-                            <td class="text-center">34,00 zł</td>
-                            <td><button type="button" class="btn btn-outline-danger">Zrezygnuj</button></td>
-                        </tr>
-                        <tr>
-                            <td>PLAN PREMIUM</td>
-                            <td class="text-center text-danger">Niektywny od 1.03.2022</td>
-                            <td class="text-center">34,00 zł</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card col-12 col-lg-4 mt-4" style="transition: 1s ease-out;">
-                <div class="card-header bg-primary-subtle">
-                    <h2 class="p-3 text-center">Zdjęcie profilowe</h2>
-                </div>
-                <div class="card-body justify-content-center justify-content-lg-between">
-                    <img style="margin-left: 12.5%; width: 75%;" src="<?php echo $_SESSION['obraz'];?>" alt="user" class="rounded-circle">
-                    <br><br>
-                    <form action="" method="post" class="needs-validation" novalidate>
-                        <input class="form-control col-12" type="file" name="zdjecie" accept="image/*" id="file">
-                        <br>
-                        <input type="submit" value="Zatwierdź zmiany" class="form-control btn btn-outline-primary">
-                    </form>
-                </div>
-            </div>
-
-            <div class="card col-12 col-lg-7 mt-3" id="card" style="transition: 1s ease-out;">
-              <div class="card-header bg-danger-subtle">
-                  <h2 class="p-3 text-center">Powiadomienia</h2>
-              </div>
-              <div class="card-body">
-                <table class="table table-hover" style="transition: 1s ease-out;">
-                  <tr>
-                      <td class="col-1">1.</td>
-                      <td class="text-danger col-10">Twoja odpowiedź została zgłoszona do administratora z powodu naruszenia regulaminu</td>
-                      <td class="col-1 text-end"><button type="button" class="btn btn-outline-warning" onclick="document.getElementById('essa').innerHTML = bycz; var a = document.getElementById('card'); document.getElementById('essa').style.top = (a.offsetTop + 20) + 'px';">Zobacz</button></td>
-                  </tr>
-                  <tr>
-                    <td class="col-1">1.</td>
-                    <td class="text-danger col-8">Twoja odpowiedź została zgłoszona do administratora z powodu naruszenia regulaminu</td>
-                    <td class="col-3 text-end"><button type="button" class="btn btn-outline-warning">Odwołaj się</button></td>
+            <div class="card-body">
+              <table class="table table-hover">
+                <tr>
+                  <td>Imię</td>
+                  <td class="text-center">
+                    <?php
+                      echo $_SESSION['imie'];
+                    ?>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Nick:</td>
+                  <td class="text-center">
+                    <?php
+                      echo $_SESSION['nick'];
+                    ?>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data urodzenia:</td>
+                  <td class="text-center">
+                    <?php
+                      echo $_SESSION['data'];
+                    ?>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Login:</td>
+                  <td class="text-center">
+                    <?php
+                      echo $_SESSION['login'];
+                    ?>
+                  </td>
                 </tr>
               </table>
-              </div>
+            </div>
           </div>
+          <div class="card col-12 col-lg-6 mt-2 mt-lg-0" style="transition: 1s ease-out;">
+            <div class="card-header bg-warning-subtle">
+              <h2 class="p-3 text-center">Twoje zakupy</h2>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover">
+                <?php
+                  // Zdefiniowanie zmiennych
+                  $uzytkownik = $_SESSION['id'];
 
+                  // Zapytanie
+                  $sql = "SELECT uzytkownik_id, data_k, zakup.cena, nazwa FROM zakup JOIN plan ON zakup.plan_id = plan.id WHERE uzytkownik_id = $uzytkownik ORDER BY data_k DESC LIMIT 8";
+                  $wysz = mysqli_query($polaczenie, $sql);
 
+                  while ($w = mysqli_fetch_array($wysz)) {
+                    echo "<tr>";
+                    echo "<td>".$w['nazwa']."</td>";
+                    if ($w['data_k'] < date('Y-m-d')) {
+                      echo "<td class='text-center text-danger'>Niektywny od ".$w['data_k']."</td>";
+                    } else {
+                      echo "<td class='text-center text-success'>Aktywny do ".$w['data_k']."</td>";
+                    }
+                    echo "<td class='text-center'>".$w['cena']." zł</td>";
+                    echo "</tr>";
+                  }
+                          
+                ?>
+              </table>
+            </div>
+          </div>
+          <div class="card col-12 col-lg-4 mt-4" style="transition: 1s ease-out;">
+            <div class="card-header bg-primary-subtle">
+              <h2 class="p-3 text-center">Zdjęcie profilowe</h2>
+            </div>
+            <div class="card-body justify-content-center justify-content-lg-between">
+              <?php
+                if (isset($_SESSION['alert'])) {
+                  echo $_SESSION['alert'];
+                  unset($_SESSION['alert']);
+                }
+              ?>
+              <img style="margin-left: 8%;" src="<?php echo $_SESSION['obraz'];?>" alt="user" class="rounded-circle" width="300" height="300">
+              <br>
+              <br>
+              <form action="script_PHP/zdjecie.php" method="post" class="needs-validation" novalidate ENCTYPE="multipart/form-data">
+                <input class="form-control col-12" type="file" name="zw" accept="image/png, image/jpeg">
+                <br>
+                <input type="submit" value="Zatwierdź zmiany" class="form-control btn btn-outline-primary">
+              </form>
+            </div>
+          </div>
+          <div class="card col-12 col-lg-7 mt-3" id="card" style="transition: 1s ease-out;">
+            <div class="card-header bg-danger-subtle">
+              <h2 class="p-3 text-center">Ostrzeżenia</h2>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover" style="transition: 1s ease-out;">
+                <?php
+                  $uzytkownik = $_SESSION['id'];
+                  
+                  $sql = "SELECT * FROM ostrzezenie WHERE uzytkownik_id = $uzytkownik";
+                  $wysz = mysqli_query($polaczenie, $sql);
+
+                  while ($w = mysqli_fetch_array($wysz)) {
+                    echo "<tr>";
+                      echo '<td class="text-danger col-10">'.$w['opis'].'</td>';
+                    echo "</tr>";
+                  }
+                ?>
+              </table>
+            </div>
+          </div>
           <div class="card col-12 mt-3" id="card" style="transition: 1s ease-out;">
             <div class="card-header bg-dark-subtle">
-                <h2 class="p-3 text-center">Ustawienia</h2>
+              <h2 class="p-3 text-center">Ustawienia</h2>
             </div>
             <div class="card-body" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
               <div class="card col-12 col-md-6 mt-3" id="card" style="transition: 1s ease-out;">
                 <div class="card-header bg-dark-subtle">
-                    <h2 class="p-3 text-center">Zmiana hasła</h2>
+                  <h2 class="p-3 text-center">Zmiana hasła</h2>
                 </div>
                 <div class="card-body">
-                  <form action="" method="post" class="needs-validation" novalidate>
-                    <div class="col-12" style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-                      <span class="col-2">Stare hasło:</span>
-                      <input type="password" class="form-control col-8">
+                  <form action="script_PHP/haslo.php" method="post" class="needs-validation" novalidate>
+                    <?php
+                      if(isset($_SESSION['alerth'])) {
+                        echo $_SESSION['alerth'];
+                        unset($_SESSION['alerth']);
+                      }
+                    ?>
+                    <div class="col-12">
+                      <label for="stare" class="form-label col-2">Stare hasło:</label>
+                      <input id="stare" type="password" class="form-control col-4" name="stare">
                     </div>
+                    <br>
+                    <div class="col-12">
+                      <label for="nowe" class="form-label col-2">Nowe hasło:</label>
+                      <input id="nowe" type="password" class="form-control col-4" name="nowe">
+                    </div>
+                      <br>
+                      <div class="col-12">
+                        <input type="submit" class="btn btn-dark col-12" value="Zmień hasło">
+                      </div>
                   </form>
                 </div>
               </div>
               <div class="card col-12 col-md-5 mt-3" id="card" style="transition: 1s ease-out;">
                 <div class="card-header bg-dark-subtle">
-                    <h2 class="p-3 text-center">Usuwanie konta</h2>
+                  <h2 class="p-3 text-center">Usuwanie konta</h2>
                 </div>
                 <div class="card-body">
-                  <form action="" method="post">
+                  <form action="script_PHP/usuwanie.php" method="post">
                     <p>Tej operacji nie da się odwrócić</p>
                     <div style="display: flex; align-items: center;">
                       <input type="checkbox" name="zgoda" id="zgoda" class="" required>&nbsp;&nbsp;<label for="zgoda">Jestem tego w pełni świadomy</label>
@@ -251,16 +264,13 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
               </div>
             </div>
           </div>
-
-        
+        </div>
+      </div>
     </div>
-  </div>
+                    
+    <div id="essa" style="position: absolute; margin: auto; width: 80%; left: 10%;"></div>
 
-  <div id="essa" style="position: absolute; margin: auto; width: 80%; left: 10%;">
-    
-  </div>
-
-  <div class="container">
+    <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <p class="col-md-4 mb-0 text-muted">&copy; 2022 Company, Inc</p>
     
@@ -277,6 +287,7 @@ $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123
         </ul>
       </footer>
     </div>
+    
     <script src="formularz.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </body>
