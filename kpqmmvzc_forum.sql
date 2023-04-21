@@ -808,7 +808,11 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `liczba_kategorii`;
 
+<<<<<<< HEAD
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_kategorii`  AS SELECT `kategorie`.`id` AS `id`, count(`pytanie`.`id`) AS `liczba`, `kategorie`.`nazwa` AS `nazwa` FROM (`kategorie` join `pytanie` on(`pytanie`.`kategoria_id` = `kategorie`.`id`)) GROUP BY `kategorie`.`id` ORDER BY count(`pytanie`.`id`) DESC;
+=======
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_kategorii`  AS SELECT `kategorie`.`id` AS `id`, count(`pytanie`.`id`) AS `liczba`, `kategorie`.`nazwa` AS `nazwa` FROM (`kategorie` join `pytanie` on(`pytanie`.`kategoria_id` = `kategorie`.`id`)) GROUP BY `kategorie`.`id` ORDER BY count(`pytanie`.`id`) DESC  ;
+>>>>>>> 9a342a29c1d2c4186b37d53d973a3a53086ba872
 
 -- --------------------------------------------------------
 
@@ -817,7 +821,11 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `liczba_odpowiedzi`;
 
+<<<<<<< HEAD
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_odpowiedzi`  AS SELECT `uzytkownik`.`obraz` AS `obraz`, `pytanie`.`id` AS `id`, count(`odpowiedz`.`id`) AS `odp`, `pytanie`.`tytul` AS `tytul`, `kategorie`.`nazwa` AS `nazwa`, `uzytkownik`.`nick` AS `nick` FROM (((`pytanie` left join `odpowiedz` on(`pytanie`.`id` = `odpowiedz`.`pytanie_id`)) join `uzytkownik` on(`uzytkownik`.`id` = `pytanie`.`uzytkownik_id`)) join `kategorie` on(`kategorie`.`id` = `pytanie`.`kategoria_id`)) GROUP BY `pytanie`.`id` ORDER BY `pytanie`.`id` DESC;
+=======
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_odpowiedzi`  AS SELECT `uzytkownik`.`obraz` AS `obraz`, `pytanie`.`id` AS `id`, count(`odpowiedz`.`id`) AS `odp`, `pytanie`.`tytul` AS `tytul`, `kategorie`.`nazwa` AS `nazwa`, `uzytkownik`.`nick` AS `nick` FROM (((`pytanie` left join `odpowiedz` on(`pytanie`.`id` = `odpowiedz`.`pytanie_id`)) join `uzytkownik` on(`uzytkownik`.`id` = `pytanie`.`uzytkownik_id`)) join `kategorie` on(`kategorie`.`id` = `pytanie`.`kategoria_id`)) GROUP BY `pytanie`.`id` ORDER BY `pytanie`.`id` DESC  ;
+>>>>>>> 9a342a29c1d2c4186b37d53d973a3a53086ba872
 
 -- --------------------------------------------------------
 
