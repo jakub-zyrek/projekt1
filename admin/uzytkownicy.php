@@ -100,114 +100,7 @@ if (!isset($_SESSION['admin'])) {
                                 <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                             </svg></button>
                         <div class="ps-3 pb-2">
-                            <table class="table col-12 table-hover">
-                                <tr class="table-primary">
-                                    <th>Lp.</th>
-                                    <th>Imię</th>
-                                    <th>Nazwisko</th>
-                                    <th>Login</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Jakub</td>
-                                    <td>Żyrek</td>
-                                    <td>zyrekjakub</td>
-                                    <td style="text-align: center; display: flex; align-items: center; justify-content: space-evenly; flex-wrap: nowrap;">
-                                        <button type="button" class="btn btn-outline-danger" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
-                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Usuń
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-dark" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5v-1a1.9 1.9 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Zm7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Zawieś
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-success" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Reset hasła
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Anna</td>
-                                    <td>Gałwa</td>
-                                    <td>rondo</td>
-                                    <td style=" text-align: center; display: flex; align-items: center; justify-content: space-evenly; flex-wrap: nowrap;">
-                                        <button type="button" class="btn btn-outline-danger" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
-                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Usuń
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-dark" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5v-1a1.9 1.9 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Zm7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Zawieś
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-success" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Reset hasła
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td>Kasia</td>
-                                    <td>Kuchejda</td>
-                                    <td>kasia</td>
-                                    <td style=" text-align: space-evenly; display: flex; align-items: center; justify-content: space-evenly; flex-wrap: nowrap;">
-                                        <button type="button" class="btn btn-outline-danger" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
-                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Usuń
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-dark" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem;" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
-                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5v-1a1.9 1.9 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Zm7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Zawieś
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-outline-success" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                                            </svg>
-                                            &nbsp;
-                                            Reset hasła
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
+                            <table class="table col-12 table-hover" id="admin"></table>
                         </div>
                     </div>
 
@@ -221,95 +114,7 @@ if (!isset($_SESSION['admin'])) {
                         </div>
                         <hr>
                         <div class="ps-3 pb-2 col-12">
-                            <table class="table col-12 table-hover">
-                                <tr class="table-primary">
-                                    <th class="col-1">Lp.</th>
-                                    <th class="col-2">Imię i nazwisko</th>
-                                    <th class="col-1">Ranga</th>
-                                    <th class="col-1">PREMIUM</th>
-                                    <th class="col-1">Polubień</th>
-                                    <th class="col-1">Odpowiedzi</th>
-                                    <th class="col-1">Zgłoszeń</th>
-                                    <th class="col-4"></th>
-                                </tr>
-                                <?php
-                                
-                                    $sql = "SELECT imie, uzytkownik.id, ranga, ekspert, nazwisko FROM uzytkownik JOIN uzytkownicy_dane ON uzytkownicy_dane.id = uzytkownik.id;";
-                                    $wysz = mysqli_query($polaczenie, $sql);
-
-                                    $i = 1;
-
-                                    while ($w = mysqli_fetch_array($wysz)) {
-                                        $uzytkownik = $w['id'];
-
-                                        // Liczba odpowiedzi
-                                        $sql1 = "SELECT COUNT(id) AS id FROM odpowiedz WHERE uzytkownik_id = $uzytkownik";
-                                        $wysz1 = mysqli_query($polaczenie, $sql1);
-                                        $w1 = mysqli_fetch_assoc($wysz1);
-                                        $odpowiedzi = $w1['id'];
-
-                                        // Liczba zgloszen
-                                        $sql1 = "SELECT COUNT(id) AS id FROM zgloszenie WHERE zglaszajacy = $uzytkownik";
-                                        $wysz1 = mysqli_query($polaczenie, $sql1);
-                                        $w1 = mysqli_fetch_assoc($wysz1);
-                                        $zgloszenia = $w1['id'];
-
-                                        // Liczba polubień
-                                        $sql1 = "SELECT COUNT(serca.id) AS 'id' FROM serca JOIN odpowiedz ON serca.odpowiedz_id = odpowiedz.id WHERE odpowiedz.uzytkownik_id = $uzytkownik;";
-                                        $wysz1 = mysqli_query($polaczenie, $sql1);
-                                        $w1 = mysqli_fetch_assoc($wysz1);
-                                        $polubienia = $w1['id'];
-
-                                        echo '<tr>';
-                                            echo "<td>$i</td>";
-
-                                            echo "<td><b>".$w['imie']." ".$w['nazwisko']."</b>";
-
-                                            if ($w['ekspert'] == 1) {
-                                                echo "<td class='text-success'>Ekspert</td>";
-                                            } else {
-                                                echo "<td>Użytkownik</td>";
-                                            }
-                                            
-                                            if ($w['ranga'] == 2 || $w['ranga'] == 1) {
-                                                echo "<td class='text-warning'>TAK</td>";
-                                            } else {
-                                                echo "<td>NIE</td>";
-                                            }
-
-                                            echo "<td>$polubienia</td>";
-
-                                            echo "<td>$odpowiedzi</td>";
-
-                                            echo "<td>$zgloszenia</td>";
-
-                                            echo '<td style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
-                                            <button type="button" class="btn btn-outline-danger mt-1 mt-xxl-0 mb-1 mb-xxl-0" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem"  fill="currentColor" class="bi bi-person-fill-slash" viewBox="0 0 16 16">
-                                                    <path d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465l3.465-3.465Zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465Zm-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-                                                </svg>
-                                                &nbsp;
-                                                Zbanuj
-                                            </button>
-                                            &nbsp; &nbsp;
-                                            <button type="button" class="btn btn-outline-success mt-1 mt-xxl-0 mb-1 mb-xxl-0" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                </svg>
-                                                &nbsp;
-                                                Zmień rangę
-                                            </button>
-                                        </td>';
-
-                                        echo '</tr>';
-
-                                        $i++;
-                                    }
-                               
-                                
-                                ?>
-                            </table>
+                            <table class="table col-12 table-hover" id="uzytkownik"></table>
                         </div>
                     </div>
 
@@ -319,5 +124,179 @@ if (!isset($_SESSION['admin'])) {
             </main>
         <script src="sidebars.js"></script>
         <script src="bootstrap.bundle.min.js"></script>
+        <script>
+            function admin() {
+                plik = 'script/wyswietlanie_a.php';
+                element = document.getElementById("admin");
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.onreadystatechange = function () {
+                        if (xml.readyState == 4) {
+                            element.innerHTML = xml.responseText;
+                        }
+                    }
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+            }   
+
+            admin();
+
+            function uzytkownik() {
+                plik1 = 'script/wyswietlenie_u.php';
+                element1 = document.getElementById("uzytkownik");
+                xml1 = null;
+                try {
+                    xml1 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml1 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml1 = null;
+                    }
+                }
+                if (xml1 != null) {
+                    xml1.onreadystatechange = function () {
+                        if (xml1.readyState == 4) {
+                            element1.innerHTML = xml1.responseText;
+                        }
+                    }
+                    xml1.open("POST", plik1, true);
+                    xml1.send(null);
+                }
+            }   
+
+            uzytkownik();
+
+            function admin_usun(id) {
+                plik = 'script/usun_a.php?id=' + id;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                admin();
+            }
+
+            function admin_zawies(id) {
+                plik = 'script/zawies_a.php?id=' + id;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                admin();
+            }
+
+            function admin_odwies(id) {
+                plik = 'script/odwies_a.php?id=' + id;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                admin();
+            }
+
+            function zbanuj(id) {
+                plik = 'script/zbanuj_u.php?id=' + id;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                uzytkownik();
+            }
+
+            function odbanuj(id) {
+                plik = 'script/odbanuj_u.php?id=' + id;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                uzytkownik();
+            }
+
+            function ranga(id, ranga) {
+                plik = 'script/ranga.php?id=' + id + '&ranga=' + ranga;
+                xml = null;
+                try {
+                    xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml = null;
+                    }
+                }
+                if (xml != null) {
+                    xml.open("POST", plik, true);
+                    xml.send(null);
+                }
+
+                uzytkownik();
+            }
+
+        </script>
     </body>
 </html>

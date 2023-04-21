@@ -37,10 +37,12 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
             // Sprawdzenie czy użytkownik jest administratorem
             $uzytkownik = $wiersz['id'];
-            $sql = "SELECT id FROM admin WHERE id = $uzytkownik";
+            $sql = "SELECT id, id_administratora FROM admin WHERE id = $uzytkownik AND zawieszony IS NULL";
             $wysz = mysqli_query($polaczenie, $sql);
             if (mysqli_num_rows($wysz) > 0) {
                 $_SESSION['admin'] = true;
+                $w = mysqli_fetch_assoc($wysz);
+                $_SESSION['id_admin'] = $w['id_administratora'];
             }
 
             // Sprawdzenie czy użytkownik jest zbanowany

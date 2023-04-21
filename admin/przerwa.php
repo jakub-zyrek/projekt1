@@ -96,13 +96,27 @@ if (!isset($_SESSION['admin'])) {
                     <hr>
                     <div class="ps-3 pb-2">
                         <br>
-                        <form action="" method="post" class="needs-validation" novalidate>
+                        <?php
+                        
+                        if (isset($_SESSION['alert_data'])) {
+                            echo $_SESSION['alert_data'];
+                            unset($_SESSION['alert_data']);
+                        }
+                        
+                        ?>
+                        <form action="script/przerwa.php" method="post" class="needs-validation">
                             <table class="p-3 w-100 text-center">
                                 <tr>
                                     <td>Od</td>
-                                    <td><input type="date" name="odd" id="odd" class="form-control" required><input type="time" name="odt" id="odt" class="form-control" required></td>
+                                    <td>
+                                        <input min="<?php echo date("Y-m-d");?>" type="date" name="odd" id="odd" class="form-control" required>
+                                        <input min="<?php echo date("Y-m-d");?>" type="time" name="odt" id="odt" class="form-control" required>
+                                    </td>
                                     <td>Do</td>
-                                    <td><input type="date" name="dod" id="dod" class="form-control" required><input type="time" name="dot" id="dot" class="form-control" required></td>
+                                    <td>
+                                        <input type="date" name="dod" id="dod" class="form-control" required>
+                                        <input type="time" name="dot" id="dot" class="form-control" required>
+                                    </td>
                                 </tr>
                             </table>
                             <br><br>
@@ -132,97 +146,31 @@ if (!isset($_SESSION['admin'])) {
                                 <th>Przez</th>
                                 <th></th>
                             </tr>
-                            <tr>
-                                <td>1.</td>
-                                <td>16:00 14.03.2022</td>
-                                <td>16:00 19.03.2022</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"><button type="button" class="btn btn-outline-danger">Odwołaj</button>&nbsp;&nbsp;<button type="button" class="btn btn-outline-warning">Edytuj</button></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>                    
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>16:00 14.03.2021</td>
-                                <td>16:00 19.03.2021</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>16:00 14.03.2020</td>
-                                <td>16:00 19.03.2020</td>
-                                <td>Jakub Żyrek</td>
-                                <td style="width: min-content; text-align: center;"></td>
-                            </tr>
+
+                            <?php
+                                $sql = "SELECT * FROM przerwy ORDER BY od DESC LIMIT 15;";
+                                $wysz = mysqli_query($polaczenie, $sql);
+                                $i = 1;
+
+                                while ($w = mysqli_fetch_array($wysz)) {
+                                    echo "<tr";
+                                    if ($w['do'] < date("Y-m-d")) {
+                                        echo " class='table-success'";
+                                    }
+                                    echo ">";
+                                        echo "<td>$i.</td>";
+                                        echo "<td>".$w['od']."</td>";
+                                        echo "<td>".$w['do']."</td>";
+                                        echo "<td>".$w['imie']." ".$w['nazwisko']." <i>[".$w['nick']."]</i></td>";
+                                        if ($w['do'] > date("Y-m-d")) {
+                                            echo '<td style="width: min-content; text-align: center;"><a href="script/usuwanie_p.php?id='.$w['id'].'" class="btn btn-outline-danger">Odwołaj</a></td>';
+                                        } else {
+                                            echo "<td></td>";
+                                        }
+                                    echo "</tr>";
+                                    $i++;
+                                }
+                            ?>
                         </table>
                     </div>
                 </div>
