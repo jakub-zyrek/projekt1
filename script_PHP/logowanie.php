@@ -35,6 +35,14 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
             $_SESSION['data'] = $wiersz['data_urodzenia'];
             $_SESSION['obraz'] = $wiersz['obraz'];
 
+            // Sprawdzenie czy użytkownik jest administratorem
+            $uzytkownik = $wiersz['id'];
+            $sql = "SELECT id FROM admin WHERE id = $uzytkownik";
+            $wysz = mysqli_query($polaczenie, $sql);
+            if (mysqli_num_rows($wysz) > 0) {
+                $_SESSION['admin'] = true;
+            }
+
             // Sprawdzenie czy użytkownik jest zbanowany
             if ($wiersz['zbanowany_do'] >= date("Y-m-d")) {
                 $_SESSION['ban'] = true;
