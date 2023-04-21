@@ -808,7 +808,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `liczba_kategorii`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_kategorii`  AS SELECT `kategorie`.`id` AS `id`, count(`pytanie`.`id`) AS `liczba`, `kategorie`.`nazwa` AS `nazwa` FROM (`kategorie` join `pytanie` on(`pytanie`.`kategoria_id` = `kategorie`.`id`)) GROUP BY `kategorie`.`id` ORDER BY count(`pytanie`.`id`) AS `DESCdesc` ASC  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_kategorii`  AS SELECT `kategorie`.`id` AS `id`, count(`pytanie`.`id`) AS `liczba`, `kategorie`.`nazwa` AS `nazwa` FROM (`kategorie` join `pytanie` on(`pytanie`.`kategoria_id` = `kategorie`.`id`)) GROUP BY `kategorie`.`id` ORDER BY count(`pytanie`.`id`) DESC  ;
 
 -- --------------------------------------------------------
 
@@ -817,7 +817,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `liczba_odpowiedzi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_odpowiedzi`  AS SELECT `uzytkownik`.`obraz` AS `obraz`, `pytanie`.`id` AS `id`, count(`odpowiedz`.`id`) AS `odp`, `pytanie`.`tytul` AS `tytul`, `kategorie`.`nazwa` AS `nazwa`, `uzytkownik`.`nick` AS `nick` FROM (((`pytanie` left join `odpowiedz` on(`pytanie`.`id` = `odpowiedz`.`pytanie_id`)) join `uzytkownik` on(`uzytkownik`.`id` = `pytanie`.`uzytkownik_id`)) join `kategorie` on(`kategorie`.`id` = `pytanie`.`kategoria_id`)) GROUP BY `pytanie`.`id` ORDER BY `pytanie`.`id` AS `DESCdesc` ASC  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `liczba_odpowiedzi`  AS SELECT `uzytkownik`.`obraz` AS `obraz`, `pytanie`.`id` AS `id`, count(`odpowiedz`.`id`) AS `odp`, `pytanie`.`tytul` AS `tytul`, `kategorie`.`nazwa` AS `nazwa`, `uzytkownik`.`nick` AS `nick` FROM (((`pytanie` left join `odpowiedz` on(`pytanie`.`id` = `odpowiedz`.`pytanie_id`)) join `uzytkownik` on(`uzytkownik`.`id` = `pytanie`.`uzytkownik_id`)) join `kategorie` on(`kategorie`.`id` = `pytanie`.`kategoria_id`)) GROUP BY `pytanie`.`id` ORDER BY `pytanie`.`id` DESC  ;
 
 -- --------------------------------------------------------
 
@@ -835,7 +835,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `zgloszone_komentarze`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_komentarze`  AS SELECT `komentarze`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `komentarze` on(`komentarze`.`id` = `obiekt`.`komentarz`)) WHERE `obiekt`.`komentarz` is not nullnot null  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_komentarze`  AS SELECT `komentarze`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `komentarze` on(`komentarze`.`id` = `obiekt`.`komentarz`)) WHERE `obiekt`.`komentarz` is not null  ;
 
 -- --------------------------------------------------------
 
@@ -844,7 +844,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `zgloszone_odpowiedzi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_odpowiedzi`  AS SELECT `odpowiedz`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `odpowiedz` on(`odpowiedz`.`id` = `obiekt`.`odpowiedz`)) WHERE `obiekt`.`odpowiedz` is not nullnot null  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_odpowiedzi`  AS SELECT `odpowiedz`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `odpowiedz` on(`odpowiedz`.`id` = `obiekt`.`odpowiedz`)) WHERE `obiekt`.`odpowiedz` is not null  ;
 
 -- --------------------------------------------------------
 
@@ -853,7 +853,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `zgloszone_pytanie`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_pytanie`  AS SELECT `zgloszenie`.`opis` AS `opis`, `pytanie`.`tytul` AS `tytul`, `pytanie`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `pytanie` on(`pytanie`.`id` = `obiekt`.`pytanie`)) WHERE `obiekt`.`pytanie` is not nullnot null  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zgloszone_pytanie`  AS SELECT `zgloszenie`.`opis` AS `opis`, `pytanie`.`tytul` AS `tytul`, `pytanie`.`uzytkownik_id` AS `uzytkownik_id` FROM ((`zgloszenie` join `obiekt` on(`obiekt`.`zgloszenie_id` = `zgloszenie`.`id`)) join `pytanie` on(`pytanie`.`id` = `obiekt`.`pytanie`)) WHERE `obiekt`.`pytanie` is not null  ;
 
 --
 -- Indeksy dla zrzutów tabel
