@@ -105,9 +105,7 @@ if (isset($_SESSION['admin_u']) && isset($_SESSION['admin_a'])) {
                                 <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                 <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                             </svg></button>
-                        <div class="ps-3 pb-2">
-                            <table class="table col-12 table-hover" id="admin"></table>
-                        </div>
+                        <div class="ps-3 pb-2" id="admin"></div>
                     </div>
 
                     <div class="col-11 m-3 bg-white p-2">
@@ -119,9 +117,7 @@ if (isset($_SESSION['admin_u']) && isset($_SESSION['admin_a'])) {
                             &nbsp;Użytkownicy
                         </div>
                         <hr>
-                        <div class="ps-3 pb-2 col-12">
-                            <table class="table col-12 table-hover" id="uzytkownik"></table>
-                        </div>
+                        <div class="ps-3 pb-2 col-12" id="uzytkownik"></div>
                     </div>
                 </div>
             </main>
@@ -130,8 +126,10 @@ if (isset($_SESSION['admin_u']) && isset($_SESSION['admin_a'])) {
         <script src="sidebars.js"></script>
         <script src="bootstrap.bundle.min.js"></script>
         <script>
+            var admi = 0;
+
             function admin() {
-                plik = 'script/wyswietlanie_a.php';
+                plik = 'script/wyswietlanie_a.php?admi=' + admi;
                 element = document.getElementById("admin");
                 xml = null;
                 try {
@@ -155,9 +153,10 @@ if (isset($_SESSION['admin_u']) && isset($_SESSION['admin_a'])) {
             }   
 
             admin();
+            var uzy = 0;
 
             function uzytkownik() {
-                plik1 = 'script/wyswietlenie_u.php';
+                plik1 = 'script/wyswietlenie_u.php?uzy=' + uzy;
                 element1 = document.getElementById("uzytkownik");
                 xml1 = null;
                 try {

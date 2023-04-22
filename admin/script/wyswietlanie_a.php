@@ -17,6 +17,13 @@
 
         // Sprawdzenie czy nie ma problemu z połączeniem
         if (!mysqli_connect_errno()) {    
+            $admi = $_GET['admi'];
+            $admii = $admi * 10;
+
+            // Zapytanie do bazy 
+            $sql = "SELECT imie, uzytkownik.id, ranga, ekspert, nazwisko, zbanowany_do FROM uzytkownik JOIN uzytkownicy_dane ON uzytkownicy_dane.id = uzytkownik.id LIMIT 10 OFFSET $admii;";
+            $wysz = mysqli_query($polaczenie, $sql);
+            $i = 1;
 
             // Zapytanie do bazy 
             $sql = "SELECT * FROM admin";
@@ -24,7 +31,7 @@
             $i = 1;
 
             // Nagłówek tabeli
-            echo '<tr class="table-primary"><th>Lp.</th><th>Imię</th><th>Nazwisko</th><th>Login</th><th></th></tr>';
+            echo '<table class="table col-12 table-hover"><tr class="table-primary"><th>Lp.</th><th>Imię</th><th>Nazwisko</th><th>Login</th><th></th></tr>';
 
             // Wyświetlenie informacji
             while ($w = mysqli_fetch_array($wysz)) {
@@ -57,6 +64,29 @@
                 echo "</tr>";
                 $i++;
             }
+
+            echo "</table>";
+
+            $sql1 = "SELECT COUNT(id) AS 'idd' FROM administratorzy";
+            $zap2 = mysqli_query($polaczenie, $sql1);
+            $w3 = mysqli_fetch_array($zap2);
+            $liczba = $w3['idd'];
+
+            echo 'Strona: &nbsp;&nbsp;<a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " data-bs-toggle="dropdown" aria-expanded="false">'.($admi+1).'</a>';
+            echo '<ul class="dropdown-menu">';
+
+            // Zdefiniowanie zmiennych
+            $i = 0;
+            $a = 1;
+            $b = 0;
+    
+            do {
+                echo "<li onclick='odpo = $b; odp_w();'><a class='dropdown-item'>$a</a></li>";
+                $i = $i + 10;
+                $a++;
+                $b++;
+            } while ($i < $liczba);
+            echo '</ul>';
         }
     }
 
