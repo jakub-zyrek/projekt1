@@ -68,7 +68,7 @@ if (!isset($_SESSION['admin'])) {
         <hr>
         <div class="dropdown" style="position: absolute;">
           <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?php echo $_SESSION['obraz'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
+            <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
             <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">

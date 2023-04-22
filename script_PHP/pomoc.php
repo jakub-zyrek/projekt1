@@ -19,7 +19,7 @@ if (!isset($_SESSION['zalogowany'])) {
             $id_uzytkownika = $_SESSION['id'];
 
             // Dodanie zgłoszenia
-            $sql = "INSERT INTO `zgloszenie_pomoc`(`zglaszajacy`, `opis`) VALUES ('$id_uzytkownika', '$opis')";
+            $sql = "INSERT INTO `zgloszenie_pomoc`(`zglaszajacy`, `opis`, data) VALUES ('$id_uzytkownika', '$opis', NOW())";
             mysqli_query($polaczenie, $sql);
         }
 

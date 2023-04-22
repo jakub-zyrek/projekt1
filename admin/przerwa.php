@@ -10,6 +10,11 @@ if (!isset($_SESSION['admin'])) {
   header("Location: ../index.php");
 }
 
+// Sprawdzenie czy ma uprawnienia 
+if (isset($_SESSION['admin_p'])) {
+    header("Location: brak.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -68,7 +73,7 @@ if (!isset($_SESSION['admin'])) {
                 <hr>
                 <div class="dropdown" style="position: absolute;">
                 <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo $_SESSION['obraz'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">
@@ -118,6 +123,13 @@ if (!isset($_SESSION['admin'])) {
                                         <input type="time" name="dot" id="dot" class="form-control" required>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>Opis:</td>
+                                    <td colspan="3"><input type="text" name="opis" id="opis" class="form-control" required></td>
+                                </tr>
                             </table>
                             <br><br>
                             <button type="submit" class="btn btn-outline-success" style="width: 100%; display: flex; align-items: center; justify-content: center;">Dodaj przerwę techniczną&nbsp; 
@@ -144,6 +156,7 @@ if (!isset($_SESSION['admin'])) {
                                 <th>Od</th>
                                 <th>Do</th>
                                 <th>Przez</th>
+                                <th>Opis</th>
                                 <th></th>
                             </tr>
 
@@ -162,6 +175,7 @@ if (!isset($_SESSION['admin'])) {
                                         echo "<td>".$w['od']."</td>";
                                         echo "<td>".$w['do']."</td>";
                                         echo "<td>".$w['imie']." ".$w['nazwisko']." <i>[".$w['nick']."]</i></td>";
+                                        echo "<td>".$w['opis']."</td>";
                                         if ($w['do'] > date("Y-m-d")) {
                                             echo '<td style="width: min-content; text-align: center;"><a href="script/usuwanie_p.php?id='.$w['id'].'" class="btn btn-outline-danger">Odwołaj</a></td>';
                                         } else {

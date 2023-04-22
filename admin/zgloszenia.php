@@ -10,6 +10,11 @@ if (!isset($_SESSION['admin'])) {
   header("Location: ../index.php");
 }
 
+// Sprawdzenie czy ma uprawnienia 
+if (isset($_SESSION['admin_z'])) {
+  header("Location: brak.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -20,16 +25,6 @@ if (!isset($_SESSION['admin'])) {
     <title>Panel administratora | Zgłoszenia</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="./../bootstrap.css" rel="stylesheet">
-
-    <script>
-        var essa = "info";
-        var nic = "";
-
-        var byczz = '<div class="card col-12"><div class="card-header bg-success-subtle text-end" style="border: 0px !important;"><svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById(essa).innerHTML = nic;"style="width: 2rem; cursor: pointer;" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg></div><div class="card-header bg-success-subtle"><h2 class="p-3 text-center">Zgłoszenie nr: 2100</h2></div><div class="card-body"><table class="table table-hover"><tr><td>Użytkownik</td><td>Jakub Żyrek</td></tr><tr><td>Treść zgłoszenia</td><td>Anna Gałwa promuje przechodzenie przez rondo</td></tr></table><form action="" method="post" class="needs-validation" novalidate><textarea name="odpowiedz" id="odpowiedz" style="width: 100%; border-radius: 1vw; padding: 2%;" rows="10"></textarea></form></div></div>';
-    
-        var bycz = '<div class="card col-12"><div class="card-header bg-danger-subtle text-end" style="border: 0px !important;"><svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById(essa).innerHTML = nic;"style="width: 2rem; cursor: pointer;" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg></div><div class="card-header bg-danger-subtle"><h2 class="p-3 text-center">Zgłoszenie nr: 2100</h2></div><div class="card-body"><table class="table table-hover"><tr><td>Użytkownik zgłaszający</td><td>Jakub Żyrek</td></tr><tr><td>Użytkownik zgłoszony</td><td>Anna Gałwa</td></tr><tr><td>Zgłoszony za</td><td>Pytanie</td></tr><tr><td>Treść</td><td>Czy przechodzenie przez środek ronda jest legalne??</td></tr><tr><td>Treść zgłoszenia</td><td>Anna Gałwa promuje przechodzenie przez rondo</td></tr></table></div></div>';
-      </script>
-    
 </head>
   <body class="col-12 bg-dark" style="display: flex;">
     <main class="d-flex flex-nowrap">
@@ -79,7 +74,7 @@ if (!isset($_SESSION['admin'])) {
         <hr>
         <div class="dropdown" style="position: absolute;">
           <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?php echo $_SESSION['obraz'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
+            <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
             <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">
@@ -97,69 +92,344 @@ if (!isset($_SESSION['admin'])) {
         <h1 class="d-inline d-md-none text-danger">To okno panelu administracyjnego jest dostępne tylko na większych ekranach</h1>
       </div>
       <div class="col-11" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: start; ">  
+      <div class="col-11 d-none d-md-table-row m-3 bg-white p-2">
+          <div class="col-12 p-1" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap; font-size: 1.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem;" fill="currentColor" class="bi bi-clipboard-x-fill" viewBox="0 0 16 16">
+                <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
+            </svg>
+            <span>&nbsp;Zgłoszone pytania</span>
+          </div>
+          <hr>
+          <div class="ps-3 pb-2" id="pytania">
+          </div>
+        </div>
+        
         <div class="col-11 d-none d-md-table-row m-3 bg-white p-2">
           <div class="col-12 p-1" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap; font-size: 1.5rem;">
             <svg xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem;" fill="currentColor" class="bi bi-clipboard-x-fill" viewBox="0 0 16 16">
                 <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
             </svg>
-            <span>&nbsp;Zgłoszenia</span>
+            <span>&nbsp;Zgłoszone odpowiedzi</span>
           </div>
           <hr>
-          <div class="ps-3 pb-2">
-            <table class="table col-12 table-hover">
-              <tr class="table-primary">
-                <th>Lp.</th>
-                <th>Od</th>
-                <th>Dla</th>
-                <th>Data</th>
-                <th>Typ</th>
-                <th></th>
-              </tr>
-              <tr>
-                <td>1.</td>
-                <td>Jakub Żyrek</td>
-                <td>Anna Gałwa</td>
-                <td>24.10.2022 16:04</td>
-                <td>Zgłoszenie</td>
-                <td style="width: min-content; text-align: center;">
-                  <button type="button" class="btn btn-outline-warning" onclick="document.getElementById('info').innerHTML = bycz; var a = document.getElementById('card'); document.getElementById('essa').style.top = (a.offsetTop + 20) + 'px';">Szczegóły</button>
+          <div class="ps-3 pb-2" id="odpowiedzi">
+          </div>
+        </div>
 
-                  &nbsp;&nbsp;
+        <div class="col-11 d-none d-md-table-row m-3 bg-white p-2">
+          <div class="col-12 p-1" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap; font-size: 1.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem;" fill="currentColor" class="bi bi-clipboard-x-fill" viewBox="0 0 16 16">
+                <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
+            </svg>
+            <span>&nbsp;Zgłoszone komentarze</span>
+          </div>
+          <hr>
+          <div class="ps-3 pb-2" id="komentarze">
+          
+          </div>
+        </div>
 
-                  <button type="button" class="btn btn-outline-primary dropdown-toggle me-2 mb-3 mb-lg-auto " data-bs-toggle="dropdown" aria-expanded="false">
-                    <span>Czynności</span>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item">Zbanuj użytkownika: Anna Gałwa</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="kategorie.php?kat=CSS">Zignoruj zgłoszenie</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Wyślij maila ostrzegaącego</a>
-                      </li>
-                    </ul>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>1.</td>
-                <td>Jakub Żyrek</td>
-                <td>Anna Gałwa</td>
-                <td>24.10.2022 16:04</td>
-                <td>Pomoc</td>
-                <td style="width: min-content; text-align: center;">
-                  <button type="button" class="btn btn-outline-success" onclick="document.getElementById('info').innerHTML = byczz; var a = document.getElementById('card'); document.getElementById('essa').style.top = (a.offsetTop + 20) + 'px';">Odpisz</button>
-                </td>
-              </tr>
-            </table>
+        <div class="col-11 d-none d-md-table-row m-3 bg-white p-2">
+          <div class="col-12 p-1" style="display: flex; align-items: center; justify-content: start; flex-wrap: nowrap; font-size: 1.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem;" fill="currentColor" class="bi bi-clipboard-x-fill" viewBox="0 0 16 16">
+                <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
+            </svg>
+            <span>&nbsp;Pomoc</span>
+          </div>
+          <hr>
+          <div class="ps-3 pb-2" id="pomoc">
+            
           </div>
         </div>
       </div>
     </main>
     
-    <div id="info" style="position: absolute; margin: auto; width: 80%; left: 10%;"></div>
+    <div id="info" style="position: absolute; margin: auto; width: 80%; left: 10%; margin-top: 6%;"></div>
+
+    <script>
+      function pomoc(id) {
+        plik2 = 'script/pomoc_okienko.php?id=' + id;
+        element2 = document.getElementById("info");
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.onreadystatechange = function () {
+            if (xml2.readyState == 4) {
+              element2.innerHTML = xml2.responseText;
+            }
+          }
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+        scroll(0,0);
+      }
+
+      var pomo = 0;
+
+      function pomoc_w() {
+        plik = 'script/pomoc_w.php?pomo=' + pomo;
+        element = document.getElementById("pomoc");
+        xml = null;
+        try {
+          xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml = null;
+          }
+        }
+        if (xml != null) {
+          xml.onreadystatechange = function () {
+            if (xml.readyState == 4) {
+              element.innerHTML = xml.responseText;
+            }
+          }
+          xml.open("POST", plik, true);
+          xml.send(null);
+        }
+      }
+
+      pomoc_w();
+
+      function pomoc_wyslij(opinie, id) {
+        opinie.value = opinie.value.replaceAll("+", '%2B');
+        opinie.value = opinie.value.replaceAll("!", '%21');
+        opinie.value = opinie.value.replaceAll("#", '%23');
+        opinie.value = opinie.value.replaceAll("$", '%24');
+        opinie.value = opinie.value.replaceAll("&", '%26');
+        opinie.value = opinie.value.replaceAll("(", '%28');
+        opinie.value = opinie.value.replaceAll(")", '%29');
+        opinie.value = opinie.value.replaceAll("*", '%2A');
+        opinie.value = opinie.value.replaceAll(",", '%2B');
+        plik = "script/pomoc_d.php?&tresc=" + opinie.value + "&id=" + id;
+        xml = null;
+        try {
+          xml = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml = null;
+          }
+        }
+        if (xml != null) {
+          xml.onreadystatechange = function () {
+          }
+          xml.open("POST", plik, true);
+          xml.send(null);
+        }
+
+        pomoc_w();
+        document.getElementById("info").innerHTML = "";
+      }
+
+      function pomoc_u(id) {
+        plik2 = 'script/pomoc_u.php?id=' + id;
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+
+        pomoc_w();
+      }
+
+      var komen = 0;
+
+      function kome_w() {
+        plik1 = 'script/kome_w.php?komen=' + komen;
+        element1 = document.getElementById("komentarze");
+        xml1 = null;
+        try {
+          xml1 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml1 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml1 = null;
+          }
+        }
+        if (xml1 != null) {
+          xml1.onreadystatechange = function () {
+            if (xml1.readyState == 4) {
+              element1.innerHTML = xml1.responseText;
+            }
+          }
+          xml1.open("POST", plik1, true);
+          xml1.send(null);
+        }
+      }
+
+      kome_w();
+
+      function okno(id, obiekt) {
+        plik2 = 'script/okno.php?id=' + id + "&obiekt=" + obiekt;
+        element2 = document.getElementById("info");
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.onreadystatechange = function () {
+            if (xml2.readyState == 4) {
+              element2.innerHTML = xml2.responseText;
+            }
+          }
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+        scroll(0,0);
+      }
+
+      var pyta = 0;
+
+      function pyt_w() {
+        plik3 = 'script/pyt_w.php?pyta=' + pyta;
+        element3 = document.getElementById("pytania");
+        xml3 = null;
+        try {
+          xml3 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml3 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml3 = null;
+          }
+        }
+        if (xml3 != null) {
+          xml3.onreadystatechange = function () {
+            if (xml3.readyState == 4) {
+              element3.innerHTML = xml3.responseText;
+            }
+          }
+          xml3.open("POST", plik3, true);
+          xml3.send(null);
+        }
+      }
+
+      pyt_w();
+      var odpo = 0;
+
+      function odp_w() {
+        plik4 = 'script/odp_w.php?odpo=' + odpo;
+        element4 = document.getElementById("odpowiedzi");
+        xml4 = null;
+        try {
+          xml4 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml4 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml4 = null;
+          }
+        }
+        if (xml4 != null) {
+          xml4.onreadystatechange = function () {
+            if (xml4.readyState == 4) {
+              element4.innerHTML = xml4.responseText;
+            }
+          }
+          xml4.open("POST", plik4, true);
+          xml4.send(null);
+        }
+      }
+
+      odp_w();
+      
+      function kome_u(id) {
+        plik2 = 'script/usuwanie.php?id=' + id;
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+
+        kome_w();
+        pyt_w();
+        odp_w();
+      }
+
+      function ban(id, idd) {
+        plik2 = 'script/ban.php?id=' + id + '&zgloszenie=' + idd;
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+
+        kome_w();
+        pyt_w();
+        odp_w();
+      }
+
+      function ostrzezenie(id, idd) {
+        plik2 = 'script/ostrzezenie.php?id=' + id + '&zgloszenie=' + idd;
+        xml2 = null;
+        try {
+          xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+        } catch (e) {
+          try {
+            xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+          } catch (e) {
+            xml2 = null;
+          }
+        }
+        if (xml2 != null) {
+          xml2.open("POST", plik2, true);
+          xml2.send(null);
+        }
+
+        kome_w();
+        pyt_w();
+        odp_w();
+      }
+    </script>
 
     <script src="sidebars.js"></script>
     <script src="bootstrap.bundle.min.js"></script>

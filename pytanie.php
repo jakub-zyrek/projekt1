@@ -138,6 +138,7 @@ if (isset($_GET['idpytania'])) {
         }
       }
 
+      // Dodawanie lub usuwanie serduszka serduszka
       function dzieki(odp, serce) {
         if (a[odp] == 0) {
           document.getElementById(serce).style.backgroundColor = "#dc3545";

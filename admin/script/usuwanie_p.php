@@ -2,6 +2,11 @@
     // Otwarcie sesji
     session_start();
 
+    // Sprawdzenie czy ma uprawnienia 
+    if (isset($_SESSION['admin_p'])) {
+        header("Location: ../brak.php");
+    }
+
     // Sprawdzenie czy użytkownik jest administratorem
     if (!isset($_SESSION['admin'])) {
         // Przeniesienie do strony głównej

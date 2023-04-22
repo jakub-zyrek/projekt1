@@ -3,7 +3,7 @@
     session_start();
 
     // Sprawdzenie czy ma uprawnienia 
-    if (isset($_SESSION['admin_u'])) {
+    if (isset($_SESSION['admin_z'])) {
         header("Location: ../brak.php");
     }
 
@@ -15,6 +15,7 @@
         if (isset($_GET['id'])) {
             // Deklarowanie zmiennych 
             $id = $_GET['id'];
+            $tresc = $_GET['tresc'];
 
             // Połączenie z bazą danych
             $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_administrator', 'Admin123', 'kpqmmvzc_forum');
@@ -22,7 +23,8 @@
             // Sprawdzenie czy nie ma problemu z połączeniem
             if (!mysqli_connect_errno()) {    
                 // Zapytanie do bazy 
-                $sql = "UPDATE uzytkownik SET zbanowany_do = NULL WHERE id = $id";
+                $admin = $_SESSION['id_admin'];
+                $sql = "INSERT INTO odpowiedz_pomoc (administrator_id, pomoc_id, tresc) VALUES ($admin, $id, '$tresc');";
                 mysqli_query($polaczenie, $sql);
             }
         }

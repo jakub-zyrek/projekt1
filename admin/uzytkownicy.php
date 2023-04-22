@@ -10,6 +10,11 @@ if (!isset($_SESSION['admin'])) {
   header("Location: ../index.php");
 }
 
+// Sprawdzenie czy ma uprawnienia 
+if (isset($_SESSION['admin_u']) && isset($_SESSION['admin_a'])) {
+    header("Location: brak.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -68,7 +73,7 @@ if (!isset($_SESSION['admin'])) {
             <hr>
             <div class="dropdown" style="position: absolute;">
             <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="<?php echo $_SESSION['obraz'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
+                <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
                 <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">
@@ -80,6 +85,7 @@ if (!isset($_SESSION['admin'])) {
             </div>
         </div>
         </main>
+        
 
             <main class="col-10 " style="background-color: gainsboro;">
                 <div class="p-3">
@@ -94,7 +100,7 @@ if (!isset($_SESSION['admin'])) {
                             &nbsp;Administratorzy
                         </div>
                         <hr>
-                        <button class="btn btn-outline-primary col-11" style="width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 1%; text-align: center;" type="button">Dodaj administratora&nbsp; 
+                        <button class="btn btn-outline-primary col-11" style="width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 1%; text-align: center;" type="button" onclick="pokaz();">Dodaj administratora&nbsp; 
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.3rem" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
                                 <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                 <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
@@ -117,11 +123,10 @@ if (!isset($_SESSION['admin'])) {
                             <table class="table col-12 table-hover" id="uzytkownik"></table>
                         </div>
                     </div>
-
-                    
-
                 </div>
             </main>
+
+        <div id="dod" style="position: absolute; margin: auto; width: 80%; left: 10%; margin-top: 10%;"></div>
         <script src="sidebars.js"></script>
         <script src="bootstrap.bundle.min.js"></script>
         <script>
@@ -297,6 +302,105 @@ if (!isset($_SESSION['admin'])) {
                 uzytkownik();
             }
 
+            // Wyświetlenie okna dodawania użytkownika
+            function zglos(a, obiekt, id) {
+                var bycz = '<div class="card col-12"><div class="card-header bg-danger-subtle text-end" style="border: 0px !important;"><svg xmlns="http://www.w3.org/2000/svg" onclick="document.getElementById(essa).innerHTML = nic;"style="width: 2rem; cursor: pointer;" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg></div><div class="card-header bg-danger-subtle"><h2 class="p-3 text-center">Dodawanie zgłoszenia</h2></div><div class="card-body"><form method="POST" action="">Dlaczego chcesz zgłosić tę treść?<br><br><textarea id="opinia" rows="3" class="form-control"></textarea><br><a class="btn btn-outline-danger" onclick="zgloszenie(' + ("'" + obiekt + "'") + ', ' + id + ')">Wyślij zgłoszenie</a></form></div></div>'
+                document.getElementById(essa).innerHTML = bycz;
+                document.getElementById(essa).style.top = (a.offsetTop + a.offsetTop) + px;
+                opinia = document.getElementById('opinia');
+                opinia.focus();
+            }
+
+            function szukaj_uzytkownika(nick) {
+                plik2 = 'script/szukanie_u.php?nick=' + nick;
+                element2 = document.getElementById("szukanie_u");
+                xml2 = null;
+                try {
+                    xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml2 = null;
+                    }
+                }
+                if (xml2 != null) {
+                    xml2.onreadystatechange = function () {
+                        if (xml2.readyState == 4) {
+                            element2.innerHTML = xml2.responseText;
+                        }
+                    }
+                    xml2.open("POST", plik2, true);
+                    xml2.send(null);
+                }
+            }   
+
+            var tab_zmiana = [0, 0, 0, 0, 0];
+            function zmiana(id) {
+                if (tab_zmiana[id] == 0) {
+                    document.getElementById("t" + id).style.backgroundColor = "green";
+                    document.getElementById("u" + id).value = 1;
+                    tab_zmiana[id] = 1;
+                } else {
+                    document.getElementById("t" + id).style.backgroundColor = "white";
+                    document.getElementById("u" + id).value = 0;
+                    tab_zmiana[id] = 0;
+                }
+            }
+
+            function dodawanie_u() {
+                nazwisko = document.getElementById('nazwisko').value;
+                uzytkownicy = document.getElementById('u1').value;
+                adminn = document.getElementById('u2').value;
+                zgloszenia = document.getElementById('u3').value;
+                przerwy = document.getElementById('u4').value;
+                id = document.getElementById('uzy').value;
+                plik3 = 'script/dodawanie_u.php?id=' + id + '&nazwisko=' + nazwisko + '&admin=' + adminn + '&zgloszenia=' + zgloszenia + '&przerwy=' + przerwy + '&uzytkownicy=' + uzytkownicy;
+                xml3 = null;
+                try {
+                    xml3 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml3 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml3 = null;
+                    }
+                }
+                if (xml3 != null) {
+                    xml3.open("POST", plik3, true);
+                    xml3.send(null);
+                }
+
+                document.getElementById(dod).innerHTML = "";
+                admin();
+            }
+
+            dod = "dod";
+            nic = "";
+
+            function pokaz() {
+                plik2 = 'script/formularz.php';
+                element2 = document.getElementById("dod");
+                xml2 = null;
+                try {
+                    xml2 = new ActiveXObject("Microsoft.XMLHTTP"); // IE
+                } catch (e) {
+                    try {
+                        xml2 = new XMLHttpRequest(); // Mozilla/FireFox/Opera
+                    } catch (e) {
+                        xml2 = null;
+                    }
+                }
+                if (xml2 != null) {
+                    xml2.onreadystatechange = function () {
+                        if (xml2.readyState == 4) {
+                            element2.innerHTML = xml2.responseText;
+                        }
+                    }
+                    xml2.open("POST", plik2, true);
+                    xml2.send(null);
+                }
+            }
         </script>
     </body>
 </html>

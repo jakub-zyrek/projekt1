@@ -34,15 +34,28 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
             $_SESSION['ranga'] = $wiersz['ranga'];
             $_SESSION['data'] = $wiersz['data_urodzenia'];
             $_SESSION['obraz'] = $wiersz['obraz'];
+            $_SESSION['obraz_admin'] = "../".$wiersz['obraz'];
 
             // Sprawdzenie czy użytkownik jest administratorem
             $uzytkownik = $wiersz['id'];
-            $sql = "SELECT id, id_administratora FROM admin WHERE id = $uzytkownik AND zawieszony IS NULL";
+            $sql = "SELECT id, id_administratora, uzytkownicy, admin, przerwy, zgloszenia FROM admin WHERE id = $uzytkownik AND zawieszony IS NULL";
             $wysz = mysqli_query($polaczenie, $sql);
             if (mysqli_num_rows($wysz) > 0) {
                 $_SESSION['admin'] = true;
                 $w = mysqli_fetch_assoc($wysz);
                 $_SESSION['id_admin'] = $w['id_administratora'];
+                if ($w['uzytkownicy'] != 1) {
+                    $_SESSION['admin_u'] = true;
+                }
+                if ($w['admin'] != 1) {
+                    $_SESSION['admin_a'] = true;
+                }
+                if ($w['przerwy'] != 1) {
+                    $_SESSION['admin_p'] = true;
+                }
+                if ($w['zgloszenia'] != 1) {
+                    $_SESSION['admin_z'] = true;
+                }
             }
 
             // Sprawdzenie czy użytkownik jest zbanowany

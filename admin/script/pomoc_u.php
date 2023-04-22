@@ -3,7 +3,7 @@
     session_start();
 
     // Sprawdzenie czy ma uprawnienia 
-    if (isset($_SESSION['admin_u'])) {
+    if (isset($_SESSION['admin_z'])) {
         header("Location: ../brak.php");
     }
 
@@ -22,7 +22,7 @@
             // Sprawdzenie czy nie ma problemu z połączeniem
             if (!mysqli_connect_errno()) {    
                 // Zapytanie do bazy 
-                $sql = "UPDATE uzytkownik SET zbanowany_do = NULL WHERE id = $id";
+                $sql = "DELETE FROM zgloszenie_pomoc WHERE id = $id";
                 mysqli_query($polaczenie, $sql);
             }
         }
