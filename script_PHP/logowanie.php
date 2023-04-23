@@ -26,7 +26,7 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
         $haslo = md5($haslo);
         
         // Sprawdzenie czy użytkownik istenieje w bazie
-        $sql1 = "SELECT * FROM uzytkownik WHERE login = '$login' AND haslo = '$haslo' AND ranga != 4";
+        $sql1 = "SELECT * FROM uzytkownik WHERE login = '$login' AND haslo = '$haslo' AND (ranga != 4 OR ranga IS NULL)";
         $zapytanie1 = mysqli_query($polaczenie, $sql1);
         
         if (mysqli_num_rows($zapytanie1) > 0) {
@@ -82,8 +82,8 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
     }
     
     // Sprawdzenie czy nie ma przerwy technicznej 
-    $sql = "SELECT * FROM aktywne_przerwy";
-    $wysz = mysqli_query($polaczenie, $sql);
+    $sql12 = "SELECT * FROM aktywne_przerwy";
+    $wysz12 = mysqli_query($polaczenie, $sql12);
     if (mysqli_num_rows($wysz) > 0) {
     header("Location: ../przerwa.php");
     }

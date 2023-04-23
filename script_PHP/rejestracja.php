@@ -48,7 +48,7 @@ if (isset($_SESSION['zalogowany'])) {
                 $_SESSION['powtorka'] = 'w';
             } else {
                 // Dodanie użytkownika
-                $sql2 = "INSERT INTO uzytkownik (login, haslo, imie, nick, data_urodzenia, obraz) VALUES ('$login', '$haslo', '$imie', '$nick', '$data', 'images/user.png')";
+                $sql2 = "INSERT INTO uzytkownik (login, haslo, imie, nick, data_urodzenia, obraz, ranga) VALUES ('$login', '$haslo', '$imie', '$nick', '$data', 'images/user.png', 0)";
                 mysqli_query($polaczenie, $sql2);
                 $idd = mysqli_insert_id($polaczenie);
 

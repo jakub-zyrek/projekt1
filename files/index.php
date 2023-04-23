@@ -17,31 +17,24 @@ $wysz = mysqli_query($polaczenie, $sql);
 if (mysqli_num_rows($wysz) > 0) {
   header("Location: przerwa.php");
 }
-
-// Sprawdzenie czy zmienna istnieje
-if (isset($_GET['l'])) {
-  $l = $_GET['l'];
-  $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 10 OFFSET $l ";
-} else {
-  $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 10";
-}
-  
-// Wysłanie zapytania
-$zap1 = mysqli_query($polaczenie, $sql);
-
-$sql1 = "SELECT COUNT(id) AS 'idd' FROM liczba_odpowiedzi";
-$zap2 = mysqli_query($polaczenie, $sql1);
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Forum internetowe | Posty</title>
+    <title>Forum internetowe | Strona główna</title>
     <link href="bootstrap.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+      table, thead, tbody {
+        font-size: 80%;
+        width: max-content;
+      }
+      button {
+        text-align: right;
+      }
+    </style>
   </head>
   <body>
     <header class="p-3 text-bg-dark mb-3">
@@ -110,86 +103,77 @@ $zap2 = mysqli_query($polaczenie, $sql1);
         </div>
       </div>
     </header>
-   
+    <br>
+    <br>
     <div class="container">
-      <div class="card">
-        <div class="card-header bg-info">
-          <h2 class="p-4 text-center">Posty</h2>
+      <h1 class="text-center">Dołącz do naszej społeczności</h1>
+    </div>
+    <br>
+    <br>
+    <div class="container w-100 text-white">
+      <div class="bg-info p-2 float-start w-100 rounded-5">
+        <h3 style="padding: 2%;">Najnowsze pytania</h3>
+        <br>
+        <div class="w-100">
+          <table class="table  col-7 tabelka " style="color: rgb(255, 255, 255); font-size: 1.5rem;">
+            <thead  class="text-dark">
+              <tr class="text-dark" >
+                <th>#</th>
+                <th>Pytanie</th>
+                <th>Zadał</th>
+                <th>Odp</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <?php
+                // Zapytanie
+                $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 4";
+                $wysz = mysqli_query($polaczenie, $sql);
+
+                // Wyświetlenie
+                $i = 1;
+                while ($w = mysqli_fetch_array($wysz)) {
+                  $pytanie = $w['tytul'];
+                  $ile = $w['odp'];
+                  $uzy = $w['nick'];
+                  $id = $w['id'];
+                  echo "<tr>";
+                    echo "<td>$i</td>";
+                    echo "<td>$pytanie</td>";
+                    echo "<td>$uzy</td>";
+                    echo "<td>$ile</td>";
+                    echo "<td><a class='btn btn-outline-warning text-white' href='pytanie.php?idpytania=$id'>Przejdź</a></td>";
+                  echo "</tr>";
+                  $i++;
+                }
+              ?>
+            </tbody>
+          </table>
+        </div> 
+      </div>     
+    </div>
+    <div class="container" style=" text-align: center; clear: both;">
+      <h2 style="text-align: center; width: 80%; margin: auto; padding-top: 5%; margin-bottom: 2%; font-weight: bolder; font-size: 2.5rem;">Przestrzeń programistów tworzona przez programistów</h2>
+      <div style="display: flex; width: 90%; margin: auto; justify-content: space-between; " class="col-12">
+        <svg onclick="lewy(i);" xmlns="http://www.w3.org/2000/svg"  fill="black" id="bi-arrow-left-circle" class="bi bi-arrow-left-circle col-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+        </svg>
+        <div class=" border-info bycz">
+          <p id="ess"></p>
         </div>
-        <div class="card-body">
-          <?php
-            while ($w = mysqli_fetch_array($zap1)) {
-              echo '<div class="card">';
-                echo '<div class="card-header p-4 bg-success-subtle" style="display: flex; justify-content: space-between; flex-wrap: wrap;">';
-                  echo '<h3 class="col-12 col-md-8">';
-                    echo $w['tytul'];
-                  echo '</h3>';
-                  echo '<div class="text-end m-md-0 col-4" style="width: max-content; margin: auto;">';
-                    echo '<a href="pytanie.php?idpytania='.$w['id'].'" class="btn btn-outline-info"><div style="display: flex; align-content: center; justify-content: space-between;">PRZEJDŹ&nbsp;<svg xmlns="http://www.w3.org/2000/svg" style="width: 1.2rem;" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/><path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg></div></a>&nbsp;';
-
-                    echo '<a ';
-
-                    if (!isset($_SESSION['zalogowany'])) {
-                      echo ' disabled class="btn btn-info disabled"';
-                    } else {
-                      echo 'href="dodawanie.php?id='.$w['id'].'" class="btn btn-info"';
-                    }
-                    
-                    echo '><div style="display: flex; align-content: center; justify-content: space-between;">ODPOWIEDZ&nbsp;<svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem;" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg></div></a>';
-                  echo '</div>';
-                echo '</div>';
-                echo '<div class="card-body">';
-                  echo "<img src='".$w['obraz']."' alt='' width='32' height='32' class='rounded-circle me-2'>".$w['nick']." · ".$w['nazwa']." · ";
-                  if ($w['odp'] == 1) {
-                    echo "<b>1 odpowiedź</b>";
-                  } else {
-                    echo "<b>".$w['odp']." odpowiedzi</b>";
-                  }
-                echo '</div>';
-              echo '</div><br>';
-            }
-          ?>
-          <div class="card">
-            <div class="card-header text-end">
-              Numer strony: &nbsp;
-              <a class="btn btn-outline-info dropdown-toggle me-2 mb-3 mb-lg-auto " data-bs-toggle="dropdown" aria-expanded="false">
-                <?php
-                  if (isset($_GET['a'])) {
-                    echo $_GET['a'];
-                  } else {
-                    echo 1;
-                  }
-                ?>
-              </a>
-              <ul class="dropdown-menu">
-                <?php
-                  // Zdefiniowanie zmiennych
-                  $w3 = mysqli_fetch_array($zap2);
-                  $liczba = $w3['idd'];
-                  $i = 0;
-                  $a = 1;
-
-                  do {
-                    echo "<li><a class='dropdown-item' href='posty.php?l=$i&a=$a'>$a</a></li>";
-                    $i = $i + 10;
-                    $a++;
-                  } while ($i < $liczba)
-                ?>             
-              </ul>
-            </div>
-          </div>          
-        </div>
+        <svg onclick="prawy(i);" xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-right-circle col-1" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+        </svg>
       </div>
     </div>
-
-    <div class="container">
+      
+    <div class="container float-none" style="clear: both;">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <p class="col-md-4 mb-0 text-muted">&copy; 2022 Company, Inc</p>
-    
         <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
         </a>
-    
         <ul class="nav col-md-4 justify-content-end">
           <li class="nav-item"><a href="index.php" class="nav-link px-2 text-muted">Strona główna</a></li>
           <li class="nav-item"><a href="posty.php" class="nav-link px-2 text-muted">Posty</a></li>
@@ -203,10 +187,29 @@ $zap2 = mysqli_query($polaczenie, $sql1);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
     <script>
-      function f(a) {
-        location.href = "posty.php";
-        location.href = ("posty.php?l=" + a);
+      // Zdefiniowanie zmiennych
+      var i = 0;
+      var tab1 = ["Super! Bardzo pomocne! Ma formę jak portal społecznościowy, można zdobywać punkty, zapraszać, pomagać i dowiadywać się ciekawych rzeczy!", "Super, bo można się pytać innych ludzi o zadania, których się nie umie zrobić. Można odpowiadać na pytania innych ludzi i za to dostaje się punkty", "Epicka apka! Dużo pomagających użytkowników! POLECAM!!! ❤️", "Bardzo pomaga w lekcjach. Nie da jej się opisać słowami. Po prostu jest mega!!!"];
+    
+      // Przesunięcie w prawo
+      function prawy(a) {
+        i = i + 1;
+        if (i > 3) {
+          i = 0;
+        }
+        document.getElementById('ess').innerText = tab1[i];
       }
+
+      // Przesunięcie w lewo
+      function lewy(b) {
+        i = i - 1;
+        if (i < 0) {
+          i = 3;
+        }
+        document.getElementById('ess').innerText = tab1[i];  
+      }
+    
+      prawy(0);
     </script>
   </body>
 </html>

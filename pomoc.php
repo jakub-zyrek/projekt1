@@ -20,6 +20,11 @@ if (mysqli_num_rows($wysz) > 0) {
 $sql1 = "SELECT * FROM pomoc";
 $zapytanie1 = mysqli_query($polaczenie, $sql1);
 
+$sql11 = "SELECT MAX(id) AS 'idd' FROM pomoc";
+$zapytanie11 = mysqli_query($polaczenie, $sql11);
+$w11 = mysqli_fetch_assoc($zapytanie11);
+$maks = $w11['idd'];
+
 $tab2 = [];
 $tab4 = [];
 
@@ -183,7 +188,7 @@ echo "</script>";
                 </div>
                 <div class="card-body">
                     <?php
-                        for ($i = 0; $i < count($tab2)+1; $i++) {
+                        for ($i = 0; $i < $maks+1; $i++) {
                             if (isset($tab2[$i])) {
                                 echo '<div class="card col-12 col-md-11">';
                                     echo '<div class="card-header p-3" style="display: flex; flex-wrap: nowrap; align-items: center;">';
