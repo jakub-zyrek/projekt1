@@ -10,6 +10,13 @@ if (!isset($_SESSION['admin'])) {
   header("Location: ../index.php");
 }
 
+// Sprawdzenie czy nie ma przerwy technicznej 
+$sql = "SELECT * FROM aktywne_przerwy";
+$wysz = mysqli_query($polaczenie, $sql);
+if (mysqli_num_rows($wysz) > 0) {
+  header("Location: ../przerwa.php");
+}
+
 // Sprawdzenie czy ma uprawnienia 
 if (isset($_SESSION['admin_z'])) {
   header("Location: brak.php");

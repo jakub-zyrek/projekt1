@@ -11,6 +11,13 @@ if (!isset($_SESSION['zalogowany'])) {
     if(isset($_GET['kod']) && isset($_GET['cena'])) {
         // Połączenie z bazą danych
         $polaczenie = mysqli_connect('localhost', 'kpqmmvzc_uzytkownik', 'Użytkownik123', 'kpqmmvzc_forum');
+    
+        // Sprawdzenie czy nie ma przerwy technicznej 
+        $sql = "SELECT * FROM aktywne_przerwy";
+        $wysz = mysqli_query($polaczenie, $sql);
+        if (mysqli_num_rows($wysz) > 0) {
+            header("Location: ../przerwa.php");
+        }
 
         // Zdefiniowanie zmiennych
         $kod = $_GET['kod'];
