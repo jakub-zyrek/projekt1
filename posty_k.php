@@ -19,6 +19,13 @@ if (mysqli_connect_errno()) {
   mysqli_close($polaczenie);
 }
 
+// Sprawdzenie czy nie ma przerwy technicznej 
+$sql = "SELECT * FROM aktywne_przerwy";
+$wysz = mysqli_query($polaczenie, $sql);
+if (mysqli_num_rows($wysz) > 0) {
+  header("Location: przerwa.php");
+}
+
 // Sprawdzenie czy zmienna istnieje
 if (isset($_GET['l'])) {
   $l = $_GET['l'];

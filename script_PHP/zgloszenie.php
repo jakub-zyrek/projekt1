@@ -13,10 +13,11 @@ if (isset($_GET['id']) && isset($_GET['obiekt'])) {
         $id = $_GET['id'];
         $o = $_GET['obiekt'];
         $opinia = $_GET['opinia'];
+        $uzytkownikk = $_GET['uzytkownik'];
         $uzytkownik = $_SESSION['id'];
 
         // Dodanie zgloszenia
-        $sql = "INSERT INTO zgloszenie (zglaszajacy, opis, data) VALUES ($uzytkownik, '$opinia', NOW());";
+        $sql = "INSERT INTO zgloszenie (zglaszajacy, opis, data, zgloszony) VALUES ($uzytkownik, '$opinia', NOW(), $uzytkownikk);";
         mysqli_query($polaczenie, $sql);
         $zgloszenie = mysqli_insert_id($polaczenie);
 

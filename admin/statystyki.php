@@ -67,16 +67,16 @@ if (!isset($_SESSION['admin'])) {
         </nav>
         <hr>
         <div class="dropdown" style="position: absolute;">
-          <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
-            <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">
-            <li><a class="dropdown-item" href="../profil.php">Profil</a></li>
-            <li><a class="dropdown-item text-info" href="../index.php">Przejdź do forum</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="../script_PHP/wyloguj.php">Wyloguj się</a></li>
-          </ul>
+            <a href="#" class="d-flex align-items-center  text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="<?php echo $_SESSION['obraz_admin'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong class="d-none d-lg-inline"><?php echo $_SESSION['nick']?></strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow ms-3" style="position: absolute;">
+                <li><a class="dropdown-item" href="../profil.php">Profil</a></li>
+                <li><a class="dropdown-item text-info" href="../index.php">Przejdź do forum</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="../script_PHP/wyloguj.php">Wyloguj się</a></li>
+            </ul>
         </div>
       </div>
     </main>
@@ -246,68 +246,87 @@ if (!isset($_SESSION['admin'])) {
                         Statystyki szczegółowe
                     </div>
                     <hr>
-                    <div class="ps-3 pb-2">
-                        <canvas class="my-4 w-100" id="myChart" width="900" height="250"></canvas>
+                    <div class="col-12 p-1">
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_premium"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#ffc107')"; ?>" type="button" class="btn btn-warning mt-1">Ilość wykupionych planów PREMIUM</button>
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_przychody"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#198754')"; ?>" type="button" class="btn btn-success mt-1">Zarobki</button>
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_zgloszenia"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#dc3545')"; ?>" type="button" class="btn btn-danger mt-1">Zgłoszeń</button>
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_pomoc"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#dc3545')"; ?>" type="button" class="btn btn-danger mt-1">Zapytań o pomoc</button>
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_przerwy"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#ffc107')"; ?>" type="button" class="btn btn-warning mt-1">Przerwy techniczne</button>
+                      <button onclick="<?php $sql = "SELECT * FROM wykres_ostrzezenia"; $wysz = mysqli_query($polaczenie, $sql); echo "myChart.destroy(); wykres("; while ($w = mysqli_fetch_array($wysz)) { if (is_null($w['ilosc'])) { echo "0"; } else { echo $w['ilosc']; } echo ", "; } echo "'#dc3545')"; ?>" type="button" class="btn btn-danger mt-1">Odpowiedzi na zgłoszenia</button>
+                    </div>
+                    <div class="ps-3 pb-2" id="wykres">
+                    <canvas class="my-4 w-100" id="myChart" width="900" height="250"></canvas>
                     </div>
                 </div>
             </div>
         </main>
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
       <script src="sidebars.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-      <script src="bootstrap.bundle.min.js"></script>
+      
       <script>
-        /* globals Chart:false, feather:false */
+        function wykres(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, kolor) {
+          (() => {
+            'use strict'
 
-(() => {
-  'use strict'
+            feather.replace({ 'aria-hidden': 'true' })
 
-  feather.replace({ 'aria-hidden': 'true' })
-
-  // Graphs
-  const ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
-  const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        'dasd',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          boxPadding: 3
+            // Graphs
+            var ctx = document.getElementById('myChart')
+            // eslint-disable-next-line no-unused-vars
+            myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: [
+                  'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
+                ],
+                datasets: [{
+                  data: [
+                    l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12
+                  ],
+                  lineTension: 0,
+                  backgroundColor: 'transparent',
+                  borderColor: kolor,
+                  borderWidth: 4,
+                  pointBackgroundColor: '#007bff'
+                }]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    display: false
+                  },
+                  tooltip: {
+                    boxPadding: 3
+                  }
+                }
+              }
+            })
+          })()
         }
-      }
-    }
-  })
-})()
+
 
       </script>
+
+    <?php
+      
+      $sql = "SELECT * FROM wykres_premium";
+      $wysz = mysqli_query($polaczenie, $sql);
+      
+      echo "<script>wykres(";
+        
+        while ($w = mysqli_fetch_array($wysz)) {
+          if (is_null($w['ilosc'])) {
+            echo "0";
+          } else {
+            echo $w['ilosc'];
+          }
+          echo ", ";
+        }
+    
+      echo "'#ffc107')</script>";
+  
+    ?>
+
   </body>
 </html>

@@ -25,7 +25,7 @@
             if (!mysqli_connect_errno()) {    
                 // Zapytanie do bazy 
                 $admin = $_SESSION['id_admin'];
-                $sql = "INSERT INTO `odpowiedz_zgloszenie`(`administrator_id`, `odpowiedz`, `zgloszenie_id`) VALUES ($admin, 1, $idd)";
+                $sql = "INSERT INTO `odpowiedz_zgloszenie`(`administrator_id`, `odpowiedz`, `zgloszenie_id`, data) VALUES ($admin, 1, $idd, NOW())";
                 mysqli_query($polaczenie, $sql);
                 $sql = "UPDATE uzytkownik SET zbanowany_do = '$data_k' WHERE id = $id";
                 mysqli_query($polaczenie, $sql);

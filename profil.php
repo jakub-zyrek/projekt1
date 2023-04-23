@@ -15,6 +15,13 @@ if (mysqli_connect_errno()) {
   // Zamknięcie połączenia, gdy jest problem
   mysqli_close($polaczenie);
 }
+
+// Sprawdzenie czy nie ma przerwy technicznej 
+$sql = "SELECT * FROM aktywne_przerwy";
+$wysz = mysqli_query($polaczenie, $sql);
+if (mysqli_num_rows($wysz) > 0) {
+  header("Location: przerwa.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -209,13 +216,24 @@ if (mysqli_connect_errno()) {
                 <?php
                   $uzytkownik = $_SESSION['id'];
                   
-                  $sql = "SELECT * FROM ostrzezenie WHERE uzytkownik_id = $uzytkownik";
+                  $sql = "SELECT odpowiedz_zgloszenie.data, odpowiedz, zgloszony FROM `odpowiedz_zgloszenie` JOIN zgloszenie ON zgloszenie.id = odpowiedz_zgloszenie.zgloszenie_id WHERE zgloszony = $uzytkownik ORDER BY data DESC LIMIT 10";
                   $wysz = mysqli_query($polaczenie, $sql);
 
                   while ($w = mysqli_fetch_array($wysz)) {
-                    echo "<tr>";
-                      echo '<td class="text-danger col-10">'.$w['opis'].'</td>';
-                    echo "</tr>";
+                    if ($w['odpowiedz'] == 1) {
+                      echo "<tr>";
+                        echo '<td class="text-danger col-10">Zostałeś zbanowany dnia: '.$w['data'].'</td>';
+                      echo "</tr>";
+                    } else {
+                      echo "<tr>";
+                        echo '<td class="text-danger col-10">Wydano ostrzeżenie dnia: '.$w['data'].'</td>';
+                      echo "</tr>";
+                    }
+                    
+                  }
+
+                  if (mysqli_num_rows($wysz) == 0) {
+                    echo "<div class='alert alert-success'>Brak ostrzeżeń</div>";
                   }
                 ?>
               </table>

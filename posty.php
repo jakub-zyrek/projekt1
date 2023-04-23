@@ -18,6 +18,13 @@ if (isset($_GET['l'])) {
 } else {
   $sql = "SELECT * FROM liczba_odpowiedzi LIMIT 10 ";
 }
+
+// Sprawdzenie czy nie ma przerwy technicznej 
+$sql = "SELECT * FROM aktywne_przerwy";
+$wysz = mysqli_query($polaczenie, $sql);
+if (mysqli_num_rows($wysz) > 0) {
+  header("Location: przerwa.php");
+}
   
 // Wysłanie zapytania
 $zap1 = mysqli_query($polaczenie, $sql);

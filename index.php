@@ -10,6 +10,13 @@ if (mysqli_connect_errno()) {
   // Zamknięcie połączenia, gdy jest problem
   mysqli_close($polaczenie);
 }
+
+// Sprawdzenie czy nie ma przerwy technicznej 
+$sql = "SELECT * FROM aktywne_przerwy";
+$wysz = mysqli_query($polaczenie, $sql);
+if (mysqli_num_rows($wysz) > 0) {
+  header("Location: przerwa.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">

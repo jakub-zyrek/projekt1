@@ -24,9 +24,7 @@
             if (!mysqli_connect_errno()) {    
                 // Zapytanie do bazy 
                 $admin = $_SESSION['id_admin'];
-                $sql = "INSERT INTO `odpowiedz_zgloszenie`(`administrator_id`, `odpowiedz`, `zgloszenie_id`) VALUES ($admin, 2, $idd)";
-                mysqli_query($polaczenie, $sql);
-                $sql = "INSERT INTO `ostrzezenie`(`admin`, `uzytkownik_id`, `data`) VALUES ($admin, $id, NOW())";
+                $sql = "INSERT INTO `odpowiedz_zgloszenie`(`administrator_id`, `odpowiedz`, `zgloszenie_id`, data) VALUES ($admin, 2, $idd, NOW())";
                 mysqli_query($polaczenie, $sql);
             }
         }
